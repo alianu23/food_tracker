@@ -1,3 +1,20 @@
 import { createTheme } from "@mui/material";
+import { dark } from "@mui/material/styles/createPalette";
+declare module "@mui/material/styles" {
+  interface Theme {
+    status: {
+      danger: string;
+    };
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    status?: {
+      danger?: string;
+    };
+  }
+}
 
-export const theme = createTheme({ spacing: 4 });
+export const theme = createTheme({
+  spacing: 4,
+  palette: { mode: "dark", secondary: { main: "#FFA629" } },
+});
