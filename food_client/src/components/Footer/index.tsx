@@ -10,7 +10,6 @@ function Copyright() {
       style={{
         display: "flex",
         flexDirection: "column",
-        position: "relative",
         alignItems: "center",
       }}
     >
@@ -44,8 +43,7 @@ const Footer = () => {
         py: 20,
         px: 20,
         bgcolor: "#18BA51",
-
-        // position: "fixed",
+        position: "relative",
         bottom: 0,
         width: "100%",
         marginTop: "50px",
