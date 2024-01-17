@@ -95,6 +95,7 @@ const Footer = () => {
         <div style={{ display: "flex", gap: 50 }}>
           {router.map((route) => (
             <Button
+              key={route}
               sx={{
                 color: "white",
                 borderBottom: 1,

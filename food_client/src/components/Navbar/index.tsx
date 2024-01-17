@@ -77,7 +77,10 @@ const Navbar = () => {
             />
           </svg>
           {menus.map((menu) => (
-            <Button sx={{ color: "black", fontWeight: 800, fontSize: 20 }}>
+            <Button
+              key={menu}
+              sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+            >
               {menu}
             </Button>
           ))}

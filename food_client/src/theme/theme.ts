@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material";
 import { dark } from "@mui/material/styles/createPalette";
+import { shadows } from "@mui/system";
+
 declare module "@mui/material/styles" {
   interface Theme {
     status: {
