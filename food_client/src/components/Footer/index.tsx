@@ -2,20 +2,37 @@
 import React from "react";
 import { Button, Typography, Container, Box } from "@mui/material";
 import Divider from "@mui/material/Divider";
+import Image from "next/image";
 
 function Copyright() {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Typography variant="body2" color="text.secondary">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="body2" style={{ color: "white" }}>
         ©{new Date().getFullYear()}
         {" Pinecone Foods LLC. "}
       </Typography>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" style={{ color: "white" }}>
         Зохиогчийн эрхээр хамгаалагдав
       </Typography>{" "}
     </div>
   );
 }
+
+const router = [
+  "Нүүр",
+  "Холбоо барих",
+  "Хоолны цэс",
+  "Үйлчилгээний нөхцөл",
+  "Хүргэлтийн бүс",
+  "Нууцлалын бодлого",
+];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -24,18 +41,36 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        py: 3,
-        px: 2,
+        py: 20,
+        px: 20,
         bgcolor: "#18BA51",
+
+        // position: "fixed",
+        bottom: 0,
+        width: "100%",
+        marginTop: "50px",
       }}
     >
-      <Container
-        maxWidth="xl"
+      <Image
+        alt=""
+        src="/logo_svg/footer.svg"
+        width={100}
+        height={100}
         style={{
-          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          bottom: 0,
+        }}
+      />
+      <div
+        style={{
           display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           flexDirection: "column",
-          rowGap: 20,
+          rowGap: 30,
+          marginBottom: 0,
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -55,48 +90,41 @@ const Footer = () => {
               fill="white"
             />
           </svg>
-          <Typography variant="body1">Food Delivery</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            Food Delivery
+          </Typography>
         </div>
-        <div style={{}}>
-          <Button>Нүүр</Button>
-          <Button>Холбоо барих</Button>
-          <Button>Хоолны цэс</Button>
-          <Button>Үйлчилгээний нөхцөл</Button>
-          <Button>Хүргэлтийн бүс</Button>
-          <Button>Нууцлалын бодлого</Button>
+        <div style={{ display: "flex", gap: 50 }}>
+          {router.map((route) => (
+            <Button
+              sx={{
+                color: "white",
+                borderBottom: 1,
+                borderColor: "white",
+              }}
+            >
+              {route}
+            </Button>
+          ))}
         </div>
-        <svg
-          width="162"
-          height="56"
-          viewBox="0 0 162 56"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+          }}
         >
-          <path
-            d="M44.875 28C44.875 37.6875 37.7656 45.7344 28.4688 47.1406V33.625H33L33.8594 28H28.4688V24.4062C28.4688 22.8438 29.25 21.3594 31.6719 21.3594H34.0938V16.5938C34.0938 16.5938 31.9062 16.2031 29.7188 16.2031C25.3438 16.2031 22.4531 18.9375 22.4531 23.7812V28H17.5312V33.625H22.4531V47.1406C13.1562 45.7344 6.125 37.6875 6.125 28C6.125 17.2969 14.7969 8.625 25.5 8.625C36.2031 8.625 44.875 17.2969 44.875 28Z"
-            fill="white"
-          />
-          <path
-            d="M81 19.0156C85.9219 19.0156 89.9844 23.0781 89.9844 28C89.9844 33 85.9219 36.9844 81 36.9844C76 36.9844 72.0156 33 72.0156 28C72.0156 23.0781 76 19.0156 81 19.0156ZM81 33.8594C84.2031 33.8594 86.7812 31.2812 86.7812 28C86.7812 24.7969 84.2031 22.2188 81 22.2188C77.7188 22.2188 75.1406 24.7969 75.1406 28C75.1406 31.2812 77.7969 33.8594 81 33.8594ZM92.4062 18.7031C92.4062 19.875 91.4688 20.8125 90.2969 20.8125C89.125 20.8125 88.1875 19.875 88.1875 18.7031C88.1875 17.5312 89.125 16.5938 90.2969 16.5938C91.4688 16.5938 92.4062 17.5312 92.4062 18.7031ZM98.3438 20.8125C98.5 23.7031 98.5 32.375 98.3438 35.2656C98.1875 38.0781 97.5625 40.5 95.5312 42.6094C93.5 44.6406 91 45.2656 88.1875 45.4219C85.2969 45.5781 76.625 45.5781 73.7344 45.4219C70.9219 45.2656 68.5 44.6406 66.3906 42.6094C64.3594 40.5 63.7344 38.0781 63.5781 35.2656C63.4219 32.375 63.4219 23.7031 63.5781 20.8125C63.7344 18 64.3594 15.5 66.3906 13.4688C68.5 11.4375 70.9219 10.8125 73.7344 10.6562C76.625 10.5 85.2969 10.5 88.1875 10.6562C91 10.8125 93.5 11.4375 95.5312 13.4688C97.5625 15.5 98.1875 18 98.3438 20.8125ZM94.5938 38.3125C95.5312 36.0469 95.2969 30.5781 95.2969 28C95.2969 25.5 95.5312 20.0312 94.5938 17.6875C93.9688 16.2031 92.7969 14.9531 91.3125 14.4062C88.9688 13.4688 83.5 13.7031 81 13.7031C78.4219 13.7031 72.9531 13.4688 70.6875 14.4062C69.125 15.0312 67.9531 16.2031 67.3281 17.6875C66.3906 20.0312 66.625 25.5 66.625 28C66.625 30.5781 66.3906 36.0469 67.3281 38.3125C67.9531 39.875 69.125 41.0469 70.6875 41.6719C72.9531 42.6094 78.4219 42.375 81 42.375C83.5 42.375 88.9688 42.6094 91.3125 41.6719C92.7969 41.0469 94.0469 39.875 94.5938 38.3125Z"
-            fill="white"
-          />
-          <path
-            d="M152.359 19.875C152.359 20.2656 152.359 20.5781 152.359 20.9688C152.359 31.8281 144.156 44.25 129.078 44.25C124.391 44.25 120.094 42.9219 116.5 40.5781C117.125 40.6562 117.75 40.7344 118.453 40.7344C122.281 40.7344 125.797 39.4062 128.609 37.2188C125.016 37.1406 121.969 34.7969 120.953 31.5156C121.5 31.5938 121.969 31.6719 122.516 31.6719C123.219 31.6719 124 31.5156 124.625 31.3594C120.875 30.5781 118.062 27.2969 118.062 23.3125V23.2344C119.156 23.8594 120.484 24.1719 121.812 24.25C119.547 22.7656 118.141 20.2656 118.141 17.4531C118.141 15.8906 118.531 14.4844 119.234 13.3125C123.297 18.2344 129.391 21.5156 136.188 21.9062C136.031 21.2812 135.953 20.6562 135.953 20.0312C135.953 15.5 139.625 11.8281 144.156 11.8281C146.5 11.8281 148.609 12.7656 150.172 14.4062C151.969 14.0156 153.766 13.3125 155.328 12.375C154.703 14.3281 153.453 15.8906 151.734 16.9062C153.375 16.75 155.016 16.2812 156.422 15.6562C155.328 17.2969 153.922 18.7031 152.359 19.875Z"
-            fill="white"
-          />
-        </svg>
-        <svg
-          width="1300"
-          height="1"
-          viewBox="0 0 1300 1"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line y1="0.5" x2="1300" y2="0.5" stroke="white" />
-        </svg>
-        {/* <Divider light /> */}
+          <Image alt="" src="/logo_svg/facebook.svg" width={40} height={40} />
+          <Image alt="" src="/logo_svg/instagram.svg" width={40} height={40} />
+          <Image alt="" src="/logo_svg/twitter.svg" width={40} height={40} />
+        </div>
+        <Divider
+          variant="fullWidth"
+          component="button"
+          light
+          sx={{ width: "100%", height: 1 }}
+        />
         <Copyright />
-      </Container>
+      </div>
     </Box>
   );
 };
