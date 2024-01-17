@@ -1,20 +1,19 @@
 "use client";
 import React from "react";
 import { Button, Typography, Container, Box } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary">
-      {"© "}
-      {new Date().getFullYear()}
-      {"Pinecone Foods LLC"}
-      {"."}
-
-      <Typography variant="body2">
-        {"Зохиогчийн эрхээр хамгаалагдав"}
-        {"."}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Typography variant="body2" color="text.secondary">
+        ©{new Date().getFullYear()}
+        {" Pinecone Foods LLC. "}
       </Typography>
-    </Typography>
+      <Typography variant="subtitle1">
+        Зохиогчийн эрхээр хамгаалагдав
+      </Typography>{" "}
+    </div>
   );
 }
 
@@ -95,7 +94,7 @@ const Footer = () => {
         >
           <line y1="0.5" x2="1300" y2="0.5" stroke="white" />
         </svg>
-
+        {/* <Divider light /> */}
         <Copyright />
       </Container>
     </Box>

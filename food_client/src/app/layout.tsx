@@ -18,7 +18,7 @@ export default function RootLayout({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          rowGap: 200,
+          rowGap: 100,
         }}
       >
         <Navbar />
