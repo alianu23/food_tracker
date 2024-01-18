@@ -1,8 +1,16 @@
 "use client";
 import * as React from "react";
-import { Button, Container, InputBase, alpha, styled } from "@mui/material";
+import {
+  Button,
+  Container,
+  Drawer,
+  InputBase,
+  alpha,
+  styled,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { ShoppingBasket, Person } from "@mui/icons-material";
+import { BasketDrawer } from "../basketDrawer";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -104,12 +112,7 @@ const Navbar = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <ShoppingBasket />
-            <Button variant="text" sx={{ color: "black", fontWeight: 800 }}>
-              Сагс
-            </Button>
-          </div>
+          <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <Person />
             <Button variant="text" sx={{ color: "black", fontWeight: 800 }}>
