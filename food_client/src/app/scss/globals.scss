@@ -1,0 +1,33 @@
+@import "variables";
+@import "mixin";
+
+.wrapper {
+  background: greenyellow;
+  &-top {
+    @include background-color((teal));
+    h1 {
+      color: ($primary-color);
+    }
+  }
+  &-bottom {
+    @include background-color(orange);
+    h1 {
+      color: ($secondary-color);
+    }
+  }
+}
+
+.btn {
+  &-primary {
+    @include btnMix($primary-color);
+  }
+  &-secondary {
+    @include btnMix($secondary-color);
+  }
+  &-success {
+    @include btnMix($success-color);
+  }
+  &-error {
+    @include btnMix($error-color);
+  }
+}

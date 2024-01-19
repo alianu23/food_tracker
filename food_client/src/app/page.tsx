@@ -3,11 +3,25 @@ import React from "react";
 import { Grid, Button, Typography, Container } from "@mui/material";
 import { DiscountFoodCard, FoodCard, InfoCard } from "@/components/cards";
 import Image from "next/image";
-import { Fullscreen } from "@mui/icons-material";
 
 export default function Home() {
   return (
     <main>
+      {/* <div className="wrapper">
+        <div className="wrapper-top">
+          <h1>Hello</h1>
+        </div>
+
+        <div className="wrapper-bottom">
+          <h1>Hello</h1>
+        </div>
+      </div>
+      <div>
+        <button className="btn btn-primary">click</button>
+        <button className="btn btn-secondary">click</button>
+        <button className="btn btn-success">click</button>
+        <button className="btn btn-error">click</button>
+      </div> */}
       <Container style={{ marginBottom: 60 }}>
         <Grid
           container

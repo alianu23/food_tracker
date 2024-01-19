@@ -11,6 +11,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { ShoppingBasket, Person } from "@mui/icons-material";
 import { BasketDrawer } from "../basketDrawer";
+import { useRouter } from "next/navigation";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,6 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const menus = ["Нүүр", "Хоолны цэс", "Хүргэлтийн бүс"];
 
 const Navbar = () => {
+  const router = useRouter();
   return (
     <nav>
       <Container
@@ -84,14 +86,22 @@ const Navbar = () => {
               fill="black"
             />
           </svg>
-          {menus.map((menu) => (
-            <Button
-              key={menu}
-              sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-            >
-              {menu}
-            </Button>
-          ))}
+
+          <Button
+            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+            onClick={() => router.push("/")}
+          >
+            Нүүр
+          </Button>
+          <Button
+            onClick={() => router.push("/menu")}
+            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+          >
+            Хоолны цэс
+          </Button>
+          <Button sx={{ color: "black", fontWeight: 800, fontSize: 20 }}>
+            Хүргэлтийн бүс
+          </Button>
         </div>
 
         <div style={{ display: "flex" }}>

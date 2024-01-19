@@ -18,5 +18,5 @@ declare module "@mui/material/styles" {
 
 export const theme = createTheme({
   spacing: 4,
-  palette: { secondary: { main: "#FFA629" } },
+  palette: { primary: { main: "#18ba51" } },
 });
