@@ -5,7 +5,7 @@ import {
   Box,
   Typography,
   IconButton,
-  Button,
+  Button as MuiButton,
   Container,
   Grid,
 } from "@mui/material";
@@ -18,6 +18,7 @@ import {
   Add,
 } from "@mui/icons-material";
 import Image from "next/image";
+import { Button } from "@/components/core";
 
 export const BasketDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -32,7 +33,9 @@ export const BasketDrawer = () => {
         onClick={() => setIsDrawerOpen(true)}
       >
         <ShoppingBasket />
-        <Typography sx={{ color: "black", fontWeight: 800, ml: 2 }}>
+        <Typography
+          sx={{ color: "black", fontWeight: 800, ml: 2, fontSize: 20 }}
+        >
           Сагс
         </Typography>
       </IconButton>
@@ -57,12 +60,12 @@ export const BasketDrawer = () => {
             }}
           >
             <Grid item xs={1}>
-              <Button
+              <MuiButton
                 onClick={() => setIsDrawerOpen(false)}
                 sx={{ color: "black" }}
               >
                 <ArrowBack />
-              </Button>
+              </MuiButton>
             </Grid>
             <Grid item xs={9}>
               <Typography
@@ -124,7 +127,7 @@ export const BasketDrawer = () => {
                   justifyContent: "left",
                 }}
               >
-                <Button>
+                <MuiButton>
                   <Remove
                     sx={{
                       bgcolor: "#18BA51",
@@ -135,7 +138,7 @@ export const BasketDrawer = () => {
                       borderRadius: 2,
                     }}
                   />
-                </Button>
+                </MuiButton>
                 <input
                   type="text"
                   placeholder="1"
@@ -149,7 +152,7 @@ export const BasketDrawer = () => {
                     fontSize: 16,
                   }}
                 />
-                <Button>
+                <MuiButton>
                   <Add
                     sx={{
                       bgcolor: "#18BA51",
@@ -160,7 +163,7 @@ export const BasketDrawer = () => {
                       borderRadius: 2,
                     }}
                   />
-                </Button>
+                </MuiButton>
               </div>
             </Grid>
           </Grid>
@@ -170,6 +173,7 @@ export const BasketDrawer = () => {
             bottom={0}
             boxShadow={6}
             py={10}
+            px={5}
           >
             <Grid
               item
@@ -177,7 +181,7 @@ export const BasketDrawer = () => {
               display={"flex"}
               flexDirection={"column"}
               alignItems={"flex-start"}
-              pl={15}
+              pl={5}
             >
               <Typography variant="body1" component="h6">
                 Нийт төлөх дүн
@@ -188,18 +192,9 @@ export const BasketDrawer = () => {
             </Grid>
             <Grid item xs={6}>
               <Button
+                label={"Захиалах"}
                 onClick={() => setIsDrawerOpen(false)}
-                variant="contained"
-                sx={{
-                  bgcolor: "#18BA51",
-                  boxShadow: "none",
-                  mb: 10,
-                  py: 2,
-                  px: 20,
-                }}
-              >
-                Захиалах
-              </Button>
+              />
             </Grid>
           </Grid>
         </Box>

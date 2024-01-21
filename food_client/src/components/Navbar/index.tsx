@@ -69,7 +69,7 @@ const Navbar = () => {
           marginBottom: 10,
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", gap: 10 }}>
           <svg
             width="41"
             height="41"
@@ -99,12 +99,15 @@ const Navbar = () => {
           >
             Хоолны цэс
           </Button>
-          <Button sx={{ color: "black", fontWeight: 800, fontSize: 20 }}>
+          <Button
+            onClick={() => router.push("/map")}
+            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+          >
             Хүргэлтийн бүс
           </Button>
         </div>
 
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", gap: 20 }}>
           <Search
             sx={{
               border: 1,
@@ -125,7 +128,11 @@ const Navbar = () => {
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <Person />
-            <Button variant="text" sx={{ color: "black", fontWeight: 800 }}>
+            <Button
+              onClick={() => router.push("/login")}
+              variant="text"
+              sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+            >
               Нэвтрэх
             </Button>
           </div>

@@ -1,14 +1,14 @@
 import * as React from "react";
 import {
   Box,
-  Button,
+  Button as MuiButton,
   Typography,
   Modal,
   Grid,
-  ButtonGroup,
 } from "@mui/material";
 import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
+import { Button } from "../core";
 
 const style = {
   position: "absolute" as "absolute",
@@ -53,12 +53,12 @@ export default function CardModal({ handleClose, handleOpen, open }: any) {
               gap={3}
             >
               <Grid item xs={2} position={"relative"}>
-                <Button
+                <MuiButton
                   onClick={handleClose}
                   sx={{ ml: 80, position: "absolute" }}
                 >
                   <Close />
-                </Button>
+                </MuiButton>
               </Grid>
               <Grid item xs={12}>
                 <div>
@@ -107,7 +107,7 @@ export default function CardModal({ handleClose, handleOpen, open }: any) {
                     Тоо
                   </Typography>
                   <div>
-                    <Button>
+                    <MuiButton>
                       <Remove
                         sx={{
                           bgcolor: "#18BA51",
@@ -118,7 +118,7 @@ export default function CardModal({ handleClose, handleOpen, open }: any) {
                           borderRadius: 2,
                         }}
                       />
-                    </Button>
+                    </MuiButton>
                     <input
                       type="text"
                       placeholder="1"
@@ -131,7 +131,7 @@ export default function CardModal({ handleClose, handleOpen, open }: any) {
                         fontSize: 16,
                       }}
                     />
-                    <Button>
+                    <MuiButton>
                       <Add
                         sx={{
                           bgcolor: "#18BA51",
@@ -142,18 +142,11 @@ export default function CardModal({ handleClose, handleOpen, open }: any) {
                           borderRadius: 2,
                         }}
                       />
-                    </Button>
+                    </MuiButton>
                   </div>
                 </div>
 
-                <Button
-                  variant="contained"
-                  onClick={handleClose}
-                  fullWidth
-                  sx={{ bgcolor: "#18BA51", mt: 2, boxShadow: "none", mb: 10 }}
-                >
-                  Сагслах
-                </Button>
+                <Button label={"Сагслах"} onClick={handleClose} />
               </Grid>
             </Grid>
           </Grid>
