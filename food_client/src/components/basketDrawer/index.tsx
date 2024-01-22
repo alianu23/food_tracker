@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {
   Menu,
-  ShoppingBasket,
+  ShoppingBasketOutlined,
   ArrowBack,
   Remove,
   Close,
@@ -32,7 +32,7 @@ export const BasketDrawer = () => {
         aria-label="logo"
         onClick={() => setIsDrawerOpen(true)}
       >
-        <ShoppingBasket />
+        <ShoppingBasketOutlined />
         <Typography
           sx={{ color: "black", fontWeight: 800, ml: 2, fontSize: 20 }}
         >

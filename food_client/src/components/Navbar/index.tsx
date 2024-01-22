@@ -9,7 +9,7 @@ import {
   styled,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { ShoppingBasket, Person } from "@mui/icons-material";
+import { PersonOutlined } from "@mui/icons-material";
 import { BasketDrawer } from "../basketDrawer";
 import { useRouter } from "next/navigation";
 
@@ -44,7 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
@@ -67,6 +67,7 @@ const Navbar = () => {
           justifyContent: "space-between",
           marginTop: 10,
           marginBottom: 10,
+          alignItems: "center",
         }}
       >
         <div style={{ display: "flex", gap: 10 }}>
@@ -115,6 +116,7 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               marginRight: 3,
+              borderRadius: 3,
             }}
           >
             <SearchIconWrapper>
@@ -127,7 +129,7 @@ const Navbar = () => {
           </Search>
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Person />
+            <PersonOutlined />
             <Button
               onClick={() => router.push("/login")}
               variant="text"

@@ -23,7 +23,7 @@ export const Button = ({
         sx={{
           fontSize: "1rem",
 
-          py: 2,
+          py: 3,
           my: 2,
           color:
             btnType === "outlined" || btnType === "text" ? "#18ba51" : "white",

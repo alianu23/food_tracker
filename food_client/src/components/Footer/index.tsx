@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { Button, Typography, Container, Box } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 
 function Copyright() {
   return (
@@ -24,18 +26,20 @@ function Copyright() {
   );
 }
 
-const router = [
-  "Нүүр",
-  "Холбоо барих",
-  "Хоолны цэс",
-  "Үйлчилгээний нөхцөл",
-  "Хүргэлтийн бүс",
-  "Нууцлалын бодлого",
+const routers = [
+  { name: "Нүүр", path: "/" },
+  { name: "Холбоо барих", path: "contact" },
+  { name: "Хоолны цэс", path: "/menu" },
+  { name: "Үйлчилгээний нөхцөл", path: "/terms" },
+  { name: "Хүргэлтийн бүс", path: "map" },
+  { name: "Нууцлалын бодлого", path: "securityTerms" },
 ];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const Footer = () => {
+  const isActive = usePathname();
+
   return (
     <Box
       component="footer"
@@ -43,24 +47,13 @@ const Footer = () => {
         py: 20,
         px: 20,
         bgcolor: "#18BA51",
-        position: "relative",
+
         bottom: 0,
         width: "100%",
         marginTop: "50px",
+        backgroundImage: `url(${"/logo_svg/footer.svg"})`,
       }}
     >
-      <Image
-        alt=""
-        src="/logo_svg/footer.svg"
-        width={100}
-        height={100}
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          bottom: 0,
-        }}
-      />
       <div
         style={{
           display: "flex",
@@ -93,17 +86,14 @@ const Footer = () => {
           </Typography>
         </div>
         <div style={{ display: "flex", gap: 50 }}>
-          {router.map((route) => (
-            <Button
-              key={route}
-              sx={{
-                color: "white",
-                borderBottom: 1,
-                borderColor: "white",
-              }}
+          {routers.map((route, i) => (
+            <Link
+              style={{ color: "white", padding: 5 }}
+              key={i}
+              href={route.path}
             >
-              {route}
-            </Button>
+              {route.name}
+            </Link>
           ))}
         </div>
         <div

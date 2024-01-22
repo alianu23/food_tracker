@@ -31,7 +31,7 @@ export const Input = ({
       <FormControl sx={{ my: 2 }} variant="outlined" fullWidth>
         <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
         <OutlinedInput
-          sx={{ backgroundColor: "#ECEDF0" }}
+          sx={{ backgroundColor: "#F7F7F8" }}
           placeholder={desc}
           type={isShowPassword ? "password" : "text"}
           endAdornment={

@@ -15,7 +15,7 @@ export const MapDelivery = () => {
   return (
     <Container>
       <Image alt="mapPng" width={1200} height={616} src="/mapPng/map.png" />
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: "flex", alignItems: "center", marginLeft: 15 }}>
         <Image alt="" width={22} height={22} src="/logo_svg/dashStar.svg" />
         <Typography variant="h6" marginLeft={2}>
           {" "}
