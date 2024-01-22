@@ -19,9 +19,15 @@ import {
 } from "@mui/icons-material";
 import Image from "next/image";
 import { Button } from "@/components/core";
+import { useRouter } from "next/navigation";
 
 export const BasketDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const router = useRouter();
+  const changeOnclick = () => {
+    router.push("/order"), setIsDrawerOpen(false);
+  };
+
   return (
     <>
       <IconButton
@@ -191,10 +197,7 @@ export const BasketDrawer = () => {
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Button
-                label={"Захиалах"}
-                onClick={() => setIsDrawerOpen(false)}
-              />
+              <Button label={"Захиалах"} onClick={changeOnclick} />
             </Grid>
           </Grid>
         </Box>

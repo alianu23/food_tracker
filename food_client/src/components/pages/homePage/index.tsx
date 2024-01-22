@@ -30,15 +30,8 @@ export const Dashboard = () => {
         my={5}
         gap={20}
         py={15}
-        position={"relative"}
+        sx={{ backgroundImage: `url(${"/logo_svg/footer.svg"})` }}
       >
-        <Image
-          alt="dewsger"
-          width={100}
-          height={100}
-          src="/logo_svg/footer.svg"
-          style={{ position: "absolute", width: "100%", height: "100%" }}
-        />
         <Grid item>
           <Typography variant="h4" fontWeight={800} color={"white"}>
             Pinecone
