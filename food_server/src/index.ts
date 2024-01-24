@@ -1,6 +1,15 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import color from "colors";
+import "dotenv/config";
+import { connectDB } from "./config/db";
+import authRouter from "./router/authRouter";
 
-const app = express();
+const app: Application = express();
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI as string;
 
-app.listen(8080, () => console.log(color.rainbow("Server running")));
+connectDB(MONGO_URI);
+
+app.use("/auth", authRouter);
+
+app.listen(PORT, () => console.log(color.rainbow(`Server started ${PORT} `)));
