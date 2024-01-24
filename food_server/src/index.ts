@@ -10,6 +10,7 @@ const MONGO_URI = process.env.MONGO_URI as string;
 
 connectDB(MONGO_URI);
 
+app.use(express.json());
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => console.log(color.rainbow(`Server started ${PORT} `)));
