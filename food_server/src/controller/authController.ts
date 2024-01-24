@@ -34,3 +34,5 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).send({ message: `${error}-iim aldaa garlaa` });
   }
 };
+
+// https://mongoosejs.com/docs/queries.html
