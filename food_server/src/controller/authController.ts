@@ -21,7 +21,7 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const findUser = await User.findOne({ email: email });
+    const findUser = await User.findOne({ email: email }).lean();
     if (!findUser)
       return res.status(400).send({ message: "Invalid user email address" });
     const validPass = compareSync(password, findUser.password as string);
