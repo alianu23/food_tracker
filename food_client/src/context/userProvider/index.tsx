@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { createContext } from "react";
 import { IUser, UserContextType } from "@/types";
@@ -9,7 +10,7 @@ export const UserContext = React.createContext<UserContextType | null>(null);
 const UserProvider = ({ children }: any) => {
   const [user, setUser] = React.useState(null);
 
-  const [formUserData, setLoginUserData] = React.useState<IUser>({
+  const [formUserData, setFormUserData] = React.useState<IUser>({
     email: "",
     password: "",
     name: "",
