@@ -5,7 +5,6 @@ import { compareSync } from "bcrypt";
 
 export const signup = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
-  console.log("BODY", req.body);
   const hashPass = hashSync(password, 10);
   const newUser = {
     name: name,
