@@ -6,14 +6,14 @@ import bcrypt from "bcrypt";
 export const signup = async (req: Request, res: Response) => {
   try {
     const newUser = req.body;
-
-    const user = await User.create(newUser);
-
-    res.status(201).json({ message: "Шинэ хэрэглэгч бүртгэгдлээ" });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newUser.password, salt);
+    await User.create({ ...newUser, password: hashedPassword });
+    res.status(201).json({ message: "Шинэ хэрэглэгч амжилттай бүртгэгдлээ" });
   } catch (error) {
     res
-      .status(401)
-      .send({ message: `There is an error to create new user`, error });
+      .status(400)
+      .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error });
   }
 };
 

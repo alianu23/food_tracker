@@ -13,21 +13,17 @@ const transport = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = async (
-  email: string,
-  subject: string,
-  name: string
-) => {
+export const sendEmail = async (email: string, otp: string, name: string) => {
   const info = await transport.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: email, // list of receivers
-    subject: subject, // Subject line
+    subject: "Verify Account for Food platform", // Subject line
     text: "Hello world?", // plain text body
-    html: generateTemplate(email, name), // html body
+    html: generateTemplate(email, name, otp), // html body
   });
 };
 
-const generateTemplate = (email: string, name: string) => {
+const generateTemplate = (email: string, name: string, otp: string) => {
   return `
   <body
   style="
@@ -400,8 +396,6 @@ const generateTemplate = (email: string, name: string) => {
                         padding-right: 20px;
                       "
                     >
-                      <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr>
-<td style="width:270px" valign="top"><![endif]-->
                       <table
                         class="es-left"
                         cellspacing="0"
@@ -452,7 +446,7 @@ const generateTemplate = (email: string, name: string) => {
                                       font-size: 14px;
                                     "
                                   >
-                                    You'r verification code is :
+                                    You'r verification code is : ${otp}
                                   </p>
                                 </td>
                               </tr>

@@ -16,10 +16,12 @@ interface IInputProps {
   label: string;
   showPassword?: boolean;
   desc: string;
+  name?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
+  name,
   label,
   desc,
   showPassword = false,
@@ -32,6 +34,8 @@ export const Input = ({
         <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
         <OutlinedInput
           sx={{ backgroundColor: "#F7F7F8" }}
+          onChange={onChange}
+          name={name}
           placeholder={desc}
           type={isShowPassword ? "password" : "text"}
           endAdornment={

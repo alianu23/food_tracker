@@ -1,63 +1,48 @@
 import { Button, Input } from "@/components/core";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
-import React from "react";
 
-export const Step1 = () => {
-  const router = useRouter();
+import React, { ChangeEvent } from "react";
+
+interface IStepProps {
+  email: string;
+  sendToEmail: () => void;
+  handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const StepOne = ({ email, sendToEmail, handleChangeInput }: IStepProps) => {
   return (
-    <Container
-      sx={{
-        marginTop: 35,
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        marginBottom: 30,
-      }}
-    >
+    <Container>
       <Box
-        width={500}
         sx={{
           display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
           alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+          margin: "auto ",
+          px: "2.1rem",
+          maxWidth: "450px",
+          padding: "5rem 0",
         }}
       >
-        <Typography variant="h5" fontWeight={600}>
+        <Typography
+          align="center"
+          gutterBottom
+          sx={{ fontSize: "28px", fontWeight: "700" }}
+        >
           Нууц үг сэргээх
         </Typography>
-
-        <Stack
-          width={"100%"}
-          display={"flex"}
-          alignItems={"flex-start"}
-          spacing={5}
-          mt={10}
-        >
-          <Typography variant="subtitle1" component="p">
-            Таны
-            <Typography component="span" mx={2} color={"#18BA51"}>
-              example@pinecone.mn
-            </Typography>
-            <Typography component="span">
-              хаяг руу сэргээх код илгээх болно.
-            </Typography>
-          </Typography>
-          <Input
-            label="Нууц үг сэргээх код"
-            desc={"Сэргээх кодоо оруулна уу"}
-            showPassword={true}
-          />
-
-          <Button
-            onClick={() => router.push("/step2")}
-            label={"Үргэлжлүүлэх"}
-            disabled={false}
-          />
+        <Input
+          label="Имэйл"
+          onChange={handleChangeInput}
+          name="email"
+          desc="Имэйл хаягаа оруулна уу"
+        />
+        <Stack flex="row" width="100%" justifyContent="flex-end">
+          <Button label={"Үргэлжлүүлэх"} onClick={sendToEmail} />
         </Stack>
       </Box>
     </Container>
   );
 };
+
+export default StepOne;

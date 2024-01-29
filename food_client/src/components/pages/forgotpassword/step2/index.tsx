@@ -1,57 +1,70 @@
+import React, { ChangeEvent } from "react";
+import { toast } from "react-toastify";
+import MyAxios from "@/utils/axios";
+
 import { Button, Input } from "@/components/core";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
-import React from "react";
 
-export const Step2 = () => {
-  const router = useRouter();
+interface IStepProps {
+  email: string;
+  otp: string;
+  handleNext: () => void;
+  handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const StepTwo = ({ email, otp, handleNext, handleChangeInput }: IStepProps) => {
+  const handleSendOtp = async () => {
+    try {
+      const data = await MyAxios.post("/verify/otp", {
+        email,
+        otp,
+      });
+      handleNext();
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "Verification код буруу байна. Та кодоо дахин шалгаж оруулна уу"
+      );
+    }
+  };
+
   return (
-    <Container
-      sx={{
-        marginTop: 35,
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        marginBottom: 30,
-      }}
-    >
+    <Container>
       <Box
-        width={500}
         sx={{
           display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
           alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+          margin: "auto ",
+          px: "2.1rem",
+          maxWidth: "450px",
+          padding: "5rem 0",
         }}
       >
-        <Typography variant="h5" fontWeight={600}>
-          Шинэ нууц үг зохиох
-        </Typography>
-        <Stack
-          width={"100%"}
-          display={"flex"}
-          alignItems={"flex-end"}
-          spacing={10}
+        <Typography
+          align="center"
+          gutterBottom
+          sx={{ fontSize: "28px", fontWeight: "700" }}
         >
+          Нууц үг сэргээх
+        </Typography>
+        <Typography>
+          Таны <span style={{ color: "#18BA51" }}>{email}</span> хаяг руу
+          сэргээх код илгээх болно.
+        </Typography>
+        <Stack width="100%" sx={{ mb: "2rem" }}>
           <Input
-            label="Нууц үг"
-            desc={"Нууц үгээ оруулна уу"}
-            showPassword={true}
+            desc="Нууц үгээ оруулна уу"
+            name="otp"
+            label="Нууц үг сэргээх код"
+            onChange={handleChangeInput}
           />
-          <Input
-            label="Нууц үг давтах"
-            desc={"Нууц үгээ оруулна уу"}
-            showPassword={true}
-          />
-
-          <Button
-            onClick={() => router.push("/")}
-            label={"Үргэлжлүүлэх"}
-            disabled={false}
-          />
+          <Button label={"Үргэлжлүүлэх"} onClick={handleSendOtp} />
         </Stack>
       </Box>
     </Container>
   );
 };
+
+export default StepTwo;

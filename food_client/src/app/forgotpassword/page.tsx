@@ -1,9 +1,10 @@
 "use client";
-import { ForgotPass } from "@/components/pages";
+
+import Stepper from "@/components/pages/forgotpassword";
 import React from "react";
 
 const Page = () => {
-  return <ForgotPass />;
+  return <Stepper />;
 };
 
 export default Page;

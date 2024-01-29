@@ -31,15 +31,14 @@ const userSchema = new Schema({
     enum: ["Admin", "User", "Moderator"],
     default: "User",
   },
+  otp: {
+    type: String,
+    default: "",
+  },
   createdAt: {
     type: Date,
     default: new Date(),
   },
-});
-
-userSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
 });
 
 const User = model("User", userSchema);

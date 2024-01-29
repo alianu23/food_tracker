@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import color from "colors";
 import "dotenv/config";
+import cors from "cors";
 import { connectDB } from "./config/db";
 import authRouter from "./router/authRouter";
 import userRoute from "./router/userRoute";
@@ -11,6 +12,7 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI as string;
 
 connectDB(MONGO_URI);
+app.use(cors());
 
 app.use(express.json());
 app.use("/auth", authRouter);
