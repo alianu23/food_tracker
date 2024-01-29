@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Container,
@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { PersonOutlined } from "@mui/icons-material";
 import { BasketDrawer } from "../basketDrawer";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,6 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const menus = ["Нүүр", "Хоолны цэс", "Хүргэлтийн бүс"];
 
 const Navbar = () => {
+  const { user } = useContext(UserContext);
+
   const router = useRouter();
   return (
     <nav>
@@ -130,13 +133,23 @@ const Navbar = () => {
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <PersonOutlined />
-            <Button
-              onClick={() => router.push("/login")}
-              variant="text"
-              sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-            >
-              Нэвтрэх
-            </Button>
+            {user ? (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="text"
+                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+              >
+                {user.name}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="text"
+                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+              >
+                Нэвтрэх
+              </Button>
+            )}
           </div>
         </div>
       </Container>

@@ -1,61 +1,118 @@
 "use client";
-import React, { useState } from "react";
-import { createContext } from "react";
-import { IUser, UserContextType } from "@/types";
+import { useRouter } from "next/navigation";
+import React, { ChangeEvent, createContext, useState } from "react";
 import { toast } from "react-toastify";
-import myAxios from "@/utils/axios";
+import MyAxios from "@/utils/axios";
+import Swal from "sweetalert2";
 
-export const UserContext = React.createContext<UserContextType | null>(null);
+interface IUser {
+  name: string;
+  email: string;
+  address: string;
+  password: string;
+  token: string;
+}
 
-const UserProvider = ({ children }: any) => {
-  const [user, setUser] = React.useState(null);
+export const UserContext = createContext<{
+  login: () => Promise<void>;
+  signup: () => Promise<void>;
+  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  user: IUser | null;
+}>({
+  login: async () => {},
+  signup: async () => {},
+  handleChangeInput: () => {},
+  user: null,
+});
 
-  const [formUserData, setFormUserData] = React.useState<IUser>({
-    email: "",
-    password: "",
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [userForm, setUserForm] = useState({
     name: "",
+    email: "",
+    address: "",
+    password: "",
     re_password: "",
   });
 
+  const handleNext = () => {
+    router.replace("/");
+  };
+
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const login = async () => {
+    try {
+      const data = await MyAxios.post("/auth/login", {
+        email: userForm.email,
+        password: userForm.password,
+      });
+      setUser(data.data);
+
+      await Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Амжилттай нэвтэрлээ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      handleNext();
+    } catch (error) {
+      toast.error(
+        "Нэвтрэхэд алдаа гарлаа. Та email нууц үгээ дахин шалгана уу"
+      );
+    }
+  };
+
   const signup = async () => {
     if (
-      !formUserData.email ||
-      !formUserData.password ||
-      !formUserData.name ||
-      !formUserData.re_password
+      !userForm.email ||
+      !userForm.password ||
+      !userForm.name ||
+      !userForm.re_password ||
+      !userForm.address
     ) {
-      toast(`You must fill all the data`, { autoClose: 3000 });
+      toast.warning(`You must fill all the data`, { autoClose: 3000 });
       return;
     }
 
-    if (formUserData.re_password !== formUserData.password) {
-      toast(`Passwords are not same`, { autoClose: 3000 });
+    if (userForm.re_password !== userForm.password) {
+      toast.error(`Passwords are not same`, { autoClose: 3000 });
       return;
     }
 
-    if (!formUserData.email.includes("@")) {
-      toast("Wrong email, your email address must include @ symbol");
+    if (!userForm.email.includes("@")) {
+      toast.error("Wrong email, your email address must include @ symbol");
       return;
     }
 
     try {
-      const { data } = await myAxios.post("/auth/signup", {
-        name: formUserData.name,
-        email: formUserData.email,
-        password: formUserData.password,
+      const data = await MyAxios.post("/auth/signup", {
+        name: userForm.name,
+        email: userForm.email,
+        address: userForm.address,
+        password: userForm.password,
       });
-      console.log("data", data);
-      setUser(data);
-      // console.log("user", user);
+      await Swal.fire({
+        position: "top-end",
+        title: "Та амжилттай бүртгүүллээ",
+        text: "Манай Платформийг сонгосонд баярлалаа",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      handleNext();
     } catch (error) {
-      console.log(`${error} - iim aldaa garlaa`);
-      toast.error(`burtguulhed aldaa garlaa`, { autoClose: 3000 });
+      toast.error("Бүртгүүлэхэд алдаа гарлаа.");
     }
   };
 
   return (
-    <UserContext.Provider value={{ signup }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ login, handleChangeInput, signup, user }}>
+      {children}
+    </UserContext.Provider>
   );
 };
-
-export default UserProvider;
