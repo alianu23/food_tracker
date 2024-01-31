@@ -1,13 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Container,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import { ZoneInfo } from "./zoneInfo";
 

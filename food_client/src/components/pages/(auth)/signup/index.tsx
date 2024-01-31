@@ -22,6 +22,7 @@ const validationSchema = yup.object({
     .min(6, "Хамгийн багадаа 6 тэмдэгт байх ёстой"),
   re_password: yup
     .string()
+    .required("Нууц үгийн талбарыг заавал бөглөнө үү")
     .oneOf([yup.ref("password")], "Нууц үг хоорондоо таарахгүй байна"),
 });
 

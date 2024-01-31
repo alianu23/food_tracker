@@ -26,6 +26,7 @@ interface IUserContext {
     email: string,
     address: string
   ) => Promise<void>;
+  loading: boolean;
 }
 
 export const UserContext = createContext<IUserContext>({
@@ -36,10 +37,12 @@ export const UserContext = createContext<IUserContext>({
   },
   login: async () => {},
   signup: async () => {},
+  loading: false,
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [userForm, setUserForm] = useState<IUser>({
     name: "hello",
     email: "",
@@ -50,14 +53,18 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const handleNext = () => {
     router.replace("/");
   };
+  const handleGoLogin = () => {
+    router.replace("/login");
+  };
 
   const login = async (email: string, password: string) => {
+    setLoading(true);
     try {
       const data = await MyAxios.post("/auth/login", {
         email: email,
         password: password,
       });
-
+      setUserForm(data.data);
       await Swal.fire({
         position: "top-end",
         icon: "success",
@@ -70,6 +77,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       toast.error(
         "Нэвтрэхэд алдаа гарлаа. Та email нууц үгээ дахин шалгана уу"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,20 +99,20 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       await Swal.fire({
         position: "top-end",
         title: "Та амжилттай бүртгүүллээ",
-        text: "Манай Платформийг сонгосонд баярлалаа",
+        text: "E-mail хаягруу баталгаажуулах линк явууллаа",
         icon: "success",
         timer: 1500,
         showConfirmButton: false,
       });
 
-      handleNext();
+      handleGoLogin();
     } catch (error) {
       toast.error("Бүртгүүлэхэд алдаа гарлаа.");
     }
   };
 
   return (
-    <UserContext.Provider value={{ login, signup, userForm }}>
+    <UserContext.Provider value={{ login, signup, userForm, loading }}>
       {children}
     </UserContext.Provider>
   );

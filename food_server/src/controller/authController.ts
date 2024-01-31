@@ -14,7 +14,7 @@ export const signup = async (req: Request, res: Response) => {
       { email: user.email },
       process.env.JWT_PRIVATE_KEY as string,
       {
-        expiresIn: "5m",
+        expiresIn: "1d",
       }
     );
     sendEmail({ email: user.email, token: verifyToken });

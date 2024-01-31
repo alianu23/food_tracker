@@ -1,10 +1,9 @@
 "use client";
-
-import { Stepper } from "@/components";
+import { UserInfo } from "@/components";
 import React from "react";
 
 const Page = () => {
-  return <Stepper />;
+  return <UserInfo />;
 };
 
 export default Page;

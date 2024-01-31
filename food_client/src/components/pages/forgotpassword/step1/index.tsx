@@ -4,12 +4,12 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import React, { ChangeEvent } from "react";
 
 interface IStepProps {
-  email: string;
   sendToEmail: () => void;
   handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+  loading: boolean;
 }
 
-const StepOne = ({ email, sendToEmail, handleChangeInput }: IStepProps) => {
+const StepOne = ({ sendToEmail, handleChangeInput, loading }: IStepProps) => {
   return (
     <Container>
       <Box
@@ -38,7 +38,11 @@ const StepOne = ({ email, sendToEmail, handleChangeInput }: IStepProps) => {
           desc="Имэйл хаягаа оруулна уу"
         />
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label={"Үргэлжлүүлэх"} onClick={sendToEmail} />
+          <Button
+            label={"Үргэлжлүүлэх"}
+            disabled={loading}
+            onClick={sendToEmail}
+          />
         </Stack>
       </Box>
     </Container>

@@ -1,23 +1,40 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
-import MyAxios from "@/utils/axios";
-
-import { Button, Input } from "@/components/core";
 import { Box, Container, Stack, Typography } from "@mui/material";
+import * as yup from "yup";
+
+import MyAxios from "@/utils/axios";
+import { Button, Input } from "@/components/core";
+import { useFormik } from "formik";
 
 interface IStepProps {
   email: string;
-  otp: string;
   handleNext: () => void;
-  handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const StepTwo = ({ email, otp, handleNext, handleChangeInput }: IStepProps) => {
-  const handleSendOtp = async () => {
+const validationSchema = yup.object({
+  otp: yup.string().min(4, "Код 4 оронтой байна"),
+});
+
+const StepTwo = ({ email, handleNext }: IStepProps) => {
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    onSubmit: ({ otp }) => {
+      handleSendOtp(otp);
+    },
+    initialValues: { otp: "" },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema,
+  });
+
+  const handleSendOtp = async (otp: string) => {
     try {
+      setLoading(true);
       const data = await MyAxios.post("/verify/otp", {
         email,
-        otp,
+        otp: otp,
       });
       handleNext();
     } catch (error) {
@@ -25,6 +42,8 @@ const StepTwo = ({ email, otp, handleNext, handleChangeInput }: IStepProps) => {
       toast.error(
         "Verification код буруу байна. Та кодоо дахин шалгаж оруулна уу"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,9 +77,15 @@ const StepTwo = ({ email, otp, handleNext, handleChangeInput }: IStepProps) => {
             desc="Нууц үгээ оруулна уу"
             name="otp"
             label="Нууц үг сэргээх код"
-            onChange={handleChangeInput}
+            errorText={formik.errors.otp}
+            value={formik.values.otp}
+            onChange={formik.handleChange}
           />
-          <Button label={"Үргэлжлүүлэх"} onClick={handleSendOtp} />
+          <Button
+            disabled={loading}
+            label={"Үргэлжлүүлэх"}
+            onClick={formik.handleSubmit}
+          />
         </Stack>
       </Box>
     </Container>

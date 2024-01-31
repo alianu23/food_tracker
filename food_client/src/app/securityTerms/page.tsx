@@ -1,5 +1,5 @@
 "use client";
-import { SecurityTerms } from "@/components/pages";
+import { SecurityTerms } from "@/components";
 import React from "react";
 
 const Page = () => {

@@ -21,6 +21,7 @@ interface IInputProps {
   value?: string;
   errorText?: string | undefined;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyup?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
@@ -31,6 +32,7 @@ export const Input = ({
   onChange,
   value,
   errorText,
+  onKeyup,
 }: IInputProps) => {
   const [isShowPassword, setIsShowPassword] = useState(showPassword);
   return (
@@ -41,6 +43,7 @@ export const Input = ({
           sx={{ backgroundColor: "#F7F7F8" }}
           value={value}
           onChange={onChange}
+          onKeyUp={() => onKeyup}
           name={name}
           placeholder={desc}
           type={isShowPassword ? "password" : "text"}

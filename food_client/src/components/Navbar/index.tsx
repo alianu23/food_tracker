@@ -1,24 +1,26 @@
 "use client";
 import React, { useContext } from "react";
-import {
-  Button,
-  Container,
-  Drawer,
-  InputBase,
-  alpha,
-  styled,
-} from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
+import { Button, Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { PersonOutlined } from "@mui/icons-material";
 import { BasketDrawer } from "../basketDrawer";
-import { useRouter } from "next/navigation";
 import { UserContext } from "@/context";
 import { Search, SearchIconWrapper, StyledInputBase } from "./layers";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Link from "next/link";
+import { theme } from "@/theme/theme";
 
-const menus = ["Нүүр", "Хоолны цэс", "Хүргэлтийн бүс"];
+const navigations = [
+  { name: "Нүүр", path: "/" },
+  { name: "Хоолны цэс", path: "/menu" },
+  { name: "Хүргэлтийн бүс", path: "/map" },
+];
 
 const Navbar = () => {
   const { userForm } = useContext(UserContext);
+
+  const isActive = usePathname();
 
   const router = useRouter();
   return (
@@ -49,25 +51,21 @@ const Navbar = () => {
               fill="black"
             />
           </svg>
-
-          <Button
-            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-            onClick={() => router.push("/")}
-          >
-            Нүүр
-          </Button>
-          <Button
-            onClick={() => router.push("/menu")}
-            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-          >
-            Хоолны цэс
-          </Button>
-          <Button
-            onClick={() => router.push("/map")}
-            sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-          >
-            Хүргэлтийн бүс
-          </Button>
+          {navigations.map((navigation, i) => (
+            <Link
+              style={{
+                cursor: "pointer",
+                transition: "all",
+                transitionDuration: "75",
+              }}
+              key={i}
+              href={navigation.path}
+            >
+              <Button sx={{ color: "black", fontWeight: 800, fontSize: 20 }}>
+                {navigation.name}
+              </Button>
+            </Link>
+          ))}
         </div>
 
         <div style={{ display: "flex", gap: 20 }}>
@@ -92,14 +90,23 @@ const Navbar = () => {
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <PersonOutlined />
-
-            <Button
-              onClick={() => router.push("/login")}
-              variant="text"
-              sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
-            >
-              Нэвтрэх
-            </Button>
+            {userForm?.name ? (
+              <Button
+                onClick={() => router.push("/user")}
+                variant="text"
+                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+              >
+                Хэрэглэгч
+              </Button>
+            ) : (
+              <Button
+                onClick={() => router.push("/login")}
+                variant="text"
+                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+              >
+                нэвтрэх
+              </Button>
+            )}
           </div>
         </div>
       </Container>

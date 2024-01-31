@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 });
 
 export const LoginPage = () => {
-  const { login, userForm } = useContext(UserContext);
+  const { login, userForm, loading } = useContext(UserContext);
 
   const formik = useFormik({
     onSubmit: ({ email, password }) => {
@@ -88,7 +88,7 @@ export const LoginPage = () => {
           <Button
             label={"Нэвтрэх"}
             onClick={formik.handleSubmit}
-            disabled={false}
+            disabled={loading}
           />
         </Stack>
         <Typography variant="subtitle2" my={8}>

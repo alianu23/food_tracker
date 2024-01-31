@@ -1,5 +1,5 @@
 "use client";
-import { OrderPage } from "@/components/pages";
+import { OrderPage } from "@/components";
 import React from "react";
 
 const Page = () => {

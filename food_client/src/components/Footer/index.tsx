@@ -4,36 +4,8 @@ import Link from "next/link";
 import { Button, Typography, Container, Box } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
-
-function Copyright() {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="body2" style={{ color: "white" }}>
-        ©{new Date().getFullYear()}
-        {" Pinecone Foods LLC. "}
-      </Typography>
-      <Typography variant="subtitle1" style={{ color: "white" }}>
-        Зохиогчийн эрхээр хамгаалагдав
-      </Typography>{" "}
-    </div>
-  );
-}
-
-const routers = [
-  { name: "Нүүр", path: "/" },
-  { name: "Холбоо барих", path: "contact" },
-  { name: "Хоолны цэс", path: "/menu" },
-  { name: "Үйлчилгээний нөхцөл", path: "/terms" },
-  { name: "Хүргэлтийн бүс", path: "map" },
-  { name: "Нууцлалын бодлого", path: "securityTerms" },
-];
+import { usePathname } from "next/navigation";
+import { Copyright, routers } from "./layer";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -47,7 +19,7 @@ const Footer = () => {
         py: 20,
         px: 20,
         bgcolor: "#18BA51",
-
+        position: "fixed",
         bottom: 0,
         width: "100%",
         marginTop: "50px",

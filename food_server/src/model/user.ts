@@ -20,15 +20,16 @@ const userSchema = new Schema({
   },
   avatarUrl: {
     type: String,
+    default:
+      "https://i.pinimg.com/564x/47/d9/a5/47d9a50eab1d03567461f8ab852f067a.jpg",
   },
   isVerified: {
     type: Boolean,
     default: false,
   },
   address: {
-    khoroo: { type: String },
-    duureg: { type: String },
-    noBuilding: { type: Number },
+    type: String,
+    default: "Ulaanbaatar",
   },
   role: {
     type: String,

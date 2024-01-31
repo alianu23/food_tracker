@@ -1,4 +1,5 @@
-import { MapDelivery } from "@/components/pages";
+"use client";
+import { MapDelivery } from "@/components";
 import React from "react";
 
 const Page = () => {

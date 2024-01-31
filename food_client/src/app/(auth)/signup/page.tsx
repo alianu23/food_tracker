@@ -1,5 +1,5 @@
 "use client";
-import { Signup } from "@/components/pages";
+import { Signup } from "@/components";
 import React from "react";
 
 const Page = () => {

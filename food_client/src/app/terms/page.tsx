@@ -1,5 +1,5 @@
 "use client";
-import { Terms } from "@/components/pages";
+import { Terms } from "@/components";
 import React from "react";
 
 const Page = () => {

@@ -10,8 +10,9 @@ import StepTwo from "./step2";
 import StepThree from "./step3";
 import MyAxios from "@/utils/axios";
 
-const Stepper = () => {
+export const Stepper = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -24,6 +25,7 @@ const Stepper = () => {
   };
 
   const sendToEmail = async () => {
+    setLoading(true);
     try {
       const data = await MyAxios.post("/verify/send-email", {
         email: user.email,
@@ -31,6 +33,8 @@ const Stepper = () => {
       handleNext();
     } catch (error) {
       toast.error("Email илгээхэд алдаа гарлаа. Та email-ээ дахин шалгана уу");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,30 +45,17 @@ const Stepper = () => {
     <Container>
       {activeStep === 1 && (
         <StepOne
-          email={user.email}
           sendToEmail={sendToEmail}
           handleChangeInput={handleChangeInput}
+          loading={loading}
         />
       )}
       {activeStep === 2 && (
-        <StepTwo
-          email={user.email}
-          otp={user.otp}
-          handleNext={handleNext}
-          handleChangeInput={handleChangeInput}
-        />
+        <StepTwo email={user.email} handleNext={handleNext} />
       )}
       {activeStep === 3 && (
-        <StepThree
-          password={user.password}
-          email={user.email}
-          re_password={user.re_password}
-          handleNext={handleNext}
-          handleChangeInput={handleChangeInput}
-        />
+        <StepThree email={user.email} handleNext={handleNext} />
       )}
     </Container>
   );
 };
-
-export default Stepper;

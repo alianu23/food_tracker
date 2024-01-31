@@ -1,5 +1,5 @@
 "use client";
-import { MenuComp } from "@/components/pages/";
+import { MenuComp } from "@/components";
 import React from "react";
 
 const Menu = () => {
