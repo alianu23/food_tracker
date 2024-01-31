@@ -1,3 +1,4 @@
+"use client";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -7,11 +8,36 @@ import {
   Typography,
   Button as MuiBtn,
 } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { Button, Input } from "@/components/core";
-import { UserContext } from "@/context/userProvider";
+import { UserContext } from "@/context";
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .max(100, "100 тэмдэгтээс урт байж болохгүй")
+    .required("Email талбарыг заавал бөглөнө үү")
+    .email("Бүртгэлтэй хаяг оруулна уу")
+    .matches(/\w[^A-Z]+@.mail/i, "Заавал gmail байх ёстой"),
+  password: yup
+    .string()
+    .required("Нууц үгийн талбарыг заавал бөглөнө үү")
+    .min(6, "Хамгийн багадаа 6 тэмдэгт байх ёстой"),
+});
 
 export const LoginPage = () => {
-  const { login, handleChangeInput } = useContext(UserContext);
+  const { login, userForm } = useContext(UserContext);
+
+  const formik = useFormik({
+    onSubmit: ({ email, password }) => {
+      login(email, password);
+    },
+    initialValues: { email: "", password: "" },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema,
+  });
 
   const router = useRouter();
 
@@ -41,21 +67,29 @@ export const LoginPage = () => {
         <Stack width={"100%"} display={"flex"} alignItems={"flex-end"}>
           <Input
             label="И-майл"
+            errorText={formik.errors.email}
+            value={formik.values.email}
             desc={"И-майл хаягаа оруулна уу"}
             name="email"
-            onChange={handleChangeInput}
+            onChange={formik.handleChange}
           />
           <Input
             label="Нууц үг"
+            errorText={formik.errors.password}
+            value={formik.values.password}
             name="password"
-            onChange={handleChangeInput}
+            onChange={formik.handleChange}
             desc={"Нууц үгээ оруулна уу"}
             showPassword={true}
           />
           <MuiBtn onClick={() => router.push("/forgotpassword")} sx={{ mb: 8 }}>
             Нууц үг сэргээх
           </MuiBtn>
-          <Button label={"Нэвтрэх"} onClick={login} disabled={false} />
+          <Button
+            label={"Нэвтрэх"}
+            onClick={formik.handleSubmit}
+            disabled={false}
+          />
         </Stack>
         <Typography variant="subtitle2" my={8}>
           Эсвэл

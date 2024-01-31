@@ -2,14 +2,26 @@ import { Request, Response } from "express";
 import User from "../model/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { sendEmail } from "../utils/senEmail";
 
 export const signup = async (req: Request, res: Response) => {
   try {
     const newUser = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newUser.password, salt);
-    await User.create({ ...newUser, password: hashedPassword });
-    res.status(201).json({ message: "Шинэ хэрэглэгч амжилттай бүртгэгдлээ" });
+    const user = await User.create({ ...newUser, password: hashedPassword });
+    const verifyToken = jwt.sign(
+      { email: user.email },
+      process.env.JWT_PRIVATE_KEY as string,
+      {
+        expiresIn: "5m",
+      }
+    );
+    sendEmail({ email: user.email, token: verifyToken });
+    res.status(201).json({
+      message:
+        "Шинэ хэрэглэгч амжилттай бүртгэгдлээ. Таны бүгтгүүлсэн хаягруу баталгаажуулах код явууллаа",
+    });
   } catch (error) {
     res
       .status(400)

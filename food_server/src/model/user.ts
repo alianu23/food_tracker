@@ -21,6 +21,10 @@ const userSchema = new Schema({
   avatarUrl: {
     type: String,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   address: {
     khoroo: { type: String },
     duureg: { type: String },

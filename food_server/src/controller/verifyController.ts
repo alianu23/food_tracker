@@ -1,7 +1,32 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/senEmail";
 import User from "../model/user";
+
+export const verifyUser = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.query;
+    const { email } = jwt.verify(
+      token as string,
+      process.env.JWT_PRIVATE_KEY as string
+    ) as { email: string };
+
+    const findUser = await User.findOne({ email: email });
+
+    if (!findUser) {
+    } else {
+      findUser.isVerified = true;
+    }
+
+    await findUser?.save();
+
+    res.status(200).send(`<h1 style="color: green">Valid Link </h1>`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Server is internal error", error });
+  }
+};
 
 export const sendEmailToUser = async (req: Request, res: Response) => {
   try {
@@ -20,7 +45,7 @@ export const sendEmailToUser = async (req: Request, res: Response) => {
 
     await verUser.save();
 
-    await sendEmail(email, otp, User.name);
+    await sendEmail({ email, otp });
     res.status(201).json({ message: "Email амжилттай илгээгдлээ" });
   } catch (error) {
     res.status(401).send({

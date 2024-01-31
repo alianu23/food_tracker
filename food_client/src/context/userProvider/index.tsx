@@ -1,6 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, createContext, useState } from "react";
+import React, {
+  ChangeEvent,
+  PropsWithChildren,
+  createContext,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
@@ -9,48 +14,49 @@ interface IUser {
   name: string;
   email: string;
   address: string;
-  password: string;
-  token: string;
+  password?: string;
 }
 
-export const UserContext = createContext<{
-  login: () => Promise<void>;
-  signup: () => Promise<void>;
-  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  user: IUser | null;
-}>({
+interface IUserContext {
+  userForm: IUser | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (
+    name: string,
+    password: string,
+    email: string,
+    address: string
+  ) => Promise<void>;
+}
+
+export const UserContext = createContext<IUserContext>({
+  userForm: {
+    name: "Hello",
+    email: "",
+    address: "",
+  },
   login: async () => {},
   signup: async () => {},
-  handleChangeInput: () => {},
-  user: null,
 });
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [userForm, setUserForm] = useState({
-    name: "",
+  const [userForm, setUserForm] = useState<IUser>({
+    name: "hello",
     email: "",
     address: "",
     password: "",
-    re_password: "",
   });
 
   const handleNext = () => {
     router.replace("/");
   };
 
-  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const login = async () => {
+  const login = async (email: string, password: string) => {
     try {
       const data = await MyAxios.post("/auth/login", {
-        email: userForm.email,
-        password: userForm.password,
+        email: email,
+        password: password,
       });
-      setUser(data.data);
 
       await Swal.fire({
         position: "top-end",
@@ -67,35 +73,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signup = async () => {
-    if (
-      !userForm.email ||
-      !userForm.password ||
-      !userForm.name ||
-      !userForm.re_password ||
-      !userForm.address
-    ) {
-      toast.warning(`You must fill all the data`, { autoClose: 3000 });
-      return;
-    }
-
-    if (userForm.re_password !== userForm.password) {
-      toast.error(`Passwords are not same`, { autoClose: 3000 });
-      return;
-    }
-
-    if (!userForm.email.includes("@")) {
-      toast.error("Wrong email, your email address must include @ symbol");
-      return;
-    }
-
+  const signup = async (
+    name: string,
+    email: string,
+    password: string,
+    address: string
+  ) => {
     try {
       const data = await MyAxios.post("/auth/signup", {
-        name: userForm.name,
-        email: userForm.email,
-        address: userForm.address,
-        password: userForm.password,
+        name: name,
+        email: email,
+        address: address,
+        password: password,
       });
+
       await Swal.fire({
         position: "top-end",
         title: "Та амжилттай бүртгүүллээ",
@@ -104,6 +95,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         timer: 1500,
         showConfirmButton: false,
       });
+
       handleNext();
     } catch (error) {
       toast.error("Бүртгүүлэхэд алдаа гарлаа.");
@@ -111,7 +103,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ login, handleChangeInput, signup, user }}>
+    <UserContext.Provider value={{ login, signup, userForm }}>
       {children}
     </UserContext.Provider>
   );

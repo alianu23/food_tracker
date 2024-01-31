@@ -24,6 +24,8 @@ const StepThree = ({
   const router = useRouter();
 
   const handleRePassword = async () => {
+    if (re_password !== password) {
+    }
     try {
       const data = await MyAxios.put("/verify/repassword", {
         email,
