@@ -4,7 +4,7 @@ import {
   verifyOtp,
   resetPassword,
   verifyUser,
-} from "../controller/verifyController";
+} from "../controller/verify";
 
 const router = Router();
 

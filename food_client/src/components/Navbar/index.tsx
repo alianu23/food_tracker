@@ -90,7 +90,7 @@ const Navbar = () => {
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <PersonOutlined />
-            {userForm?.name ? (
+            {!userForm ? (
               <Button
                 onClick={() => router.push("/user")}
                 variant="text"

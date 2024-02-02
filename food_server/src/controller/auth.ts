@@ -1,15 +1,23 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import User from "../model/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { sendEmail } from "../utils/senEmail";
+import MyError from "../utils/myError";
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const newUser = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newUser.password, salt);
     const user = await User.create({ ...newUser, password: hashedPassword });
+    if (!user) {
+      throw new MyError("Invalid user email address", 400);
+    }
     const verifyToken = jwt.sign(
       { email: user.email },
       process.env.JWT_PRIVATE_KEY as string,
@@ -23,23 +31,28 @@ export const signup = async (req: Request, res: Response) => {
         "Шинэ хэрэглэгч амжилттай бүртгэгдлээ. Таны бүгтгүүлсэн хаягруу баталгаажуулах код явууллаа",
     });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error });
+    next(error);
   }
 };
-
-export const login = async (req: Request, res: Response) => {
+// res
+//       .status(400)
+//       .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error });
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, password } = req.body;
     console.log("Login body", req.body);
     const user = await User.findOne({ email }).select("+password");
-    if (!user)
-      return res.status(400).send({ message: "Invalid user email address" });
+    if (!user) {
+      throw new MyError("Invalid user email address", 400);
+    }
     const validPass = bcrypt.compareSync(password, user.password);
-    if (!validPass)
-      return res.status(400).send({ message: "Invalid pass or email" });
-
+    if (!validPass) {
+      throw new MyError("Invalid pass or email", 400);
+    }
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_PRIVATE_KEY as string,
@@ -47,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
     );
     res.status(201).send({ message: "Хэрэглэгч нэвтэрлээ", token });
   } catch (error) {
-    res.status(401).send({ message: `Хэрэглэгч олдсонгүй`, error });
+    next(error);
   }
 };
 

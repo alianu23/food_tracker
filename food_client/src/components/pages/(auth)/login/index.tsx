@@ -18,8 +18,7 @@ const validationSchema = yup.object({
     .string()
     .max(100, "100 тэмдэгтээс урт байж болохгүй")
     .required("Email талбарыг заавал бөглөнө үү")
-    .email("Бүртгэлтэй хаяг оруулна уу")
-    .matches(/\w[^A-Z]+@.mail/i, "Заавал gmail байх ёстой"),
+    .email("Бүртгэлтэй хаяг оруулна уу"),
   password: yup
     .string()
     .required("Нууц үгийн талбарыг заавал бөглөнө үү")

@@ -9,6 +9,7 @@ import React, {
 import { toast } from "react-toastify";
 import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
+import { Flag } from "@mui/icons-material";
 
 interface IUser {
   name: string;
@@ -31,7 +32,7 @@ interface IUserContext {
 
 export const UserContext = createContext<IUserContext>({
   userForm: {
-    name: "Hello",
+    name: "",
     email: "",
     address: "",
   },
@@ -58,8 +59,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   };
 
   const login = async (email: string, password: string) => {
-    setLoading(true);
     try {
+      setLoading(true);
       const data = await MyAxios.post("/auth/login", {
         email: email,
         password: password,
@@ -74,9 +75,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
       handleNext();
     } catch (error) {
-      toast.error(
-        "Нэвтрэхэд алдаа гарлаа. Та email нууц үгээ дахин шалгана уу"
-      );
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -89,6 +88,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     address: string
   ) => {
     try {
+      setLoading(true);
       const data = await MyAxios.post("/auth/signup", {
         name: name,
         email: email,
@@ -101,13 +101,15 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         title: "Та амжилттай бүртгүүллээ",
         text: "E-mail хаягруу баталгаажуулах линк явууллаа",
         icon: "success",
-        timer: 1500,
+        timer: 5000,
         showConfirmButton: false,
       });
 
       handleGoLogin();
     } catch (error) {
-      toast.error("Бүртгүүлэхэд алдаа гарлаа.");
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
