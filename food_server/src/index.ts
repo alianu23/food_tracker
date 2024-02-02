@@ -3,9 +3,9 @@ import color from "colors";
 import "dotenv/config";
 import cors from "cors";
 import { connectDB } from "./config/db";
-import authRouter from "./router/authRouter";
-import userRoute from "./router/userRoute";
-import verifyRoute from "./router/verifyRoute";
+import authRouter from "./router/auth";
+import userRoute from "./router/user";
+import verifyRoute from "./router/verify";
 import errorHandler from "./middleware/errorHandler";
 import category from "./router/category";
 
