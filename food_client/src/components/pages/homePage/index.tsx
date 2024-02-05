@@ -1,4 +1,5 @@
 import { DiscountFoodCard, FoodCard, InfoCard } from "@/components/cards";
+
 import { Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -6,21 +7,6 @@ import React from "react";
 export const Dashboard = () => {
   return (
     <main>
-      {/* <div className="wrapper">
-    <div className="wrapper-top">
-      <h1>Hello</h1>
-    </div>
-
-    <div className="wrapper-bottom">
-      <h1>Hello</h1>
-    </div>
-  </div>
-  <div>
-    <button className="btn btn-primary">click</button>
-    <button className="btn btn-secondary">click</button>
-    <button className="btn btn-success">click</button>
-    <button className="btn btn-error">click</button>
-  </div> */}
       <Grid
         container
         display={"flex"}
