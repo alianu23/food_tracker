@@ -1,11 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, {
-  ChangeEvent,
-  PropsWithChildren,
-  createContext,
-  useState,
-} from "react";
+import React, { PropsWithChildren, createContext, useState } from "react";
 import { toast } from "react-toastify";
 import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
@@ -75,10 +70,16 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
       handleNext();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error("Нэвтгэхэд алдаа гарлаа");
     } finally {
       setLoading(false);
     }
+  };
+
+  const getUserInfo = async () => {
+    try {
+      const user = await MyAxios.get("/api/user/");
+    } catch (error) {}
   };
 
   const signup = async (
@@ -107,7 +108,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
       handleGoLogin();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error("Бүртгүүлэхэд алдаа гарлаа");
     } finally {
       setLoading(false);
     }

@@ -18,7 +18,11 @@ export const verifyUser = async (
       process.env.JWT_PRIVATE_KEY as string
     ) as { email: string };
     const findUser = await User.findOne({ email: email });
-    findUser!.isVerified = true;
+    if (!findUser) {
+      throw new MyError("Not verified", 500);
+    } else {
+    }
+    findUser?.isVerified && true;
     await findUser?.save();
     res.status(200).send(htmlConfirm);
   } catch (error) {

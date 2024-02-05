@@ -12,9 +12,7 @@ export const signup = async (
 ) => {
   try {
     const newUser = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newUser.password, salt);
-    const user = await User.create({ ...newUser, password: hashedPassword });
+    const user = await User.create({ ...newUser });
     if (!user) {
       throw new MyError("Invalid user email address", 400);
     }

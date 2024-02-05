@@ -8,6 +8,8 @@ import userRoute from "./router/user";
 import verifyRoute from "./router/verify";
 import errorHandler from "./middleware/errorHandler";
 import category from "./router/category";
+import food from "./router/food";
+import uploadRoute from "./router/upload";
 
 const app: Application = express();
 const PORT = process.env.PORT;
@@ -20,6 +22,8 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/api", userRoute);
 app.use("/categories", category);
+app.use("/foods", food);
+app.use("/upload", uploadRoute);
 app.use("/verify", verifyRoute);
 
 app.use(errorHandler);
