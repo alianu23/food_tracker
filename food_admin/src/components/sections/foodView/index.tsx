@@ -71,11 +71,11 @@ export default function FoodView() {
   const [openFilter, setOpenFilter] = useState(false);
 
   const handleOpenFilter = () => {
-    setOpenFilter(true);
+    setOpenFilter(() => true);
   };
 
   const handleCloseFilter = () => {
-    setOpenFilter(false);
+    setOpenFilter(() => false);
   };
 
   return (

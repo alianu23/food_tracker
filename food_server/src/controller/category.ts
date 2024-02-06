@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Category from "../model/category";
 import MyError from "../utils/myError";
+import cloudinary from "../utils/cloudinary";
 
 export const createCategory = async (
   req: Request,
@@ -8,7 +9,12 @@ export const createCategory = async (
   next: NextFunction
 ) => {
   try {
-    const newCategory = req.body;
+    const newCategory = { ...req.body };
+    if (req.file) {
+      const { security_url } = cloudinary.uploader.upload(req.file.path);
+      newCategory.image = security_url;
+    }
+
     await Category.create(newCategory);
     res.status(201).json({ message: "Category created successfully" });
   } catch (error) {

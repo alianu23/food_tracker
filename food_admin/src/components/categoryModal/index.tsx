@@ -38,7 +38,13 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function CategoryModal({ handleClose, open }: any) {
+export default function CategoryModal({
+  handleClose,
+  open,
+  handleChange,
+  handleFileChange,
+  handleSave,
+}: any) {
   return (
     <div>
       <Modal
@@ -55,18 +61,28 @@ export default function CategoryModal({ handleClose, open }: any) {
             </MuiButton>
           </Stack>
 
-          <Input label="Name" desc="Write food name" />
+          <Input
+            name="name"
+            label="Name"
+            onChange={handleChange}
+            desc="Write food name"
+          />
 
-          <Input label="Description" desc="Write food Description" />
+          <Input
+            name="description"
+            label="Description"
+            onChange={handleChange}
+            desc="Write food Description"
+          />
           <MuiButton
             component="label"
             variant="contained"
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput type="file" />
+            <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
-          <Button label="нэмэх"></Button>
+          <Button onClick={handleSave} label="нэмэх"></Button>
         </Box>
       </Modal>
     </div>

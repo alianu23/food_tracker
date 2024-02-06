@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import { fDate } from "@/utils/format-time";
 
 // ----------------------------------------------------------------------
-export default function CategoryCard({ categories }: any) {
-  const { cover, title, createdAt } = categories;
+export default function CategoryCard({ category }: any) {
+  const { image, name, createdAt, description } = category;
 
   const renderTitle = (
     <Link
@@ -22,15 +22,15 @@ export default function CategoryCard({ categories }: any) {
         WebkitBoxOrient: "vertical",
       }}
     >
-      {title}
+      {name}
     </Link>
   );
 
   const renderCover = (
     <Box
       component="img"
-      alt={title}
-      src={cover}
+      alt={name}
+      src={image}
       sx={{
         top: 0,
         width: 1,
@@ -53,7 +53,21 @@ export default function CategoryCard({ categories }: any) {
       {fDate(createdAt)}
     </Typography>
   );
-
+  const renderDesc = (
+    <Typography
+      color="inherit"
+      variant="body2"
+      sx={{
+        height: 44,
+        overflow: "hidden",
+        WebkitLineClamp: 2,
+        display: "-webkit-box",
+        WebkitBoxOrient: "vertical",
+      }}
+    >
+      {description}
+    </Typography>
+  );
   return (
     <Grid xs={12} sm={6} md={3}>
       <Card>
@@ -72,6 +86,7 @@ export default function CategoryCard({ categories }: any) {
         >
           {renderDate}
           {renderTitle}
+          {renderDesc}
         </Box>
       </Card>
     </Grid>
