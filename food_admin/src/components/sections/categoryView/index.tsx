@@ -14,9 +14,10 @@ import CategorySearch from "./category-search";
 
 // ----------------------------------------------------------------------
 import { faker } from "@faker-js/faker";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import CategoryModal from "@/components/categoryModal";
 import axios, { AxiosError } from "axios";
+import { CategoryContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
@@ -42,66 +43,15 @@ const CATEGORY_TITLES = [
 // ----------------------------------------------------------------------
 
 export default function CategoryView() {
-  const [openFilter, setOpenFilter] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [file, setFile] = useState<File | null>(null);
-  const [newCategory, setNewCategory] = useState({
-    name: "",
-    description: "",
-    image: File,
-  });
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFile(e.currentTarget.files![0]);
-    console.log("Files ===> ", e.currentTarget.files);
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setNewCategory({ ...newCategory, [name]: value });
-  };
-
-  const handleOpenFilter = () => {
-    setOpenFilter(() => true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(() => false);
-  };
-
-  const createCategory = async () => {
-    try {
-      const formData = new FormData();
-      formData.set("image", file!);
-      formData.set("name", newCategory.name);
-      formData.set("description", newCategory.description);
-      const {
-        data: { category },
-      } = (await axios.post("http://localhost:8080/categories", formData)) as {
-        data: { category: object };
-      };
-    } catch (error) {}
-  };
-
-  const getCategory = async () => {
-    try {
-      const {
-        data: { categories },
-      } = (await axios.get("http://localhost:8080/categories")) as {
-        data: { categories: [] };
-      };
-      console.log("RES", categories);
-      setCategories(categories);
-    } catch (error: any) {
-      alert("Error" + error.message);
-    }
-  };
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
+  const {
+    categories,
+    handleOpenFilter,
+    openFilter,
+    handleCloseFilter,
+    handleChange,
+    handleFileChange,
+    createCategory,
+  } = useContext(CategoryContext);
   return (
     <Container>
       <Stack
@@ -140,7 +90,7 @@ export default function CategoryView() {
 
       <Grid container spacing={3}>
         {categories?.map((category: any) => (
-          <CategoryCard key={category.id} category={category} />
+          <CategoryCard key={category._id} category={category} />
         ))}
       </Grid>
       {openFilter && (

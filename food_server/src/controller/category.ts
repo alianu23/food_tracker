@@ -11,11 +11,12 @@ export const createCategory = async (
   try {
     const newCategory = { ...req.body };
     if (req.file) {
-      const { security_url } = cloudinary.uploader.upload(req.file.path);
-      newCategory.image = security_url;
+      const { secure_url } = await cloudinary.uploader.upload(req.file.path);
+      newCategory.image = secure_url;
     }
 
     await Category.create(newCategory);
+
     res.status(201).json({ message: "Category created successfully" });
   } catch (error) {
     next(error);

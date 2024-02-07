@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
@@ -18,6 +18,7 @@ import { faker } from "@faker-js/faker";
 import { Button } from "@mui/material";
 import Iconify from "@/components/iconify";
 import FoodModal from "@/components/foodModal";
+import { FoodContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
@@ -68,15 +69,15 @@ export const products = [...Array(FOOD_NAME.length)].map((_, index) => {
 // ----------------------------------------------------------------------
 
 export default function FoodView() {
-  const [openFilter, setOpenFilter] = useState(false);
-
-  const handleOpenFilter = () => {
-    setOpenFilter(() => true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(() => false);
-  };
+  const {
+    foods,
+    handleOpenFilter,
+    openFilter,
+    handleCloseFilter,
+    handleChange,
+    handleFileChange,
+    createFood,
+  } = useContext(FoodContext);
 
   return (
     <Container>
@@ -117,14 +118,20 @@ export default function FoodView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {products.map((product: any) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <FoodCard product={product} />
+        {foods.map((food: any) => (
+          <Grid key={food._id} xs={12} sm={6} md={3}>
+            <FoodCard food={food} />
           </Grid>
         ))}
       </Grid>
       {openFilter && (
-        <FoodModal openFilter={openFilter} handleClose={handleCloseFilter} />
+        <FoodModal
+          open={openFilter}
+          handleClose={handleCloseFilter}
+          handleInputChange={handleChange}
+          handleFileChange={handleFileChange}
+          handleSave={createFood}
+        />
       )}
       {/* <ProductCartWidget /> */}
     </Container>
