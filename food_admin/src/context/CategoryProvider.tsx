@@ -8,14 +8,20 @@ import React, {
 } from "react";
 import axios from "@/utils/axios";
 
+interface ICategory {
+  name: string;
+  _id: string;
+}
+
 interface ICategoryContext {
-  categories: string[];
+  categories: ICategory[];
   createCategory: () => Promise<void>;
   handleOpenFilter: () => void;
   handleCloseFilter: () => void;
   openFilter: boolean;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  loading: boolean;
 }
 
 export const CategoryContext = createContext<ICategoryContext>(
@@ -25,6 +31,7 @@ export const CategoryContext = createContext<ICategoryContext>(
 export const CategoryProvider = ({ children }: PropsWithChildren) => {
   const [openFilter, setOpenFilter] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleOpenFilter = () => {
     setOpenFilter(() => true);
   };
@@ -52,6 +59,7 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
 
   const createCategory = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.set("image", file!);
       formData.set("name", newCategory.name);
@@ -63,7 +71,10 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
       };
       handleCloseFilter();
       setRefresh(!refresh);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getCategory = async () => {
@@ -94,6 +105,7 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
         handleChange,
         handleFileChange,
         createCategory,
+        loading,
       }}
     >
       {children}

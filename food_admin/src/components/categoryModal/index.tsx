@@ -44,6 +44,7 @@ export default function CategoryModal({
   handleChange,
   handleFileChange,
   handleSave,
+  loading,
 }: any) {
   return (
     <div>
@@ -82,7 +83,11 @@ export default function CategoryModal({
             Upload file
             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
-          <Button onClick={handleSave} label="нэмэх"></Button>
+          <Button
+            disabled={loading}
+            onClick={handleSave}
+            label="нэмэх"
+          ></Button>
         </Box>
       </Modal>
     </div>

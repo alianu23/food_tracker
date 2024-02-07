@@ -10,17 +10,18 @@ import axios from "@/utils/axios";
 
 interface IFood {
   foods: string[];
-  createFood: () => Promise<void>;
+  createFood: (newFood: any) => Promise<void>;
   handleOpenFilter: () => void;
   handleCloseFilter: () => void;
   openFilter: boolean;
   handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  loading: boolean;
 }
 
 export const FoodContext = createContext<IFood>({} as IFood);
 
 const FoodProvider = ({ children }: PropsWithChildren) => {
+  const [loading, setLoading] = useState(false);
   const [foods, setFoods] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -32,30 +33,21 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
     setOpenFilter(() => false);
   };
   const [file, setFile] = useState<File | null>(null);
-  const [newFood, setNewFood] = useState({
-    name: "",
-    description: "",
-    price: "",
-  });
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
     // console.log("Files ===> ", e.currentTarget.files);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setNewFood({ ...newFood, [name]: value });
-  };
-
-  const createFood = async () => {
+  const createFood = async (newFood: any) => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.set("image", file!);
       formData.set("name", newFood.name);
       formData.set("description", newFood.description);
       formData.set("price", newFood.price);
+      formData.set("category", newFood.category);
       const {
         data: { food },
       } = (await axios.post("/foods", formData)) as {
@@ -63,7 +55,10 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
       };
       handleCloseFilter();
       setRefresh(!refresh);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getFoods = async () => {
@@ -80,7 +75,9 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     getFoods();
-  }, []);
+  }, [refresh]);
+
+  
   return (
     <FoodContext.Provider
       value={{
@@ -88,9 +85,9 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
         handleOpenFilter,
         openFilter,
         handleCloseFilter,
-        handleChange,
         handleFileChange,
         createFood,
+        loading,
       }}
     >
       {children}

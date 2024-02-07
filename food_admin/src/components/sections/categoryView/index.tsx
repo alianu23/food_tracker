@@ -51,6 +51,7 @@ export default function CategoryView() {
     handleChange,
     handleFileChange,
     createCategory,
+    loading,
   } = useContext(CategoryContext);
   return (
     <Container>
@@ -100,6 +101,7 @@ export default function CategoryView() {
           handleChange={handleChange}
           handleFileChange={handleFileChange}
           handleSave={createCategory}
+          loading={loading}
         />
       )}
     </Container>

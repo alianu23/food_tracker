@@ -1,8 +1,13 @@
+"use client";
 import FoodView from "@/components/sections/foodView";
-import React from "react";
+import * as React from "react";
 
 const FoodPage = () => {
-  return <FoodView />;
+  return (
+    <React.Suspense fallback={<p>Loading Food Page...</p>}>
+      <FoodView />
+    </React.Suspense>
+  );
 };
 
 export default FoodPage;

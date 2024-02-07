@@ -32,22 +32,22 @@ export const signup = async (
     next(error);
   }
 };
-// res
-//       .status(400)
-//       .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error });
+
 export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
+    const { userEmail, userPassword } = req.body;
     console.log("Login body", req.body);
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email: userEmail })
+      .select("+password")
+      .lean();
     if (!user) {
       throw new MyError("Invalid user email address", 400);
     }
-    const validPass = bcrypt.compareSync(password, user.password);
+    const validPass = bcrypt.compareSync(userPassword, user.password);
     if (!validPass) {
       throw new MyError("Invalid pass or email", 400);
     }
@@ -56,7 +56,11 @@ export const login = async (
       process.env.JWT_PRIVATE_KEY as string,
       { expiresIn: process.env.JWT_EXPIRE_IN }
     );
-    res.status(201).send({ message: "Хэрэглэгч нэвтэрлээ", token });
+
+    const { password, ...otherParams } = user;
+    res
+      .status(201)
+      .send({ message: "Хэрэглэгч нэвтэрлээ", token, user: otherParams });
   } catch (error) {
     next(error);
   }

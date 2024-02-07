@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Button, Input } from "../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { CategoryContext } from "@/context";
+import { CategoryContext, FoodContext } from "@/context";
 
 const style = {
   position: "absolute" as "absolute",
@@ -48,15 +48,37 @@ const VisuallyHiddenInput = styled("input")({
 export default function FoodModal({
   handleClose,
   open,
-  handleInputChange,
   handleFileChange,
   handleSave,
+  loading,
 }: any) {
-  const [age, setAge] = React.useState("");
   const { categories } = React.useContext(CategoryContext);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+  const [newFood, setNewFood] = React.useState({
+    name: "",
+    description: "",
+    price: 0,
+    category: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    handleChange(name, value);
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    console.log(event.target.name);
+    console.log(event.target.value);
+    const { name, value } = event.target;
+    handleChange(name, value);
+  };
+
+  const handleChange = (name: string, value: string) => {
+    setNewFood({ ...newFood, [name]: value });
+  };
+
+  const handleAdd = () => {
+    handleSave(newFood);
   };
   return (
     <div>
@@ -109,16 +131,17 @@ export default function FoodModal({
               <Select
                 labelId="demo-simple-select-disabled-label"
                 id="demo-simple-select-disabled"
-                value={age}
+                value={newFood.category}
                 label="Катигори"
-                onChange={handleChange}
+                name="category"
+                onChange={handleSelectChange}
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {categories.map((e) => (
-                  <MenuItem key={e._id} value={10}>
-                    {e.name}
+                {categories.map((category) => (
+                  <MenuItem key={category._id} value={category._id}>
+                    {category.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -133,7 +156,7 @@ export default function FoodModal({
             Upload file
             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
-          <Button onClick={handleSave} label="нэмэх"></Button>
+          <Button disabled={loading} onClick={handleAdd} label="нэмэх"></Button>
         </Box>
       </Modal>
     </div>

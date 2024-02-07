@@ -74,9 +74,10 @@ export default function FoodView() {
     handleOpenFilter,
     openFilter,
     handleCloseFilter,
-    handleChange,
+
     handleFileChange,
     createFood,
+    loading,
   } = useContext(FoodContext);
 
   return (
@@ -128,9 +129,9 @@ export default function FoodView() {
         <FoodModal
           open={openFilter}
           handleClose={handleCloseFilter}
-          handleInputChange={handleChange}
           handleFileChange={handleFileChange}
           handleSave={createFood}
+          loading={loading}
         />
       )}
       {/* <ProductCartWidget /> */}

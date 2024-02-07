@@ -1,8 +1,13 @@
+"use client";
 import UserView from "@/components/sections/userView";
-import React from "react";
+import * as React from "react";
 
 const UserPage = () => {
-  return <UserView />;
+  return (
+    <React.Suspense fallback={<p>Loading User Page...</p>}>
+      <UserView />
+    </React.Suspense>
+  );
 };
 
 export default UserPage;
