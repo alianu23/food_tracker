@@ -20,7 +20,7 @@ const userSchema = new Schema({
   avatarUrl: {
     type: String,
     default:
-      "https://i.pinimg.com/564x/47/d9/a5/47d9a50eab1d03567461f8ab852f067a.jpg",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnN8ZW58MHx8MHx8fDA%3D",
   },
   isVerified: {
     type: Boolean,
@@ -34,6 +34,11 @@ const userSchema = new Schema({
     type: String,
     enum: ["Admin", "User", "Moderator"],
     default: "User",
+  },
+  status: {
+    type: String,
+    enum: ["Active", "Banned"],
+    default: "Active",
   },
   otp: {
     type: String,

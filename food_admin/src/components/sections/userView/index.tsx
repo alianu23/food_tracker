@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { sample } from "lodash";
 import { faker } from "@faker-js/faker";
 import Card from "@mui/material/Card";
@@ -22,35 +22,17 @@ import UserTableHead from "./user-table-head";
 import TableEmptyRows from "./table-empty-rows";
 import UserTableToolbar from "./user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "./functions";
+import { UserContext } from "@/context";
+import { Key } from "@mui/icons-material";
+import { UserModal } from "@/components/";
 
 // ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-
-export const users = [...Array(24)].map((_, index) => ({
-  id: faker.string.uuid(),
-  avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  name: faker.person.fullName(),
-  company: faker.company.name(),
-  isVerified: faker.datatype.boolean(),
-  status: sample(["active", "banned"]),
-  role: sample([
-    "Leader",
-    "Hr Manager",
-    "UI Designer",
-    "UX Designer",
-    "UI/UX Designer",
-    "Project Manager",
-    "Backend Developer",
-    "Full Stack Designer",
-    "Front End Developer",
-    "Full Stack Developer",
-  ]),
-}));
 
 // ----------------------------------------------------------------------
 
 export default function UserView() {
+  const { users, handleChange, createUser, loading } = useContext(UserContext);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState("asc");
@@ -63,6 +45,15 @@ export default function UserView() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(() => true);
+  };
+  const handleClose = () => {
+    setOpen(() => false);
+  };
+
   const handleSort = (event: any, id: any) => {
     const isAsc = orderBy === id && order === "asc";
     if (id !== "") {
@@ -73,7 +64,7 @@ export default function UserView() {
 
   const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = users.map((user) => user.name);
       setSelected(newSelecteds);
       return;
     }
@@ -133,6 +124,7 @@ export default function UserView() {
         <Button
           variant="contained"
           color="inherit"
+          onClick={() => handleOpen()}
           startIcon={<Iconify icon="eva:plus-fill" />}
         >
           Шинэ хэрэглэгч
@@ -158,7 +150,7 @@ export default function UserView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: "name", label: "Нэр" },
-                  { id: "company", label: "Имэйл" },
+                  { id: "email", label: "Имэйл" },
                   { id: "role", label: "Эрх" },
                   { id: "isVerified", label: "Баталгаажсан", align: "center" },
                   { id: "status", label: "Төлөв" },
@@ -174,7 +166,7 @@ export default function UserView() {
                       name={row.name}
                       role={row.role}
                       status={row.status}
-                      company={row.company}
+                      email={row.email}
                       avatarUrl={row.avatarUrl}
                       isVerified={row.isVerified}
                       selected={selected.indexOf(row.name) !== -1}
@@ -203,6 +195,15 @@ export default function UserView() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
+      {open && (
+        <UserModal
+          open={open}
+          handleClose={handleClose}
+          handleChange={handleChange}
+          createUser={createUser}
+          loading={loading}
+        />
+      )}
     </Container>
   );
 }

@@ -16,7 +16,7 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import { Button, Input } from "../core";
+import { Button, Input } from "../../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { CategoryContext, FoodContext } from "@/context";
 
@@ -45,7 +45,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FoodModal({
+export function FoodModal({
   handleClose,
   open,
   handleFileChange,

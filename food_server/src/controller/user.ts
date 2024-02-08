@@ -26,7 +26,7 @@ export const getAllUsers = async (
 ) => {
   try {
     const users = await User.find();
-    res.status(200).json({ message: `Found all category`, users });
+    res.status(200).json({ message: `Found all users`, users });
   } catch (error) {
     next(error);
   }

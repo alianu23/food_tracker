@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 import Stack from "@mui/material/Stack";
@@ -13,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 
 import Label from "@/components/label";
 import Iconify from "@/components/iconify";
+import { UserContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,7 @@ export default function UserTableRow({
   selected,
   name,
   avatarUrl,
-  company,
+  email,
   role,
   isVerified,
   status,
@@ -52,14 +53,14 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{email}</TableCell>
 
         <TableCell>{role}</TableCell>
 
         <TableCell align="center">{isVerified ? "Yes" : "No"}</TableCell>
 
         <TableCell>
-          <Label color={(status === "banned" && "error") || "success"}>
+          <Label color={(status === "Banned" && "error") || "success"}>
             {status}
           </Label>
         </TableCell>

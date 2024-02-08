@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -10,6 +10,7 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { UserContext } from "@/context";
 
 export const account = {
   displayName: "Aдмин",
@@ -24,6 +25,7 @@ const MENU_OPTIONS = [
   {
     label: "Нүүр",
     icon: "eva:home-fill",
+    path: "/",
   },
   {
     label: "Профайл",
@@ -38,6 +40,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const { user } = useContext(UserContext);
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event: any) => {
@@ -63,15 +66,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={user?.avatarUrl}
+          alt={user?.name}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {user?.name.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -92,10 +95,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            {user?.email}
           </Typography>
         </Box>
 

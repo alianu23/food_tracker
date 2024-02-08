@@ -12,6 +12,7 @@ export const signup = async (
 ) => {
   try {
     const newUser = req.body;
+    console.log("shine heleglegch", newUser);
     const user = await User.create({ ...newUser });
     if (!user) {
       throw new MyError("Invalid user email address", 400);
@@ -20,7 +21,7 @@ export const signup = async (
       { email: user.email },
       process.env.JWT_PRIVATE_KEY as string,
       {
-        expiresIn: "1d",
+        expiresIn: process.env.JWT_EXPIRE_IN,
       }
     );
     sendEmail({ email: user.email, token: verifyToken });
@@ -40,7 +41,7 @@ export const login = async (
 ) => {
   try {
     const { userEmail, userPassword } = req.body;
-    console.log("Login body", req.body);
+    console.log("Login body", userEmail);
     const user = await User.findOne({ email: userEmail })
       .select("+password")
       .lean();

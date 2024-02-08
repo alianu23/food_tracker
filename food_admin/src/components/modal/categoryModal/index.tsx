@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
-import { Button, Input } from "../core";
+import { Button, Input } from "../../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const style = {
@@ -38,7 +38,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function CategoryModal({
+export function CategoryModal({
   handleClose,
   open,
   handleChange,

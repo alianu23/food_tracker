@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Card from "@mui/material/Card";
@@ -20,43 +20,33 @@ import { bgGradient } from "@/theme/css";
 
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
+import axios from "@/utils/axios";
+import { Input } from "@/components/core";
+import { AuthContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
-
-  const router = useRouter();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClick = () => {
-    router.push("/dashboard");
-  };
+const {handleChange, handleClick} = useContext(AuthContext)
+  
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <Input
+          label="И-майл"
+          desc={"И-майл хаягаа оруулна уу"}
+          name="email"
+          onChange={handleChange}
+        />
 
-        <TextField
+        <Input
+          label="Нууц үг"
           name="password"
-          label="Password"
-          type={showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowPassword(!showPassword)}
-                  edge="end"
-                >
-                  <Iconify
-                    icon={showPassword ? "eva:eye-fill" : "eva:eye-off-fill"}
-                  />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+          onChange={handleChange}
+          desc={"Нууц үгээ оруулна уу"}
+          showPassword={true}
         />
       </Stack>
 

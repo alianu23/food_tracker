@@ -14,7 +14,12 @@ const router = Router();
 router
   .route("/")
   .get(getAllCategory)
-  .post(upload.single("image"), createCategory);
+  .post(
+    authenticate,
+    authorize("superAdmin", "Admin"),
+    upload.single("image"),
+    createCategory
+  );
 router
   .route("/:categoryId")
   .get(getCategory)

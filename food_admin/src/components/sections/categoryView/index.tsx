@@ -15,7 +15,7 @@ import CategorySearch from "./category-search";
 // ----------------------------------------------------------------------
 import { faker } from "@faker-js/faker";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import CategoryModal from "@/components/categoryModal";
+import { CategoryModal } from "@/components/";
 import axios, { AxiosError } from "axios";
 import { CategoryContext } from "@/context";
 

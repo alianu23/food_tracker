@@ -10,8 +10,10 @@ export const createFood = async (
 ) => {
   try {
     const newFood = { ...req.body };
+
     console.log("NewFood", newFood);
     console.log("req file", req.file);
+
     if (req.file) {
       const { secure_url } = await cloudinary.uploader.upload(req.file.path);
       newFood.image = secure_url;
