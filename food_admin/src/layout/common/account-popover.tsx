@@ -10,7 +10,7 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import { UserContext } from "@/context";
+import { AuthContext } from "@/context";
 
 export const account = {
   displayName: "Aдмин",
@@ -40,7 +40,8 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event: any) => {
@@ -51,6 +52,10 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const userOut = () => {
+    logout();
+    handleClose();
+  };
   return (
     <>
       <IconButton
@@ -74,7 +79,8 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {user?.name.charAt(0).toUpperCase()}
+          {user?.name}
+          {/* {user?.name.charAt(1).toUpperCase()} */}
         </Avatar>
       </IconButton>
 
@@ -115,7 +121,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={() => userOut()}
           sx={{ typography: "body2", color: "error.main", py: 1.5 }}
         >
           Гарах

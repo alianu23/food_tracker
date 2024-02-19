@@ -37,10 +37,12 @@ export const sendEmailToUser = async (
 ) => {
   try {
     const { email } = req.body;
+    console.log("sendtouser", email);
     const otp = Math.round(Math.random() * 10000)
       .toString()
       .padStart(4, "0");
-    const verUser = await User.findOne({ email });
+    const verUser = await User.findOne({ email: email });
+    console.log("veruser", verUser);
     if (!verUser) {
       throw new MyError("Хэрэглэгч олдсонгүй", 400);
     }

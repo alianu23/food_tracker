@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+"use client";
 import { faker } from "@faker-js/faker";
 
 import Container from "@mui/material/Container";
@@ -12,12 +12,12 @@ import AppWidgetSummary from "./app-widget-summary";
 
 import { useContext } from "react";
 import { redirect } from "next/navigation";
-import { UserContext } from "@/context";
+import { AuthContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthContext);
 
   if (!user) {
     redirect("/login");

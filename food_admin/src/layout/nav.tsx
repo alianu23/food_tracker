@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -18,18 +18,13 @@ import Scrollbar from "@/components/scrollbar";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
 import Link from "next/link";
-
-export const account = {
-  displayName: "Aдмин",
-  email: "admin@gmail.com",
-  photoURL: "/assets/images/avatars/avatar_25.jpg",
-  role: "admin",
-};
+import { AuthContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }: any) {
   const pathname = usePathname();
+  const { user } = useContext(AuthContext);
 
   const upLg = useResponsive("up", "lg");
 
@@ -53,13 +48,13 @@ export default function Nav({ openNav, onCloseNav }: any) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={user?.avatarUrl} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography variant="subtitle2">{user?.name}</Typography>
 
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {account.role}
+          {user?.role}
         </Typography>
       </Box>
     </Box>
@@ -72,35 +67,6 @@ export default function Nav({ openNav, onCloseNav }: any) {
       ))}
     </Stack>
   );
-
-  // const renderUpgrade = (
-  //   <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-  //     <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-  //       <Box
-  //         component="img"
-  //         src="/assets/illustrations/illustration_avatar.png"
-  //         sx={{ width: 100, position: 'absolute', top: -50 }}
-  //       />
-
-  //       <Box sx={{ textAlign: 'center' }}>
-  //         <Typography variant="h6">Get more?</Typography>
-
-  //         <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
-  //           From only $69
-  //         </Typography>
-  //       </Box>
-
-  //       <Button
-  //         href="https://material-ui.com/store/items/minimal-dashboard/"
-  //         target="_blank"
-  //         variant="contained"
-  //         color="inherit"
-  //       >
-  //         Upgrade to Pro
-  //       </Button>
-  //     </Stack>
-  //   </Box>
-  // );
 
   const renderContent = (
     <Scrollbar

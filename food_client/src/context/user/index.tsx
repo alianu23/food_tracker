@@ -71,7 +71,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
       handleNext();
     } catch (error) {
-      toast.error("Нэвтгэхэд алдаа гарлаа");
+      toast.error("Нэвтэрхэд алдаа гарлаа");
     } finally {
       setLoading(false);
     }

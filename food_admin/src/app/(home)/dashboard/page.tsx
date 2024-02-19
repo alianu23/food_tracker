@@ -1,13 +1,11 @@
 "use client";
-import * as React from "react";
 import AppView from "@/components/sections/appView";
+import React from "react";
 
-const DashboardPage = () => {
+export default function Dashboard() {
   return (
     <React.Suspense fallback={<p>Loading dashboard...</p>}>
       <AppView />
     </React.Suspense>
   );
-};
-
-export default DashboardPage;
+}

@@ -9,7 +9,9 @@ export const createBasket = async (
 ) => {
   try {
     const newBasket = req.body;
+
     await Basket.create(newBasket);
+
     res.status(201).json({ message: "Basket created successfully" });
   } catch (error) {
     next(error);
@@ -43,6 +45,7 @@ export const getAllBasket = async (
       "food",
       "_id name price description"
     );
+
     res.status(200).json({ message: `all Baskets`, baskets });
   } catch (error) {
     next(error);

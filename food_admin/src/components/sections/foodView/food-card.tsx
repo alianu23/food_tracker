@@ -27,7 +27,7 @@ export default function FoodCard({ food }: any) {
     />
   );
 
-  const renderPrice = (
+  const renderDiscountPrice = (
     <Typography variant="subtitle1">
       <Typography
         component="span"
@@ -40,8 +40,12 @@ export default function FoodCard({ food }: any) {
         {food.price}
       </Typography>
       &nbsp;
-      {fCurrency(food.price)}
+      {fCurrency(food.discountPrice)}
     </Typography>
+  );
+
+  const renderPrice = (
+    <Typography variant="subtitle1"> &nbsp;{fCurrency(food.price)}</Typography>
   );
 
   return (
@@ -64,7 +68,7 @@ export default function FoodCard({ food }: any) {
           alignItems="center"
           justifyContent="space-between"
         >
-          {renderPrice}
+          {food.isSale === true ? renderDiscountPrice : renderPrice}
         </Stack>
       </Stack>
     </Card>

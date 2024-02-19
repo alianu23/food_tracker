@@ -162,7 +162,7 @@ export default function UserView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row: any) => (
                     <UserTableRow
-                      key={row.id}
+                      key={row._id}
                       name={row.name}
                       role={row.role}
                       status={row.status}

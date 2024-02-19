@@ -9,8 +9,6 @@ import Typography from "@mui/material/Typography";
 
 import FoodCard from "./food-card";
 import FoodSort from "./food-sort";
-// import ProductFilters from "./product-filters";
-// import ProductCartWidget from "./product-cart-widget";
 
 // ----------------------------------------------------------------------
 import { sample } from "lodash";
@@ -22,36 +20,12 @@ import { FoodContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
-const FOOD_NAME = [
-  "Nike Air Force 1 NDESTRUKT",
-  "Nike Space Hippie 04",
-  "Nike Air Zoom Pegasus 37 A.I.R. Chaz Bear",
-  "Nike Blazer Low 77 Vintage",
-  "Nike ZoomX SuperRep Surge",
-  "Zoom Freak 2",
-  "Nike Air Max Zephyr",
-  "Jordan Delta",
-];
-const FOOD_COLOR = [
-  "#00AB55",
-  "#000000",
-  "#FFFFFF",
-  "#FFC0CB",
-  "#FF4842",
-  "#1890FF",
-  "#94D82D",
-  "#FFC107",
-];
-
-// ----------------------------------------------------------------------
-
 export default function FoodView() {
   const {
     foods,
     handleOpenFilter,
     openFilter,
     handleCloseFilter,
-
     handleFileChange,
     createFood,
     loading,

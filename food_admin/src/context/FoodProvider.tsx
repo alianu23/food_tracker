@@ -9,7 +9,18 @@ import React, {
 import axios from "@/utils/axios";
 
 interface IFood {
-  foods: string[];
+  _id: string;
+  name: string;
+  desc: string;
+  price: number;
+  image: string;
+  discountPrice?: number;
+  category?: string;
+  isSale?: boolean;
+}
+
+interface IFoodContext {
+  foods: IFood[];
   createFood: (newFood: any) => Promise<void>;
   handleOpenFilter: () => void;
   handleCloseFilter: () => void;
@@ -18,7 +29,7 @@ interface IFood {
   loading: boolean;
 }
 
-export const FoodContext = createContext<IFood>({} as IFood);
+export const FoodContext = createContext<IFoodContext>({} as IFoodContext);
 
 const FoodProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(false);
@@ -77,7 +88,6 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
     getFoods();
   }, [refresh]);
 
-  
   return (
     <FoodContext.Provider
       value={{

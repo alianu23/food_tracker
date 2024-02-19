@@ -32,7 +32,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["Admin", "User", "Moderator"],
+    enum: ["superAdmin", "User", "Admin"],
     default: "User",
   },
   status: {
@@ -50,12 +50,12 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre("save", async function async() {
-  if (this.isModified(this.password)) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  }
-});
+// userSchema.pre("save", async function async() {
+//   if (this.isModified(this.password)) {
+//     const salt = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password, salt);
+//   }
+// });
 
 const User = model("User", userSchema);
 

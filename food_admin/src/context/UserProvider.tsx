@@ -1,13 +1,16 @@
 "use client";
 import React, {
   ChangeEvent,
+  Dispatch,
   PropsWithChildren,
+  SetStateAction,
   createContext,
   useEffect,
   useState,
 } from "react";
 import axios from "@/utils/axios";
 import { toast } from "react-toastify";
+
 interface IUsers {
   name: string;
   email: string;
@@ -19,11 +22,9 @@ interface IUsers {
 
 interface IUserContext {
   users: IUsers[];
-  user: any;
   loading: boolean;
   createUser: () => Promise<void>;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  logout: () => void;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -32,34 +33,14 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [user, setUser] = useState([]);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user data:", error);
-      }
-    }
-  }, []);
-
   const [users, setUsers] = useState([]);
+
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
     address: "",
     password: "",
   });
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.reload();
-  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -107,10 +88,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     <UserContext.Provider
       value={{
         users,
-        user,
         loading,
         handleChange,
-        logout,
         createUser,
       }}
     >

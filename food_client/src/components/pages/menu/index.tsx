@@ -6,9 +6,9 @@ import React, { useState } from "react";
 import { foodMenu } from "./layer";
 
 export const MenuComp = () => {
-  const [clicked, setClicked] = useState(false);
-  const handleClick = () => {
-    setClicked(!clicked);
+  const [clicked, setClicked] = useState("");
+  const handleClick = (value: string) => {
+    setClicked(value);
   };
   return (
     <main>
@@ -18,8 +18,8 @@ export const MenuComp = () => {
             <Grid>
               <ButtonMenu
                 label={e.layer}
-                btnType={clicked ? "contained" : "outlined"}
-                onClick={() => handleClick()}
+                btnType={e.layer === clicked ? "contained" : "outlined"}
+                onClick={() => handleClick(e.layer)}
               ></ButtonMenu>
             </Grid>
           ))}

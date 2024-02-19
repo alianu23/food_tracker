@@ -61,7 +61,7 @@ export const FoodCard = () => {
         border: "none",
       }}
     >
-      {foodForm.map((data) => (
+      {foodForm.slice(5).map((data) => (
         <Grid key={data._id} item lg={3}>
           <Card
             sx={{ width: "250px", height: "%" }}
@@ -91,7 +91,7 @@ export const FoodCard = () => {
                   ""
                 )}
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="p">
+                  <Typography gutterBottom variant="h6" component="p">
                     {data.name}
                   </Typography>
                   {data.isSale === true ? (

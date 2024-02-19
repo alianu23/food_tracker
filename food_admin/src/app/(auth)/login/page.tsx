@@ -1,35 +1,65 @@
 "use client";
 
-import { ChangeEvent, useContext, useState } from "react";
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-import Card from "@mui/material/Card";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  Stack,
+  Typography,
+  Link,
+  Button as MuiBtn,
+  Divider,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { alpha, useTheme } from "@mui/material/styles";
-import InputAdornment from "@mui/material/InputAdornment";
 
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import { bgGradient } from "@/theme/css";
 
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
-import axios from "@/utils/axios";
-import { Input } from "@/components/core";
+
+import { Button, Input } from "@/components/core";
 import { AuthContext } from "@/context";
 
 // ----------------------------------------------------------------------
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .max(100, "100 тэмдэгтээс урт байж болохгүй")
+    .required("Email талбарыг заавал бөглөнө үү")
+    .email("Бүртгэлтэй хаяг оруулна уу"),
+  password: yup
+    .string()
+    .required("Нууц үгийн талбарыг заавал бөглөнө үү")
+    .min(6, "Хамгийн багадаа 6 тэмдэгт байх ёстой"),
+});
+
 export default function LoginView() {
   const theme = useTheme();
-const {handleChange, handleClick} = useContext(AuthContext)
-  
+  const router = useRouter();
+  const { login, user } = useContext(AuthContext);
+  console.log("USER", user);
+
+  const formik = useFormik({
+    onSubmit: ({ email, password }) => {
+      login(email, password);
+    },
+    initialValues: { email: "", password: "" },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema,
+  });
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const renderForm = (
     <>
@@ -38,13 +68,17 @@ const {handleChange, handleClick} = useContext(AuthContext)
           label="И-майл"
           desc={"И-майл хаягаа оруулна уу"}
           name="email"
-          onChange={handleChange}
+          errorText={formik.errors.email}
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
 
         <Input
           label="Нууц үг"
           name="password"
-          onChange={handleChange}
+          errorText={formik.errors.password}
+          value={formik.values.password}
+          onChange={formik.handleChange}
           desc={"Нууц үгээ оруулна уу"}
           showPassword={true}
         />
@@ -60,17 +94,7 @@ const {handleChange, handleClick} = useContext(AuthContext)
           Forgot password?
         </Link>
       </Stack>
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
+      <Button label="Login" onClick={formik.handleSubmit} />
     </>
   );
 
@@ -110,7 +134,7 @@ const {handleChange, handleClick} = useContext(AuthContext)
           </Typography>
 
           <Stack direction="row" spacing={2}>
-            <Button
+            <MuiBtn
               fullWidth
               size="large"
               color="inherit"
@@ -118,9 +142,9 @@ const {handleChange, handleClick} = useContext(AuthContext)
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
             >
               <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
+            </MuiBtn>
 
-            <Button
+            <MuiBtn
               fullWidth
               size="large"
               color="inherit"
@@ -128,9 +152,9 @@ const {handleChange, handleClick} = useContext(AuthContext)
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
             >
               <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
+            </MuiBtn>
 
-            <Button
+            <MuiBtn
               fullWidth
               size="large"
               color="inherit"
@@ -138,7 +162,7 @@ const {handleChange, handleClick} = useContext(AuthContext)
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
             >
               <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
+            </MuiBtn>
           </Stack>
 
           <Divider sx={{ my: 3 }}>

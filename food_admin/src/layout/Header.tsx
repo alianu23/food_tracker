@@ -48,6 +48,7 @@ export default function Header({ onOpenNav }: any) {
     <AppBar
       sx={{
         boxShadow: "none",
+        position: "fixed",
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
         ...bgBlur({
