@@ -5,48 +5,47 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import MyAxios from "@/utils/axios";
+import axios from "@/utils/axios";
 import { toast } from "react-toastify";
 
 interface IFood {
+  _id: string;
   name: string;
   desc: string;
   price: number;
   image: string;
   discountPrice?: number;
   category?: string;
+  isSale?: boolean;
 }
 
 interface IFoodContext {
-  foodForm?: Partial<Array<IFood>>;
+  foodForm: IFood[];
 }
 
-export const FoodContext = createContext<IFoodContext>({
-  foodForm: [],
-});
+export const FoodContext = createContext<IFoodContext>({} as IFoodContext);
 
 export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(false);
-  const [foodForm, setFoodForm] = useState<Partial<Array<IFood>>>([]);
+  const [foodForm, setFoodForm] = useState([]);
 
-  const getAllFood = async () => {
+  const getFoods = async () => {
     try {
       const {
         data: { foods },
-      } = await MyAxios.get("/foods");
-      console.log("data", foods);
+      } = await axios.get("/foods");
+
       setFoodForm(foods);
-    } catch (error) {
-      console.log("buh hooliig harhad aldaa garlaa", error);
-      toast.error("Aldaa garlaa clg shalgaarai");
+    } catch (error: any) {
+      toast.error("Error" + error.message);
     }
   };
 
-  console.log("FOODform", foodForm);
-
   useEffect(() => {
-    getAllFood();
+    getFoods();
   }, [refresh]);
+
+  console.log("FOODform", foodForm);
 
   return (
     <FoodContext.Provider value={{ foodForm }}>{children}</FoodContext.Provider>

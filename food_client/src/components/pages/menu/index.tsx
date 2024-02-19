@@ -1,5 +1,5 @@
 import { ButtonMenu } from "@/components";
-import { DiscountFoodCard, FoodCard, InfoCard } from "@/components/cards";
+import { FoodCard, InfoCard } from "@/components/cards";
 import { Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -44,7 +44,7 @@ export const MenuComp = () => {
             Бүгдийг харах
           </Typography>
         </div>
-        <DiscountFoodCard />
+        <FoodCard />
       </Container>
       <Container>
         <div

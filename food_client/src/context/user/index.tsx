@@ -1,6 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { PropsWithChildren, createContext, useState } from "react";
+import React, {
+  PropsWithChildren,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
@@ -15,6 +20,7 @@ interface IUser {
 
 interface IUserContext {
   userForm: IUser | null;
+  user: any;
   login: (email: string, password: string) => Promise<void>;
   signup: (
     name: string,
@@ -25,16 +31,7 @@ interface IUserContext {
   loading: boolean;
 }
 
-export const UserContext = createContext<IUserContext>({
-  userForm: {
-    name: "",
-    email: "",
-    address: "",
-  },
-  login: async () => {},
-  signup: async () => {},
-  loading: false,
-});
+export const UserContext = createContext<IUserContext>({} as IUserContext);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -56,11 +53,15 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const data = await MyAxios.post("/auth/login", {
-        email: email,
-        password: password,
+      const {
+        data: { token, user },
+      } = await MyAxios.post("/auth/login", {
+        userEmail: email,
+        userPassword: password,
       });
-      setUserForm(data.data);
+      console.log("newterlee", token, user);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       await Swal.fire({
         position: "top-end",
         icon: "success",
@@ -76,11 +77,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const getUserInfo = async () => {
-    try {
-      const user = await MyAxios.get("/api/user/");
-    } catch (error) {}
-  };
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
+      }
+    }
+  }, []);
+  console.log("user", user);
 
   const signup = async (
     name: string,
@@ -115,7 +126,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <UserContext.Provider value={{ login, signup, userForm, loading }}>
+    <UserContext.Provider value={{ login, signup, userForm, loading, user }}>
       {children}
     </UserContext.Provider>
   );

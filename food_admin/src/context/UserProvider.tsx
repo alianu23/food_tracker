@@ -32,9 +32,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "")
-  );
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
+      }
+    }
+  }, []);
+
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({
     name: "",

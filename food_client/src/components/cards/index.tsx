@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   Chip,
+  Grid,
   Typography,
 } from "@mui/material";
 import {
@@ -15,35 +16,7 @@ import {
 } from "@mui/icons-material";
 import Image from "next/image";
 import CardModal from "../cardModal";
-
-const foodData = [
-  { id: 1, img: "/foodImg/food1.png", name: "Main pizza", price: "34,800" },
-  { id: 2, img: "/foodImg/food2.png", name: "Food tart", price: "22,800 " },
-  { id: 3, img: "/foodImg/food3.png", name: "Өглөөний хоол", price: "14,800" },
-  { id: 4, img: "/foodImg/food4.png", name: "Зутан шөл", price: "17,800" },
-];
-
-const disFoodData = [
-  {
-    id: 5,
-    img: "/discountFoodImg/dis1.png",
-    name: "Хөнгөн хоол",
-    price: "14,800",
-  },
-  { id: 6, img: "/discountFoodImg/dis2.png", name: "Зайрмаг", price: "4,800 " },
-  {
-    id: 7,
-    img: "/discountFoodImg/dis3.png",
-    name: "Өглөөний хоол",
-    price: "24,800",
-  },
-  {
-    id: 8,
-    img: "/discountFoodImg/dis4.png",
-    name: "Өглөөний хоол",
-    price: "24,800",
-  },
-];
+import { FoodContext } from "@/context";
 
 const InfoData = [
   {
@@ -72,127 +45,95 @@ const InfoData = [
   },
 ];
 
-export const DiscountFoodCard = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        justifyContent: "space-around",
-        gap: 30,
-      }}
-    >
-      {disFoodData.map((data) => (
-        <Card
-          key={data.id}
-          sx={{ width: "100%" }}
-          style={{ border: "none", boxShadow: "none" }}
-        >
-          <CardActionArea>
-            <div style={{ position: "relative" }}>
-              <CardMedia
-                height="100%"
-                image={data.img}
-                component="img"
-                alt="green iguana"
-                onClick={() => handleOpen()}
-              />
-              <Chip
-                label="-20%"
-                sx={{
-                  position: "absolute",
-                  top: 10,
-                  right: 15,
-                  bgcolor: "#18BA51",
-                  color: "white",
-                }}
-              />
-            </div>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {data.name}
-              </Typography>
-              <div style={{ display: "flex", gap: 10 }}>
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#18BA51", fontWeight: 800 }}
-                >
-                  {data.price}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  style={{ textDecoration: "line-through" }}
-                >
-                  {data.price}
-                </Typography>
-              </div>
-            </CardContent>
-          </CardActionArea>
-          {open && (
-            <CardModal
-              handleOpen={handleOpen}
-              handleClose={handleClose}
-              open={open}
-            />
-          )}
-        </Card>
-      ))}
-    </div>
-  );
-};
 export const FoodCard = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { foodForm } = useContext(FoodContext);
   return (
-    <div
+    <Grid
+      container
+      spacing={1}
       style={{
         display: "flex",
         width: "100%",
         justifyContent: "space-around",
-        gap: 30,
         border: "none",
       }}
     >
-      {foodData.map((data) => (
-        <Card
-          key={data.id}
-          sx={{ width: "100%" }}
-          style={{ border: "none", boxShadow: "none" }}
-        >
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="100%"
-              image={data.img}
-              alt="green iguana"
-              onClick={() => handleOpen()}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {data.name}
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{ color: "#18BA51", fontWeight: 800 }}
-              >
-                {data.price}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          {open && (
-            <CardModal
-              handleOpen={handleOpen}
-              handleClose={handleClose}
-              open={open}
-            />
-          )}
-        </Card>
+      {foodForm.map((data) => (
+        <Grid key={data._id} item lg={3}>
+          <Card
+            sx={{ width: "250px", height: "%" }}
+            style={{ border: "none", boxShadow: "none" }}
+          >
+            <CardActionArea>
+              <div style={{ position: "relative" }}>
+                <CardMedia
+                  component="img"
+                  height={150}
+                  image={data.image}
+                  alt="green iguana"
+                  onClick={() => handleOpen()}
+                />
+                {data.isSale === true ? (
+                  <Chip
+                    label="-20%"
+                    sx={{
+                      position: "absolute",
+                      top: 10,
+                      right: 15,
+                      bgcolor: "#18BA51",
+                      color: "white",
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="p">
+                    {data.name}
+                  </Typography>
+                  {data.isSale === true ? (
+                    <div style={{ display: "flex", gap: 7 }}>
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "#18BA51", fontWeight: 800 }}
+                      >
+                        {data.discountPrice}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        style={{ textDecoration: "line-through" }}
+                      >
+                        {data.price}
+                      </Typography>
+                    </div>
+                  ) : (
+                    <div>
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "#18BA51", fontWeight: 800 }}
+                      >
+                        {data.price}
+                      </Typography>
+                    </div>
+                  )}
+                  <div></div>
+                </CardContent>
+              </div>
+            </CardActionArea>
+            {open && (
+              <CardModal
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                open={open}
+              />
+            )}
+          </Card>
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 

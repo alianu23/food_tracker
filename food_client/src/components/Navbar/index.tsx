@@ -18,7 +18,8 @@ const navigations = [
 ];
 
 const Navbar = () => {
-  const { userForm } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  // console.log("navbar", user.name);
 
   const isActive = usePathname();
 
@@ -90,13 +91,13 @@ const Navbar = () => {
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
             <PersonOutlined />
-            {!userForm ? (
+            {user ? (
               <Button
                 onClick={() => router.push("/user")}
                 variant="text"
                 sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
               >
-                Хэрэглэгч
+                {user.name}
               </Button>
             ) : (
               <Button

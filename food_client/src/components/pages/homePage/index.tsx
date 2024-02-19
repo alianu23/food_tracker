@@ -1,4 +1,4 @@
-import { DiscountFoodCard, FoodCard, InfoCard } from "@/components/cards";
+import { FoodCard, InfoCard } from "@/components/cards";
 
 import { Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
@@ -68,7 +68,7 @@ export const Dashboard = () => {
             Бүгдийг харах
           </Typography>
         </div>
-        <DiscountFoodCard />
+        <FoodCard />
       </Container>
       <Container>
         <div
