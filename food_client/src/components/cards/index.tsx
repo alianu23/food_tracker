@@ -45,7 +45,7 @@ const InfoData = [
   },
 ];
 
-export const FoodCard = () => {
+export const FoodCard = ({ category }: any) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -61,7 +61,7 @@ export const FoodCard = () => {
         border: "none",
       }}
     >
-      {foodForm.slice(5).map((data) => (
+      {foodForm.map((data) => (
         <Grid key={data._id} item lg={3}>
           <Card
             sx={{ width: "250px", height: "%" }}

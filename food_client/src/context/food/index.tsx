@@ -45,7 +45,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     getFoods();
   }, [refresh]);
 
-  console.log("FOODform", foodForm);
+  // console.log("FOODform", foodForm);
 
   return (
     <FoodContext.Provider value={{ foodForm }}>{children}</FoodContext.Provider>

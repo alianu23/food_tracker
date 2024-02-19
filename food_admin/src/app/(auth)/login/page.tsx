@@ -43,7 +43,7 @@ export default function LoginView() {
   const theme = useTheme();
   const router = useRouter();
   const { login, user } = useContext(AuthContext);
-  console.log("USER", user);
+  // console.log("USER", user);
 
   const formik = useFormik({
     onSubmit: ({ email, password }) => {

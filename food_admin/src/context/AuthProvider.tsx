@@ -61,11 +61,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       }
     }
     if (storedToken) {
-      try {
-        const parsedToken = JSON.parse(storedToken);
-        setToken(parsedToken);
-      } catch (error) {
-        console.error("Failed to parse token :", error);
+      const isValidJSON = /^[\],:{}\s]*$/.test(
+        storedToken
+          .replace(/\\["\\\/bfnrtu]/g, "@")
+          .replace(
+            /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
+            "]"
+          )
+      );
+      if (isValidJSON) {
+        try {
+          const parsedToken = JSON.parse(storedToken);
+          setToken(parsedToken);
+        } catch (error) {
+          console.error("Failed to parse token :", error);
+        }
+      } else {
+        // console.error("Invalid token data:", storedToken);
       }
     }
   }, []);

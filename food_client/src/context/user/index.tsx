@@ -28,6 +28,7 @@ interface IUserContext {
     email: string,
     address: string
   ) => Promise<void>;
+  logout: () => void;
   loading: boolean;
 }
 
@@ -77,11 +78,12 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState<object | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
+    const storedToken = localStorage.getItem("token");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
@@ -90,8 +92,34 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         console.error("Failed to parse user data:", error);
       }
     }
+    if (storedToken) {
+      const isValidJSON = /^[\],:{}\s]*$/.test(
+        storedToken
+          .replace(/\\["\\\/bfnrtu]/g, "@")
+          .replace(
+            /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
+            "]"
+          )
+      );
+      if (isValidJSON) {
+        try {
+          const parsedToken = JSON.parse(storedToken);
+          setToken(parsedToken);
+        } catch (error) {
+          console.error("Failed to parse token :", error);
+        }
+      } else {
+        // console.error("Invalid token data:", storedToken);
+      }
+    }
   }, []);
-  console.log("user", user);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    setToken(null);
+  };
 
   const signup = async (
     name: string,
@@ -126,7 +154,9 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <UserContext.Provider value={{ login, signup, userForm, loading, user }}>
+    <UserContext.Provider
+      value={{ logout, login, signup, userForm, loading, user }}
+    >
       {children}
     </UserContext.Provider>
   );

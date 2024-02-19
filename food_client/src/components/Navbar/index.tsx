@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button, Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,11 +19,11 @@ const navigations = [
 
 const Navbar = () => {
   const { user } = useContext(UserContext);
-  // console.log("navbar", user.name);
 
   const isActive = usePathname();
 
   const router = useRouter();
+
   return (
     <nav>
       <Container

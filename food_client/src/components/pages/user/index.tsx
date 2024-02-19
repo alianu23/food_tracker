@@ -21,9 +21,11 @@ import Swal from "sweetalert2";
 
 import { Button, Input } from "@/components";
 import { UserContext } from "@/context";
+import { useRouter } from "next/navigation";
 
 export const UserInfo = () => {
-  const { user } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
+  const router = useRouter();
 
   const onClick = () => {
     toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
@@ -31,7 +33,12 @@ export const UserInfo = () => {
     });
   };
 
-  const logout = async () => {
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
+
+  const clicklogout = async () => {
     await Swal.fire({
       position: "center",
       title: "Та системээс гарахдаа итгэлтэй байна уу?",
@@ -39,6 +46,7 @@ export const UserInfo = () => {
       showCancelButton: true,
       confirmButtonText: "Тийм",
       confirmButtonColor: "#D8F3E1",
+      preConfirm: () => handleLogout(),
       cancelButtonText: "Үгүй",
       cancelButtonColor: "#18BA51",
     });
@@ -66,13 +74,13 @@ export const UserInfo = () => {
       >
         <Stack display={"flex"} alignItems={"center"} gap={5} mb={5}>
           <img
-            src={user.avatarUrl}
+            src={user?.avatarUrl}
             width={120}
             height={120}
             style={{ borderRadius: 60 }}
           />
           <Typography variant="h5" fontWeight={600}>
-            {user.name}
+            {user?.name}
           </Typography>
         </Stack>
 
@@ -110,7 +118,7 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <Input label="Таны Нэр" desc={user.name} name="email" />
+            <Input label="Таны Нэр" desc={user?.name} name="email" />
           </Box>
           <Box
             sx={{
@@ -170,7 +178,7 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <Input label="И-майл" desc={user.email} name="email" />
+            <Input label="И-майл" desc={user?.email} name="email" />
           </Box>
 
           <Button onClick={() => onClick()} label={"Хадгалах"} />
@@ -229,7 +237,7 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <MuiBtn onClick={() => logout()} sx={{ color: "black" }}>
+            <MuiBtn onClick={() => clicklogout()} sx={{ color: "black" }}>
               Гарах
             </MuiBtn>
           </Box>
