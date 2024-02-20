@@ -17,6 +17,7 @@ interface IAuthContext {
   login: (email: string, password: string) => void;
   logout: () => void;
   user: any;
+  token: string | null;
 }
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -90,7 +91,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, user }}>
+    <AuthContext.Provider value={{ login, logout, user, token }}>
       {children}
     </AuthContext.Provider>
   );

@@ -3,10 +3,12 @@ import React, {
   ChangeEvent,
   PropsWithChildren,
   createContext,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import axios from "@/utils/axios";
+import { AuthContext } from ".";
 
 interface ICategory {
   name: string;
@@ -29,6 +31,7 @@ export const CategoryContext = createContext<ICategoryContext>(
 );
 
 export const CategoryProvider = ({ children }: PropsWithChildren) => {
+  const { token } = useContext(AuthContext);
   const [openFilter, setOpenFilter] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -66,7 +69,9 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
       formData.set("description", newCategory.description);
       const {
         data: { category },
-      } = (await axios.post("/categories", formData)) as {
+      } = (await axios.post("/categories", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })) as {
         data: { category: object };
       };
       handleCloseFilter();

@@ -44,12 +44,24 @@ const InfoData = [
     desc: "Захиалга бэлтгэлийн явцыг хянах",
   },
 ];
+type Props = {
+  data: {
+    _id: string;
+    name: string;
+    price: number;
+    discountPrice?: number;
+    isSale: undefined | boolean;
+    image: string;
+  };
+};
 
-export const FoodCard = ({ category }: any) => {
+export const FoodCard = ({ data }: Props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { foodForm } = useContext(FoodContext);
+
+  // console.log("DATA from dash", data);
+
   return (
     <Grid
       container
@@ -57,82 +69,74 @@ export const FoodCard = ({ category }: any) => {
       style={{
         display: "flex",
         width: "100%",
-        justifyContent: "space-around",
         border: "none",
       }}
     >
-      {foodForm.map((data) => (
-        <Grid key={data._id} item lg={3}>
-          <Card
-            sx={{ width: "250px", height: "%" }}
-            style={{ border: "none", boxShadow: "none" }}
-          >
-            <CardActionArea>
-              <div style={{ position: "relative" }}>
-                <CardMedia
-                  component="img"
-                  height={150}
-                  image={data.image}
-                  alt="green iguana"
-                  onClick={() => handleOpen()}
-                />
-                {data.isSale === true ? (
-                  <Chip
-                    label="-20%"
-                    sx={{
-                      position: "absolute",
-                      top: 10,
-                      right: 15,
-                      bgcolor: "#18BA51",
-                      color: "white",
-                    }}
-                  />
-                ) : (
-                  ""
-                )}
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="p">
-                    {data.name}
-                  </Typography>
-                  {data.isSale === true ? (
-                    <div style={{ display: "flex", gap: 7 }}>
-                      <Typography
-                        variant="h6"
-                        sx={{ color: "#18BA51", fontWeight: 800 }}
-                      >
-                        {data.discountPrice}
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        style={{ textDecoration: "line-through" }}
-                      >
-                        {data.price}
-                      </Typography>
-                    </div>
-                  ) : (
-                    <div>
-                      <Typography
-                        variant="h6"
-                        sx={{ color: "#18BA51", fontWeight: 800 }}
-                      >
-                        {data.price}
-                      </Typography>
-                    </div>
-                  )}
-                  <div></div>
-                </CardContent>
-              </div>
-            </CardActionArea>
-            {open && (
-              <CardModal
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                open={open}
+      <Grid item lg={3}>
+        <Card
+          sx={{ width: "250px" }}
+          style={{ border: "none", boxShadow: "none" }}
+        >
+          <CardActionArea>
+            <div style={{ position: "relative" }}>
+              <CardMedia
+                sx={{ borderRadius: 2 }}
+                component="img"
+                height={150}
+                image={data?.image}
+                alt="green iguana"
+                onClick={() => handleOpen()}
               />
-            )}
-          </Card>
-        </Grid>
-      ))}
+              {data?.isSale === true ? (
+                <Chip
+                  label="-20%"
+                  sx={{
+                    position: "absolute",
+                    top: 10,
+                    right: 15,
+                    bgcolor: "#18BA51",
+                    color: "white",
+                  }}
+                />
+              ) : (
+                ""
+              )}
+              <CardContent>
+                <Typography gutterBottom variant="h6" component="p">
+                  {data?.name}
+                </Typography>
+                {data?.isSale === true ? (
+                  <div style={{ display: "flex", gap: 7 }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ color: "#18BA51", fontWeight: 800 }}
+                    >
+                      {data?.discountPrice}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      style={{ textDecoration: "line-through" }}
+                    >
+                      {data?.price}
+                    </Typography>
+                  </div>
+                ) : (
+                  <div>
+                    <Typography
+                      variant="h6"
+                      sx={{ color: "#18BA51", fontWeight: 800 }}
+                    >
+                      {data?.price}
+                    </Typography>
+                  </div>
+                )}
+              </CardContent>
+            </div>
+          </CardActionArea>
+        </Card>
+      </Grid>
+
+      {open && <CardModal handleClose={handleClose} open={open} />}
     </Grid>
   );
 };

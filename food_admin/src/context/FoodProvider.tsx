@@ -3,10 +3,12 @@ import React, {
   ChangeEvent,
   PropsWithChildren,
   createContext,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import axios from "@/utils/axios";
+import { AuthContext } from ".";
 
 interface IFood {
   _id: string;
@@ -32,6 +34,7 @@ interface IFoodContext {
 export const FoodContext = createContext<IFoodContext>({} as IFoodContext);
 
 const FoodProvider = ({ children }: PropsWithChildren) => {
+  const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [foods, setFoods] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
@@ -61,7 +64,9 @@ const FoodProvider = ({ children }: PropsWithChildren) => {
       formData.set("category", newFood.category);
       const {
         data: { food },
-      } = (await axios.post("/foods", formData)) as {
+      } = (await axios.post("/foods", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })) as {
         data: { food: object };
       };
       handleCloseFilter();

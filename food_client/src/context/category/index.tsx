@@ -42,7 +42,7 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
     getCategories();
   }, [refresh]);
 
-  console.log("Categories", categories);
+  // console.log("Categories", categories);
 
   return (
     <CategoryContext.Provider value={{ categories }}>

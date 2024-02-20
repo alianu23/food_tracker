@@ -34,6 +34,7 @@ export const getFood = async (
   try {
     const { foodId } = req.params;
     const food = await Food.findById(foodId);
+
     if (!food) {
       throw new MyError(`Cannot found ${foodId}-id food table `, 400);
     }

@@ -15,39 +15,45 @@ interface IFood {
   price: number;
   image: string;
   discountPrice?: number;
-  category?: string;
-  isSale?: boolean;
+  category: object;
+  isSale: boolean;
 }
 
 interface IFoodContext {
-  foodForm: IFood[];
+  foods: IFood[];
+  getFoods: () => Promise<void>;
+  isLoading: boolean;
 }
 
 export const FoodContext = createContext<IFoodContext>({} as IFoodContext);
 
 export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(false);
-  const [foodForm, setFoodForm] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getFoods = async () => {
     try {
+      // setIsLoading(true);
       const {
         data: { foods },
       } = await axios.get("/foods");
-
-      setFoodForm(foods);
+      // console.log("FOODS =>", foods);
+      setFoods(foods);
+      setIsLoading(false);
     } catch (error: any) {
       toast.error("Error" + error.message);
     }
   };
+  // console.log("FOODform", foods);
 
   useEffect(() => {
     getFoods();
   }, [refresh]);
 
-  // console.log("FOODform", foodForm);
-
   return (
-    <FoodContext.Provider value={{ foodForm }}>{children}</FoodContext.Provider>
+    <FoodContext.Provider value={{ foods, getFoods, isLoading }}>
+      {children}
+    </FoodContext.Provider>
   );
 };

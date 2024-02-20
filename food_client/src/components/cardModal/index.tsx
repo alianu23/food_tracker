@@ -17,13 +17,18 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 750,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "2px solid #ffff",
   borderRadius: 5,
   boxShadow: 22,
   p: 4,
 };
 
-export default function CardModal({ handleClose, handleOpen, open }: any) {
+interface ICardModal {
+  handleClose: () => void;
+  open: boolean;
+}
+
+export default function CardModal({ handleClose, open }: ICardModal) {
   return (
     <div>
       <Modal
