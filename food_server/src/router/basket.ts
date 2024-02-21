@@ -1,14 +1,13 @@
 import { Router } from "express";
-import {
-  createBasket,
-  deleteBasket,
-  getAllBasket,
-  getBasket,
-} from "../controller/basket";
+import { createBasket, deleteBasket, getBasket } from "../controller/basket";
+import { authenticate } from "../middleware/auth";
 
 const router = Router();
 
-router.route("/").get(getAllBasket).post(createBasket);
-router.route("/:basketId").get(getBasket).delete(deleteBasket);
+router
+  .route("/")
+  .get(authenticate, getBasket)
+  .post(authenticate, createBasket)
+  .delete(deleteBasket);
 
 export default router;

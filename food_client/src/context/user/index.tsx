@@ -30,6 +30,7 @@ interface IUserContext {
   ) => Promise<void>;
   logout: () => void;
   loading: boolean;
+  token: string | null;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -61,7 +62,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         userPassword: password,
       });
       console.log("newterlee", token, user);
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", JSON.stringify(token));
       localStorage.setItem("user", JSON.stringify(user));
       await Swal.fire({
         position: "top-end",
@@ -155,7 +156,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <UserContext.Provider
-      value={{ logout, login, signup, userForm, loading, user }}
+      value={{ logout, login, signup, userForm, loading, user, token }}
     >
       {children}
     </UserContext.Provider>

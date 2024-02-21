@@ -111,13 +111,13 @@ export const FoodCard = ({ data }: Props) => {
                       variant="h6"
                       sx={{ color: "#18BA51", fontWeight: 800 }}
                     >
-                      {data?.discountPrice}
+                      {data?.discountPrice}₮
                     </Typography>
                     <Typography
                       variant="h6"
                       style={{ textDecoration: "line-through" }}
                     >
-                      {data?.price}
+                      {data?.price}₮
                     </Typography>
                   </div>
                 ) : (
@@ -126,7 +126,7 @@ export const FoodCard = ({ data }: Props) => {
                       variant="h6"
                       sx={{ color: "#18BA51", fontWeight: 800 }}
                     >
-                      {data?.price}
+                      {data?.price}₮
                     </Typography>
                   </div>
                 )}
@@ -136,7 +136,7 @@ export const FoodCard = ({ data }: Props) => {
         </Card>
       </Grid>
 
-      {open && <CardModal handleClose={handleClose} open={open} />}
+      {open && <CardModal handleClose={handleClose} open={open} food={data} />}
     </Grid>
   );
 };

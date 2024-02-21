@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Drawer,
   Box,
@@ -8,6 +8,8 @@ import {
   Button as MuiButton,
   Container,
   Grid,
+  Stack,
+  Badge,
 } from "@mui/material";
 import {
   Menu,
@@ -20,8 +22,11 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/core";
 import { useRouter } from "next/navigation";
+import { BasketContext } from "@/context";
+import { BasketFoods } from "./basketFoods";
 
 export const BasketDrawer = () => {
+  const { baskets, loading } = useContext(BasketContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const router = useRouter();
   const changeOnclick = () => {
@@ -38,7 +43,9 @@ export const BasketDrawer = () => {
         aria-label="logo"
         onClick={() => setIsDrawerOpen(true)}
       >
-        <ShoppingBasketOutlined />
+        <Badge badgeContent={baskets?.foods.length} color="primary">
+          <ShoppingBasketOutlined />
+        </Badge>
         <Typography
           sx={{ color: "black", fontWeight: 800, ml: 2, fontSize: 20 }}
         >
@@ -84,122 +91,37 @@ export const BasketDrawer = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid container p={2} py={6}>
-            <Grid item xs={6}>
-              <Image
-                alt="basketFood img"
-                width={250}
-                height={170}
-                style={{}}
-                src="/foodImg/modalPng.png"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <Typography variant="h5" fontWeight={600} component="h2">
-                    Main Pizza
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight={500}
-                    py={2}
-                    sx={{ color: "#18BA51" }}
-                  >
-                    34,800₮
-                  </Typography>
-                </div>
-                <Close />
-              </div>
+          <Stack>
+            <BasketFoods foods={baskets?.foods} />
 
-              <Typography sx={{ display: "flex", textAlign: "left" }}>
-                Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр
-              </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "left",
-                }}
-              >
-                <MuiButton>
-                  <Remove
-                    sx={{
-                      bgcolor: "#18BA51",
-                      color: "white",
-                      width: "70%",
-                      height: "30px",
-                      py: 1,
-                      borderRadius: 2,
-                    }}
-                  />
-                </MuiButton>
-                <input
-                  type="text"
-                  placeholder="1"
-                  style={{
-                    border: "none",
-                    textAlign: "center",
-                    paddingTop: 4,
-                    paddingBottom: 4,
-                    fontWeight: 600,
-                    width: "20%",
-                    fontSize: 16,
-                  }}
-                />
-                <MuiButton>
-                  <Add
-                    sx={{
-                      bgcolor: "#18BA51",
-                      color: "white",
-                      width: "70%",
-                      height: "30px",
-                      py: 1,
-                      borderRadius: 2,
-                    }}
-                  />
-                </MuiButton>
-              </div>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            position={"absolute"}
-            bottom={0}
-            boxShadow={6}
-            py={10}
-            px={5}
-          >
             <Grid
-              item
-              xs={6}
-              display={"flex"}
-              flexDirection={"column"}
-              alignItems={"flex-start"}
-              pl={5}
+              container
+              position={"absolute"}
+              bottom={0}
+              boxShadow={6}
+              py={10}
+              px={5}
             >
-              <Typography variant="body1" component="h6">
-                Нийт төлөх дүн
-              </Typography>
-              <Typography variant="body1" fontWeight={600} component="h6">
-                34,800₮
-              </Typography>
+              <Grid
+                item
+                xs={6}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"flex-start"}
+                pl={5}
+              >
+                <Typography variant="body1" component="h6">
+                  Нийт төлөх дүн
+                </Typography>
+                <Typography variant="body1" fontWeight={600} component="h6">
+                  {baskets?.totalPrice}₮
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Button label={"Захиалах"} onClick={changeOnclick} />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Button label={"Захиалах"} onClick={changeOnclick} />
-            </Grid>
-          </Grid>
+          </Stack>
         </Box>
       </Drawer>
     </>

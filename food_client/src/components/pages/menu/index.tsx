@@ -9,13 +9,11 @@ import { FoodContext } from "@/context";
 export const MenuComp = () => {
   const { categories } = useContext(CategoryContext);
   const { foods, getFoods } = useContext(FoodContext);
-  const [clicked, setClicked] = useState("");
+  const [clicked, setClicked] = useState("65bccaed36ba3cd18e2fd765");
   const [changedFood, setChangedFood] = useState<any>();
-  const [checkFoodId, setCheckFoodId] = useState("");
+  const [checkFoodId, setCheckFoodId] = useState<any>([]);
 
-  const handleCheckFoodId = (value: string) => {
-    setCheckFoodId(value);
-  };
+  const handleCheckFoodId = () => {};
 
   const handleClick = (value: string) => {
     setClicked(value);
@@ -44,7 +42,11 @@ export const MenuComp = () => {
             </Grid>
           ))}
           <Grid item sx={{ display: "flex" }}>
-            <ButtonMenu label="All" btnType="outlined" />
+            <ButtonMenu
+              label="All"
+              // onClick={() => handleCheckFoodId()}
+              btnType="outlined"
+            />
             <ButtonMenu label="Sale" btnType="outlined" />
           </Grid>
         </Grid>

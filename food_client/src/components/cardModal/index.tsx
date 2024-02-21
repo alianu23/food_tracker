@@ -9,6 +9,8 @@ import {
 import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
 import { Button } from "../core";
+import { FoodContext } from "@/context";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute" as "absolute",
@@ -26,9 +28,20 @@ const style = {
 interface ICardModal {
   handleClose: () => void;
   open: boolean;
+  food: any;
 }
 
-export default function CardModal({ handleClose, open }: ICardModal) {
+export default function CardModal({ handleClose, open, food }: ICardModal) {
+  const [saveData, setSaveData] = React.useState({ ...food });
+  const router = useRouter();
+
+  const HandleSave = () => {
+    setSaveData({ ...food });
+    handleClose();
+  };
+
+  console.log("SavedData =", saveData);
+
   return (
     <div>
       <Modal
@@ -40,12 +53,10 @@ export default function CardModal({ handleClose, open }: ICardModal) {
         <Box sx={style}>
           <Grid container display={"flex"} flexDirection={"row"} gap={10}>
             <Grid item xs={5}>
-              <Image
-                alt=""
-                width={250}
-                height={250}
-                src="/foodImg/modalPng.png"
-                style={{ width: "100%", height: "100%" }}
+              <img
+                alt="food image"
+                src={food.image}
+                style={{ width: "100%", height: "330px" }}
               />
             </Grid>
 
@@ -74,13 +85,13 @@ export default function CardModal({ handleClose, open }: ICardModal) {
                     component="h2"
                     mt={10}
                   >
-                    Main Pizza
+                    {food.name}
                   </Typography>
                   <Typography
                     id="modal-modal-description"
                     sx={{ color: "#18BA51" }}
                   >
-                    34,800
+                    {food.price}₮
                   </Typography>
                 </div>
                 <div>
@@ -99,7 +110,7 @@ export default function CardModal({ handleClose, open }: ICardModal) {
                     p={3}
                     borderRadius={4}
                   >
-                    Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр
+                    {food.description}
                   </Typography>
                 </div>
                 <div>
@@ -151,7 +162,7 @@ export default function CardModal({ handleClose, open }: ICardModal) {
                   </div>
                 </div>
 
-                <Button label={"Сагслах"} onClick={handleClose} />
+                <Button label={"Сагслах"} onClick={() => HandleSave()} />
               </Grid>
             </Grid>
           </Grid>

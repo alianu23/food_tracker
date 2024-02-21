@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Basket from "../model/basket";
 import MyError from "../utils/myError";
+import { IReq } from "../utils/interface";
 
 export const createBasket = async (
   req: Request,
@@ -18,35 +19,23 @@ export const createBasket = async (
   }
 };
 export const getBasket = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { basketId } = req.params;
-    const basket = await Basket.findById(basketId);
+    // const { userId } = req.params;
+    // console.log("u", userId);
+    const basket = await Basket.findOne({
+      user: req.user._id,
+    }).populate("foods.food");
+    console.log("f", basket);
     if (!basket) {
-      throw new MyError(`Cannot found ${basketId}-id Basket table `, 400);
+      throw new MyError(`Cannot found ${req.user._id}-id Basket table `, 400);
     }
     res
       .status(200)
-      .json({ message: `Found this ${basketId}-id Basket`, basket });
-  } catch (error) {
-    next(error);
-  }
-};
-export const getAllBasket = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const baskets = await Basket.find().populate(
-      "food",
-      "_id name price description"
-    );
-
-    res.status(200).json({ message: `all Baskets`, baskets });
+      .json({ message: `Found this ${req.user._id}-id Basket`, basket });
   } catch (error) {
     next(error);
   }
