@@ -62,7 +62,7 @@ const Navbar = () => {
               key={i}
               href={navigation.path}
             >
-              <Button sx={{ color: "black", fontWeight: 800, fontSize: 20 }}>
+              <Button sx={{ color: "black", fontWeight: 600, fontSize: 16 }}>
                 {navigation.name}
               </Button>
             </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
               <Button
                 onClick={() => router.push("/user")}
                 variant="text"
-                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+                sx={{ color: "black", fontWeight: 800, fontSize: 16 }}
               >
                 {user.name}
               </Button>
@@ -103,7 +103,7 @@ const Navbar = () => {
               <Button
                 onClick={() => router.push("/login")}
                 variant="text"
-                sx={{ color: "black", fontWeight: 800, fontSize: 20 }}
+                sx={{ color: "black", fontWeight: 800, fontSize: 16 }}
               >
                 нэвтрэх
               </Button>

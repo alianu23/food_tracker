@@ -26,11 +26,19 @@ import { BasketContext } from "@/context";
 import { BasketFoods } from "./basketFoods";
 
 export const BasketDrawer = () => {
-  const { baskets, loading } = useContext(BasketContext);
+  const { baskets, loading, deleteBasket } = useContext(BasketContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const router = useRouter();
   const changeOnclick = () => {
     router.push("/order"), setIsDrawerOpen(false);
+  };
+
+  const sum = baskets.map(({ food }) => food.price).reduce((a, b) => a + b, 0);
+
+  const food = baskets.map(({ food }) => food);
+
+  const handleDelete = () => {
+    deleteBasket(food);
   };
 
   return (
@@ -43,11 +51,11 @@ export const BasketDrawer = () => {
         aria-label="logo"
         onClick={() => setIsDrawerOpen(true)}
       >
-        <Badge badgeContent={baskets?.foods.length} color="primary">
+        <Badge badgeContent={baskets?.length} color="primary">
           <ShoppingBasketOutlined />
         </Badge>
         <Typography
-          sx={{ color: "black", fontWeight: 800, ml: 2, fontSize: 20 }}
+          sx={{ color: "black", fontWeight: 800, ml: 2, fontSize: 16 }}
         >
           Сагс
         </Typography>
@@ -91,37 +99,29 @@ export const BasketDrawer = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Stack>
-            <BasketFoods foods={baskets?.foods} />
 
+          <BasketFoods foods={baskets} handleDelete={handleDelete} />
+
+          <Grid container bottom={0} boxShadow={6} py={10} px={5}>
             <Grid
-              container
-              position={"absolute"}
-              bottom={0}
-              boxShadow={6}
-              py={10}
-              px={5}
+              item
+              xs={6}
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"flex-start"}
+              pl={5}
             >
-              <Grid
-                item
-                xs={6}
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"flex-start"}
-                pl={5}
-              >
-                <Typography variant="body1" component="h6">
-                  Нийт төлөх дүн
-                </Typography>
-                <Typography variant="body1" fontWeight={600} component="h6">
-                  {baskets?.totalPrice}₮
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Button label={"Захиалах"} onClick={changeOnclick} />
-              </Grid>
+              <Typography variant="body1" component="h6">
+                Нийт төлөх дүн
+              </Typography>
+              <Typography variant="body1" fontWeight={600} component="h6">
+                {sum}₮
+              </Typography>
             </Grid>
-          </Stack>
+            <Grid item xs={6}>
+              <Button label={"Захиалах"} onClick={changeOnclick} />
+            </Grid>
+          </Grid>
         </Box>
       </Drawer>
     </>

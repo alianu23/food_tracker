@@ -84,7 +84,7 @@ export const FoodCard = ({ data }: Props) => {
                 component="img"
                 height={150}
                 image={data?.image}
-                alt="green iguana"
+                alt="food img"
                 onClick={() => handleOpen()}
               />
               {data?.isSale === true ? (
@@ -160,7 +160,7 @@ export const InfoCard = () => {
             {data.icon}
             <Typography
               gutterBottom
-              variant="h5"
+              variant="h6"
               sx={{ fontWeight: 600 }}
               component="div"
             >

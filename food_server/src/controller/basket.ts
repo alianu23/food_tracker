@@ -41,20 +41,40 @@ export const getBasket = async (
   }
 };
 
+export const updateBasket = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { userId, foodId, count } = req.body;
+    const basket = await Basket.findOne({ user: userId });
+    console.log("basket", userId);
+    basket?.foods.push({ food: foodId, count: count });
+    await basket?.save();
+    res.status(200).json({ message: "successfully updated basket" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteBasket = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { basketId } = req.params;
-    const basket = await Basket.findByIdAndDelete(basketId);
-    if (!basket) {
-      throw new MyError(`Cannot found ${basketId}-id Basket table `, 400);
-    }
+    const { userId, foodId } = req.body;
+    const basket = await Basket.findOne({ user: userId });
+    basket?.foods.slice(
+      basket.foods.indexOf(
+        basket.foods.filter((item) => item.food == foodId)[0]
+      )
+    );
+    await basket?.save();
     res
       .status(200)
-      .json({ message: `Deleted this ${basketId}-id Basket`, basket });
+      .json({ message: `Deleted this ${foodId}-id food on basket` });
   } catch (error) {
     next(error);
   }

@@ -5,11 +5,12 @@ import {
   Typography,
   Modal,
   Grid,
+  Stack,
 } from "@mui/material";
 import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
 import { Button } from "../core";
-import { FoodContext } from "@/context";
+import { BasketContext, FoodContext } from "@/context";
 import { useRouter } from "next/navigation";
 
 const style = {
@@ -32,18 +33,27 @@ interface ICardModal {
 }
 
 export default function CardModal({ handleClose, open, food }: ICardModal) {
-  const [saveData, setSaveData] = React.useState({ ...food });
-  const router = useRouter();
+  const { addBasket, loading } = React.useContext(BasketContext);
 
-  const HandleSave = () => {
-    setSaveData({ ...food });
+  const HandleSendFood = () => {
+    addBasket(food);
     handleClose();
   };
 
-  console.log("SavedData =", saveData);
+  // const [saveData, setSaveData] = React.useState({
+  //   ...food,
+  // });
+  const router = useRouter();
+
+  // const HandleSave = () => {
+  //   setSaveData({ ...food });
+  //   handleClose();
+  // };
+
+  // console.log("SavedData =", saveData);
 
   return (
-    <div>
+    <Stack>
       <Modal
         open={open}
         onClose={handleClose}
@@ -56,7 +66,7 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
               <img
                 alt="food image"
                 src={food.image}
-                style={{ width: "100%", height: "330px" }}
+                style={{ width: "100%", height: "100%" }}
               />
             </Grid>
 
@@ -77,24 +87,24 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                 </MuiButton>
               </Grid>
               <Grid item xs={12}>
-                <div>
+                <Stack>
                   <Typography
                     id="modal-modal-title"
                     variant="h5"
                     fontWeight={600}
                     component="h2"
-                    mt={10}
                   >
                     {food.name}
                   </Typography>
                   <Typography
+                    my={2}
                     id="modal-modal-description"
                     sx={{ color: "#18BA51" }}
                   >
                     {food.price}₮
                   </Typography>
-                </div>
-                <div>
+                </Stack>
+                <Stack>
                   <Typography
                     id="modal-modal-title"
                     variant="h6"
@@ -109,11 +119,12 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                     bgcolor={"#F6F6F6"}
                     p={3}
                     borderRadius={4}
+                    my={2}
                   >
                     {food.description}
                   </Typography>
-                </div>
-                <div>
+                </Stack>
+                <Stack>
                   <Typography
                     id="modal-modal-title"
                     variant="h6"
@@ -122,7 +133,7 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                   >
                     Тоо
                   </Typography>
-                  <div>
+                  <Box>
                     <MuiButton>
                       <Remove
                         sx={{
@@ -159,15 +170,19 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                         }}
                       />
                     </MuiButton>
-                  </div>
-                </div>
+                  </Box>
+                </Stack>
 
-                <Button label={"Сагслах"} onClick={() => HandleSave()} />
+                <Button
+                  label={"Сагслах"}
+                  disabled={loading}
+                  onClick={() => HandleSendFood()}
+                />
               </Grid>
             </Grid>
           </Grid>
         </Box>
       </Modal>
-    </div>
+    </Stack>
   );
 }

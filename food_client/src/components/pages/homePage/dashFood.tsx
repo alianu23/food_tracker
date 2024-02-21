@@ -24,10 +24,6 @@ export const DashFood = ({ foods, catName, id }: Props) => {
   const [catFoods, setCatFoods] = useState<any>();
   const router = useRouter();
 
-  useEffect(() => {
-    setCatFoods(foods.filter((food: any) => food?.category._id == id));
-  }, [id]);
-
   //   console.log("CatFood", catFoods);
 
   return (
@@ -63,11 +59,13 @@ export const DashFood = ({ foods, catName, id }: Props) => {
         </Muibtn>
       </Stack>
       <Grid container>
-        {catFoods?.map((food: any) => (
-          <Grid item xs={3} key={food._id}>
-            <FoodCard data={food} />
-          </Grid>
-        ))}
+        {foods
+          .filter((food: any) => food?.category._id == id)
+          .map((food: any) => (
+            <Grid item xs={3} key={food._id}>
+              <FoodCard data={food} />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );

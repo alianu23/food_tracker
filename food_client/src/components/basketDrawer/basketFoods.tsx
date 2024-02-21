@@ -1,6 +1,7 @@
+import { BasketContext } from "@/context";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Grid, Typography, Button as MuiButton } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 
 type Props = {
   img: string;
@@ -11,7 +12,8 @@ type Props = {
   count: number;
 };
 
-export const BasketFoods = ({ foods }: any) => {
+export const BasketFoods = ({ foods, handleDelete }: any) => {
+  // const { deleteBasket } = useContext(BasketContext);
   return (
     <>
       {foods.map((food: any) => (
@@ -52,7 +54,9 @@ export const BasketFoods = ({ foods }: any) => {
                   {food.food.price}₮
                 </Typography>
               </div>
-              <Close />
+              <MuiButton onClick={handleDelete}>
+                <Close />
+              </MuiButton>
             </div>
 
             <Typography sx={{ display: "flex", textAlign: "left" }}>
