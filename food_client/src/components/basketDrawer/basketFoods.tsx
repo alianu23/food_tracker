@@ -19,6 +19,7 @@ export const BasketFoods = ({ foods }: any) => {
   const handleDelete = (value: any) => {
     deleteBasket(value);
   };
+
   return (
     <>
       {foods.map((food: any) => (
@@ -50,13 +51,15 @@ export const BasketFoods = ({ foods }: any) => {
                 <Typography variant="h5" fontWeight={600} component="h2">
                   {food.food.name}
                 </Typography>
+
                 <Typography
                   variant="h6"
                   fontWeight={500}
                   py={2}
                   sx={{ color: "#18BA51" }}
                 >
-                  {food.food.price}₮
+                  {food.food.price} * {food.count} ={" "}
+                  {food.food.price * food.count}₮
                 </Typography>
               </div>
               <MuiButton onClick={() => handleDelete(food.food._id)}>

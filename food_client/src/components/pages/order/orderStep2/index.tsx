@@ -27,7 +27,7 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
         </div>
       </Box>
 
-      <Stack my={10} boxShadow={3} gap={10} p={5} borderRadius={2}>
+      <Stack my={5} boxShadow={3} gap={10} p={5} borderRadius={2}>
         {baskets.map((food: any) => (
           <Box
             display={"flex"}
@@ -39,7 +39,7 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
           >
             <img
               alt="basketFood img"
-              width={250}
+              width={200}
               height={170}
               style={{}}
               src={food.food.image}
@@ -61,7 +61,8 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
                 py={2}
                 sx={{ color: "#18BA51" }}
               >
-                {food.food.price}₮
+                {food.food.price}₮ * {food.count} ={" "}
+                {food.food.price * food.count}
               </Typography>
               <Typography sx={{ display: "flex", textAlign: "left" }}>
                 {food.food.description}

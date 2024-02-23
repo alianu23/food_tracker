@@ -12,7 +12,7 @@ import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { UserContext } from ".";
-
+import Swal from "sweetalert2";
 interface IAuthContext {
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -24,29 +24,40 @@ export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<object | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  const handleNext = () => {
+    router.replace("/");
+  };
+
   const login = async (email: string, password: string) => {
     try {
+      setLoading(true);
       const {
-        data: { user, token },
-      } = (await axios.post("/auth/login", {
+        data: { token, user },
+      } = await axios.post("/auth/login", {
         userEmail: email,
         userPassword: password,
-      })) as {
-        data: { token: string; user: any };
-      };
-
-      // console.log(token, user);
+      });
+      console.log("newterlee", token, user);
       localStorage.setItem("token", JSON.stringify(token));
       localStorage.setItem("user", JSON.stringify(user));
+      await Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Амжилттай нэвтэрлээ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       setUser(user);
       setToken(token);
-      router.push("/", { scroll: false });
+      handleNext();
     } catch (error) {
-      console.log("error", error);
-      toast.error("Нэвтрэхэд алдаа гарлаа. Та ахин оролдоно уу");
+      toast.error("Нэвтэрхэд алдаа гарлаа");
+    } finally {
+      setLoading(false);
     }
   };
 

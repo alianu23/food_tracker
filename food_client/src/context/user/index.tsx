@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [userForm, setUserForm] = useState<IUser>({
-    name: "hello",
+    name: "",
     email: "",
     address: "",
     password: "",

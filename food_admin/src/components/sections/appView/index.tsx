@@ -19,10 +19,6 @@ import { AuthContext } from "@/context";
 export default function AppView() {
   const { user } = useContext(AuthContext);
 
-  if (!user) {
-    redirect("/login");
-  }
-
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
