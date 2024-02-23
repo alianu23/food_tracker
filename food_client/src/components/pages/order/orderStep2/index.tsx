@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export const OrderStep2 = () => {
+export const OrderStep2 = ({ baskets, sum }: any) => {
   const router = useRouter();
+
   return (
     <Box>
       <Box display={"flex"} alignItems={"center"} gap={3}>
@@ -25,55 +26,50 @@ export const OrderStep2 = () => {
           </Typography>
         </div>
       </Box>
-      <Stack
-        my={10}
-        boxShadow={3}
-        gap={10}
-        p={5}
-        borderRadius={2}
-        position={"relative"}
-        height={670}
-      >
-        <Box
-          display={"flex"}
-          gap={3}
-          borderTop={1}
-          borderBottom={1}
-          py={5}
-          borderColor={"#D6D8DB"}
-        >
-          <Image
-            alt="basketFood img"
-            width={250}
-            height={170}
-            style={{}}
-            src="/foodImg/modalPng.png"
-          />
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
+      <Stack my={10} boxShadow={3} gap={10} p={5} borderRadius={2}>
+        {baskets.map((food: any) => (
+          <Box
+            display={"flex"}
+            gap={3}
+            borderTop={1}
+            borderBottom={1}
+            py={5}
+            borderColor={"#D6D8DB"}
           >
-            <Typography variant="h5" fontWeight={600} component="h2">
-              Main Pizza
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={500}
-              py={2}
-              sx={{ color: "#18BA51" }}
+            <img
+              alt="basketFood img"
+              width={250}
+              height={170}
+              style={{}}
+              src={food.food.image}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
             >
-              34,800₮
-            </Typography>
-            <Typography sx={{ display: "flex", textAlign: "left" }}>
-              Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр
-            </Typography>
-          </div>
-        </Box>
-        <Grid container position={"absolute"} bottom={0} py={10} px={10}>
+              <Typography variant="h5" fontWeight={600} component="h2">
+                {food.food.name}
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight={500}
+                py={2}
+                sx={{ color: "#18BA51" }}
+              >
+                {food.food.price}₮
+              </Typography>
+              <Typography sx={{ display: "flex", textAlign: "left" }}>
+                {food.food.description}
+              </Typography>
+            </div>
+          </Box>
+        ))}
+        <Grid container bottom={0} py={10} px={10}>
           <Grid
             item
             xs={6}
@@ -85,7 +81,7 @@ export const OrderStep2 = () => {
               Нийт төлөх дүн
             </Typography>
             <Typography variant="body1" fontWeight={600} component="h6">
-              34,800₮
+              {sum}₮
             </Typography>
           </Grid>
           <Grid item xs={6}>

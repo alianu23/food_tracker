@@ -17,7 +17,7 @@ export const MenuComp = () => {
 
   return (
     <main>
-      <Container style={{ marginBottom: 60 }}>
+      <Container style={{ marginBottom: 60, minHeight: 600 }}>
         <Grid container alignItems="center" mb={5} gap={5}>
           {categories?.map((e) => (
             <Grid key={e._id}>

@@ -19,10 +19,10 @@ const Footer = () => {
         py: 20,
         px: 20,
         bgcolor: "#18BA51",
-        // position: "fixed",
+        // position: "sticky",
         bottom: 0,
         width: "100%",
-        marginTop: "50px",
+        mt: 50,
         backgroundImage: `url(${"/logo_svg/footer.svg"})`,
       }}
     >

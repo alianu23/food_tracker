@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Basket from "../model/basket";
 import MyError from "../utils/myError";
 import { IReq } from "../utils/interface";
+import { ObjectId } from "mongoose";
 
 export const createBasket = async (
   req: Request,
@@ -29,7 +30,7 @@ export const getBasket = async (
     const basket = await Basket.findOne({
       user: req.user._id,
     }).populate("foods.food");
-    console.log("f", basket);
+    // console.log("f", basket);
     if (!basket) {
       throw new MyError(`Cannot found ${req.user._id}-id Basket table `, 400);
     }
@@ -59,19 +60,25 @@ export const updateBasket = async (
 };
 
 export const deleteBasket = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { userId, foodId } = req.body;
-    const basket = await Basket.findOne({ user: userId });
-    basket?.foods.slice(
-      basket.foods.indexOf(
-        basket.foods.filter((item) => item.food == foodId)[0]
-      )
+    const { foodId } = req.params;
+    console.log("food.ID ====>", foodId);
+    console.log("user.ID ====>", req.user._id);
+    const basket = await Basket.findOne({ user: req.user._id });
+    // const filteredFood = basket?.foods.filter((el) => el.food !== foodId);
+    const findIndex = basket?.foods.findIndex((el) =>
+      el.food?._id.equals(foodId)
     );
+    console.log("FONDINDEX", findIndex);
+
+    if (findIndex !== undefined) basket?.foods.splice(findIndex, 1);
+
     await basket?.save();
+    // console.log("LAST basket", basket);
     res
       .status(200)
       .json({ message: `Deleted this ${foodId}-id food on basket` });

@@ -18,12 +18,13 @@ interface IBasket {
     description: string;
     price: number;
   };
+  count: number;
 }
 
 interface IBasketContext {
   loading: boolean;
   baskets: IBasket[];
-  addBasket: (food: any) => Promise<void>;
+  addBasket: (food: any, count: number) => Promise<void>;
   deleteBasket: (food: any) => Promise<void>;
 }
 
@@ -33,11 +34,10 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
   const { token, user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [baskets, setBaskets] = useState([]);
-  const [basketFoods, setBasketFoods] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   const getBaskets = async () => {
-    console.log("TOKENBASKET", token);
+    // console.log("TOKENBASKET", token);
     try {
       if (token) {
         const {
@@ -45,19 +45,17 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
         } = await axios.get("/basket/", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("B", basket.foods);
+        // console.log("B", basket.foods);
         setBaskets(basket.foods);
-
-        setRefresh(true);
       }
     } catch (error: any) {
       alert("Error" + error.message);
     }
   };
 
-  console.log("getallbaskets", baskets);
+  // console.log("getallbaskets", baskets);
 
-  const addBasket = async (food: any) => {
+  const addBasket = async (food: any, count: number) => {
     try {
       setLoading(true);
       if (user) {
@@ -66,26 +64,32 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
         } = await axios.put("/basket", {
           userId: user._id,
           foodId: food._id,
-          count: 2,
+          count: count,
         });
         setLoading(false);
+        setRefresh(!refresh);
       }
     } catch (error: any) {
       alert("Error" + error.message);
     }
   };
 
-  const deleteBasket = async (food: any) => {
+  const deleteBasket = async (value: any) => {
     try {
       setLoading(true);
+
       if (user) {
         const {
           data: { basket },
-        } = await axios.delete("/basket", {
-          userId: user._id,
-          foodId: food._id,
-        } as {});
+        } = await axios.delete("/basket/" + value, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // console.log("Foodid ====>", value);
+        // console.log("Userid ====>", user._id);
         setLoading(false);
+        setRefresh(!refresh);
       }
     } catch (error: any) {
       alert("Error" + error.message);

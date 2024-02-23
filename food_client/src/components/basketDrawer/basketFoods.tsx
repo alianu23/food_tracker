@@ -1,7 +1,7 @@
 import { BasketContext } from "@/context";
 import { Add, Close, Remove } from "@mui/icons-material";
-import { Grid, Typography, Button as MuiButton } from "@mui/material";
-import React, { useContext } from "react";
+import { Grid, Typography, Button as MuiButton, Box } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 
 type Props = {
   img: string;
@@ -12,8 +12,13 @@ type Props = {
   count: number;
 };
 
-export const BasketFoods = ({ foods, handleDelete }: any) => {
-  // const { deleteBasket } = useContext(BasketContext);
+export const BasketFoods = ({ foods }: any) => {
+  const { deleteBasket } = useContext(BasketContext);
+  const [count, setCount] = useState();
+
+  const handleDelete = (value: any) => {
+    deleteBasket(value);
+  };
   return (
     <>
       {foods.map((food: any) => (
@@ -54,7 +59,7 @@ export const BasketFoods = ({ foods, handleDelete }: any) => {
                   {food.food.price}₮
                 </Typography>
               </div>
-              <MuiButton onClick={handleDelete}>
+              <MuiButton onClick={() => handleDelete(food.food._id)}>
                 <Close />
               </MuiButton>
             </div>
@@ -62,51 +67,11 @@ export const BasketFoods = ({ foods, handleDelete }: any) => {
             <Typography sx={{ display: "flex", textAlign: "left" }}>
               {food.food.description}
             </Typography>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-              }}
-            >
-              <MuiButton>
-                <Remove
-                  sx={{
-                    bgcolor: "#18BA51",
-                    color: "white",
-                    width: "70%",
-                    height: "30px",
-                    py: 1,
-                    borderRadius: 2,
-                  }}
-                />
-              </MuiButton>
-              <input
-                type="text"
-                placeholder="1"
-                // value={food.count}
-                style={{
-                  border: "none",
-                  textAlign: "center",
-                  paddingTop: 4,
-                  paddingBottom: 4,
-                  fontWeight: 600,
-                  width: "20%",
-                  fontSize: 16,
-                }}
-              />
-              <MuiButton>
-                <Add
-                  sx={{
-                    bgcolor: "#18BA51",
-                    color: "white",
-                    width: "70%",
-                    height: "30px",
-                    py: 1,
-                    borderRadius: 2,
-                  }}
-                />
-              </MuiButton>
-            </div>
+            <Box display={"flex"} alignItems={"center"}>
+              <Typography fontWeight={600}>Count : </Typography>
+
+              <Typography>{food.count}</Typography>
+            </Box>
           </Grid>
         </Grid>
       ))}

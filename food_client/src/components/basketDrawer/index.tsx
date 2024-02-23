@@ -33,13 +33,9 @@ export const BasketDrawer = () => {
     router.push("/order"), setIsDrawerOpen(false);
   };
 
-  const sum = baskets.map(({ food }) => food.price).reduce((a, b) => a + b, 0);
-
-  const food = baskets.map(({ food }) => food);
-
-  const handleDelete = () => {
-    deleteBasket(food);
-  };
+  const sum = baskets
+    .map((food) => food.food.price * food.count)
+    .reduce((a, b) => a + b, 0);
 
   return (
     <>
@@ -100,9 +96,17 @@ export const BasketDrawer = () => {
             </Grid>
           </Grid>
 
-          <BasketFoods foods={baskets} handleDelete={handleDelete} />
+          <BasketFoods foods={baskets} />
 
-          <Grid container bottom={0} boxShadow={6} py={10} px={5}>
+          <Grid
+            container
+            position={"sticky"}
+            bottom={0}
+            boxShadow={6}
+            bgcolor={"white"}
+            py={10}
+            px={5}
+          >
             <Grid
               item
               xs={6}

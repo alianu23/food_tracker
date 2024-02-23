@@ -34,23 +34,13 @@ interface ICardModal {
 
 export default function CardModal({ handleClose, open, food }: ICardModal) {
   const { addBasket, loading } = React.useContext(BasketContext);
-
+  const [count, setCount] = React.useState(1);
   const HandleSendFood = () => {
-    addBasket(food);
+    addBasket(food, count);
     handleClose();
   };
 
-  // const [saveData, setSaveData] = React.useState({
-  //   ...food,
-  // });
   const router = useRouter();
-
-  // const HandleSave = () => {
-  //   setSaveData({ ...food });
-  //   handleClose();
-  // };
-
-  // console.log("SavedData =", saveData);
 
   return (
     <Stack>
@@ -133,8 +123,8 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                   >
                     Тоо
                   </Typography>
-                  <Box>
-                    <MuiButton>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <MuiButton onClick={() => setCount((num) => num - 1)}>
                       <Remove
                         sx={{
                           bgcolor: "#18BA51",
@@ -146,19 +136,8 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                         }}
                       />
                     </MuiButton>
-                    <input
-                      type="text"
-                      placeholder="1"
-                      style={{
-                        border: "none",
-                        textAlign: "center",
-                        paddingTop: 4,
-                        paddingBottom: 4,
-                        fontWeight: 600,
-                        fontSize: 16,
-                      }}
-                    />
-                    <MuiButton>
+                    <Typography>{count}</Typography>
+                    <MuiButton onClick={() => setCount((num) => num + 1)}>
                       <Add
                         sx={{
                           bgcolor: "#18BA51",

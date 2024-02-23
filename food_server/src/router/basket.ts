@@ -13,7 +13,8 @@ router
   .route("/")
   .get(authenticate, getBasket)
   .post(authenticate, createBasket)
-  .put(updateBasket)
-  .delete(deleteBasket);
+  .put(updateBasket);
+
+router.route("/:foodId").delete(authenticate, deleteBasket);
 
 export default router;

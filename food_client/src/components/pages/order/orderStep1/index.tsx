@@ -59,7 +59,7 @@ const OrderStep1 = () => {
       <Stack my={10} boxShadow={3} gap={10} p={5} borderRadius={2}>
         <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
           <Typography>Хаяг аа сонгоно уу</Typography>
-          <Select sx={{ bgcolor: "#ECEDF0", color: "#8B8E95" }}>
+          <Select sx={{ bgcolor: "#ECEDF0" }}>
             <MenuItem disabled value="">
               <em>Дүүрэг сонгоно уу</em>
             </MenuItem>
@@ -69,7 +69,7 @@ const OrderStep1 = () => {
               </MenuItem>
             ))}
           </Select>
-          <Select sx={{ bgcolor: "#ECEDF0", color: "#8B8E95" }}>
+          <Select sx={{ bgcolor: "#ECEDF0" }}>
             <MenuItem disabled value="">
               <em>Хороо сонгоно уу</em>
             </MenuItem>
@@ -79,7 +79,7 @@ const OrderStep1 = () => {
               </MenuItem>
             ))}
           </Select>
-          <Select sx={{ bgcolor: "#ECEDF0", color: "#8B8E95" }}>
+          <Select sx={{ bgcolor: "#ECEDF0" }}>
             <MenuItem disabled value="">
               <em>Байр гудамж сонгоно уу</em>
             </MenuItem>
@@ -99,16 +99,21 @@ const OrderStep1 = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
+              justifyContent: "space-around",
             }}
           >
             <FormControlLabel
-              sx={{ mr: 50 }}
+              sx={{}}
               control={<Checkbox defaultChecked />}
               label="Бэлнээр"
             />
             <FormControlLabel
               control={<Checkbox defaultChecked />}
               label="Картаар"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked />}
+              label="QPay"
             />
           </FormGroup>
         </div>
