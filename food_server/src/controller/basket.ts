@@ -10,9 +10,7 @@ export const createBasket = async (
   next: NextFunction
 ) => {
   try {
-    const newBasket = req.body;
-
-    await Basket.create(newBasket);
+    await Basket.create(req.body);
 
     res.status(201).json({ message: "Basket created successfully" });
   } catch (error) {

@@ -1,4 +1,5 @@
 import { Input } from "@/components/core";
+import { UserContext } from "@/context";
 import {
   Box,
   Checkbox,
@@ -10,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 
 const khoroos = [
   "1-р хороо",
@@ -37,6 +38,7 @@ const buildings = [
 ];
 
 const OrderStep1 = () => {
+  const { userForm } = useContext(UserContext);
   return (
     <Box>
       <Box display={"flex"} alignItems={"center"} gap={3}>
@@ -92,7 +94,7 @@ const OrderStep1 = () => {
         </div>
 
         <Input label="Нэмэлт мэдээлэл" desc="Орц давхар орцны код..." />
-        <Input label="Утасны дугаар*" desc="Утасны дугаараа оруулна уу" />
+        <Input label="Утасны дугаар*" desc={userForm?.phoneNumber as string} />
         <div>
           <Typography>Төлбөр төлөх</Typography>
           <FormGroup

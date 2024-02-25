@@ -24,7 +24,7 @@ import { UserContext } from "@/context";
 import { useRouter } from "next/navigation";
 
 export const UserInfo = () => {
-  const { user, logout } = useContext(UserContext);
+  const { user, logout, userForm } = useContext(UserContext);
   const router = useRouter();
 
   const onClick = () => {
@@ -148,7 +148,11 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <Input label="Утасны дугаар" desc={"9999999"} name="email" />
+            <Input
+              label="Утасны дугаар"
+              desc={userForm?.phoneNumber as string}
+              name="email"
+            />
           </Box>
           <Box
             sx={{

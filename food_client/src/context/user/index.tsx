@@ -16,6 +16,7 @@ interface IUser {
   email: string;
   address: string;
   password?: string;
+  phoneNumber?: string;
 }
 
 interface IUserContext {
@@ -42,6 +43,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     name: "",
     email: "",
     address: "",
+    phoneNumber: "9999999",
     password: "",
   });
 
