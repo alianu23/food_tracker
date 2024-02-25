@@ -1,3 +1,3 @@
-export * from "./categoryModal";
-export * from "./foodModal";
-export * from "./userModal";
+export * from "./category";
+export * from "./food";
+export * from "./user";
