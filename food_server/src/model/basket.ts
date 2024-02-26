@@ -5,7 +5,7 @@ const basketSchema = new Schema({
   foods: [
     {
       food: { type: Schema.ObjectId, ref: "Food" },
-      count: Number,
+      count: { type: Number, default: 1 },
     },
   ],
 });

@@ -12,6 +12,7 @@ import { UserContext } from "..";
 import axios from "@/utils/axios";
 
 interface IBasket {
+  _id: string;
   food: {
     name: string;
     _id: string;
@@ -61,11 +62,14 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
       if (user) {
         const {
           data: { basket },
-        } = await axios.put("/basket", {
-          userId: user._id,
-          foodId: food._id,
-          count: count,
-        });
+        } = await axios.put(
+          "/basket",
+          {
+            foodId: food._id,
+            count: count,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setLoading(false);
         setRefresh(!refresh);
       }

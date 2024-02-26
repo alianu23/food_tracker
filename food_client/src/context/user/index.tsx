@@ -156,6 +156,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  useEffect(() => {}, [user]);
+
   return (
     <UserContext.Provider
       value={{ logout, login, signup, userForm, loading, user, token }}

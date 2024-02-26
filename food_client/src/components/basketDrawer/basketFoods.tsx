@@ -14,7 +14,6 @@ type Props = {
 
 export const BasketFoods = ({ foods }: any) => {
   const { deleteBasket } = useContext(BasketContext);
-  const [count, setCount] = useState();
 
   const handleDelete = (value: any) => {
     deleteBasket(value);

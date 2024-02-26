@@ -5,12 +5,22 @@ import { IReq } from "../utils/interface";
 import { ObjectId } from "mongoose";
 
 export const createBasket = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
+  const { food } = req.body;
+  const basket = {
+    user: req.user._id,
+    foods: [
+      {
+        food: food,
+      },
+    ],
+  };
+
   try {
-    await Basket.create(req.body);
+    await Basket.create(basket);
 
     res.status(201).json({ message: "Basket created successfully" });
   } catch (error) {
@@ -41,14 +51,15 @@ export const getBasket = async (
 };
 
 export const updateBasket = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { userId, foodId, count } = req.body;
-    const basket = await Basket.findOne({ user: userId });
-    console.log("basket", userId);
+    const { foodId, count } = req.body;
+    console.log("food.ID ====>", foodId);
+    console.log("user.ID ====>", req.user._id);
+    const basket = await Basket.findOne({ user: req.user._id });
     basket?.foods.push({ food: foodId, count: count });
     await basket?.save();
     res.status(200).json({ message: "successfully updated basket" });
