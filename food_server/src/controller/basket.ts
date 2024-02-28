@@ -9,20 +9,34 @@ export const createBasket = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { food } = req.body;
-  const basket = {
-    user: req.user._id,
-    foods: [
-      {
-        food: food,
-      },
-    ],
-  };
+  const { foodId, count, totalPrice } = req.body;
 
   try {
-    await Basket.create(basket);
-
-    res.status(201).json({ message: "Basket created successfully" });
+    const findBasket = await Basket.findOne({ user: req.user._id });
+    // const findFood = await Basket.findById({ foods: foodId });
+    if (!findBasket) {
+      await Basket.create({
+        user: req.user._id,
+        foods: [
+          {
+            food: foodId,
+            count: count,
+          },
+        ],
+        totalPrice: totalPrice,
+      });
+      res.status(200).json({ message: "Basket successfully created" });
+    } else {
+      const findIndex = findBasket.foods.findIndex(
+        (item) => item.food?._id?.toString() === foodId
+      );
+      if (findIndex !== -1) {
+        findBasket.foods[findIndex].count = Number(count);
+        findBasket.totalPrice = Number(totalPrice);
+      }
+      await findBasket.save();
+      res.status(200).json({ message: "Food successfully added in basket" });
+    }
   } catch (error) {
     next(error);
   }

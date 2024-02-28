@@ -21,6 +21,22 @@ interface IBasket {
   };
   count: number;
 }
+interface IBasketObject {
+  userId: string;
+  foods: [
+    {
+      _id: string;
+      food: {
+        name: string;
+        _id: string;
+        description: string;
+        price: number;
+      };
+      count: number;
+    }
+  ];
+  totalPrice: number;
+}
 
 interface IBasketContext {
   loading: boolean;
@@ -34,7 +50,7 @@ export const BasketContext = createContext({} as IBasketContext);
 const BasketProvider = ({ children }: PropsWithChildren) => {
   const { token, user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [baskets, setBaskets] = useState([]);
+  const [baskets, setBaskets] = useState<IBasket[]>([]);
   const [refresh, setRefresh] = useState(false);
 
   const getBaskets = async () => {
@@ -56,17 +72,22 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
 
   // console.log("getallbaskets", baskets);
 
+  const sum = baskets
+    .map((food) => food.food.price * food.count)
+    .reduce((a, b) => a + b, 0);
+
   const addBasket = async (food: any, count: number) => {
     try {
       setLoading(true);
       if (user) {
         const {
           data: { basket },
-        } = await axios.put(
+        } = await axios.post(
           "/basket",
           {
             foodId: food._id,
             count: count,
+            totalPrice: sum,
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );

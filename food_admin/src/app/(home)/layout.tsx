@@ -22,8 +22,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     if (!user) {
       router.replace("/login");
     }
-    router.replace("/");
-  }, []);
+  }, [user]);
 
   return (
     <>
