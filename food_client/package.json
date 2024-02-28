@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^5.15.3",
     "axios": "^1.6.6",
     "formik": "^2.4.5",
+    "lottie-react": "^2.4.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",

@@ -15,7 +15,9 @@ type Props = {
 export const BasketFoods = ({ food, foodCount }: any) => {
   const { deleteBasket, updateFoodBasket } = useContext(BasketContext);
   const [count, setCount] = React.useState(foodCount);
+
   console.log("Drawer food =====>", food);
+
   const handleCount = (operation: string, foodId: string) => {
     console.log("foodId", operation, foodId);
     if (operation === "plus") {
@@ -24,8 +26,12 @@ export const BasketFoods = ({ food, foodCount }: any) => {
       count !== 1 && setCount(count - 1);
     }
     updateFoodBasket({
-      foodId: food.food._id,
+      foodId: food._id,
       count: operation === "plus" ? count + 1 : count - 1,
+      totalPrice:
+        operation === "plus"
+          ? (count + 1) * food.price
+          : (count - 1) * food.price,
     });
   };
 

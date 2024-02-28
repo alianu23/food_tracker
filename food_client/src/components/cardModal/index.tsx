@@ -35,15 +35,15 @@ interface ICardModal {
 export default function CardModal({ handleClose, open, food }: ICardModal) {
   const { addBasket, loading, baskets } = React.useContext(BasketContext);
   const [count, setCount] = React.useState(1);
-  const sum = baskets?.foods
-    ?.map((food: any) => food.food.price * food.count)
-    .reduce((a, b) => a + b, 0);
+  // const sum = baskets?.foods
+  //   ?.map((food: any) => food?.food?.price * food.count)
+  //   .reduce((a, b) => a + b, 0);
 
   const handleCount = (operation: string) => {
     if (operation === "add") {
       if (count < 10) setCount(count + 1);
     } else {
-      if (count) setCount(count - 1);
+      if (count !== 1) setCount(count - 1);
     }
   };
 
@@ -51,8 +51,9 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
     addBasket({
       foodId: food._id,
       count: count,
-      totalPrice: sum,
+      totalPrice: count * food.price,
     });
+    console.log("Food id", food._id, "count ==", count);
     handleClose();
   };
 

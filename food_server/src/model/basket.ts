@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const basketSchema = new Schema({
-  user: { type: Schema.ObjectId, ref: "User", require: true },
+  user: { type: Schema.Types.ObjectId, ref: "User", require: true },
   foods: [
     {
-      food: { type: Schema.ObjectId, ref: "Food" },
+      food: { type: Schema.Types.ObjectId, ref: "Food", required: true },
       count: { type: Number, default: 1 },
     },
   ],

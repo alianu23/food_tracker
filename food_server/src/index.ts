@@ -11,6 +11,7 @@ import category from "./router/category";
 import food from "./router/food";
 import upload from "./router/upload";
 import basket from "./router/basket";
+import order from "./router/order";
 
 const app: Application = express();
 const PORT = process.env.PORT;
@@ -20,6 +21,11 @@ connectDB(MONGO_URI);
 app.use(cors());
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  next();
+});
+
 app.use("/auth", auth);
 app.use("/api", user);
 app.use("/categories", category);
@@ -27,6 +33,7 @@ app.use("/foods", food);
 app.use("/basket", basket);
 app.use("/upload", upload);
 app.use("/verify", verify);
+app.use("/order", order);
 
 app.use(errorHandler);
 

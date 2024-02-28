@@ -49,21 +49,29 @@ const userSchema = new Schema(
     orders: [
       {
         orderNo: String,
-
         payment: {
-          paymentAmount: Number,
+          paymentAmount: {
+            type: Number,
+            default: 0,
+          },
           status: {
             type: String,
-            enum: ["Paid", "Unpaid"],
-            default: "Unpaid",
+            enum: ["paid", "unpaid"],
+            default: "unpaid",
           },
-          paidDate: Date,
-          createdAt: Date,
+          paidDate: {
+            type: Date,
+            default: Date.now,
+          },
+          createdAt: {
+            type: Date,
+            default: Date.now,
+          },
         },
         address: {
-          duureg: { type: String },
           khoroo: { type: String },
-          building: { type: String },
+          duureg: { type: String },
+          buildingNo: { type: String },
           info: String,
         },
         delivery: {
@@ -72,7 +80,10 @@ const userSchema = new Schema(
             enum: ["Pending", "Progressing", "Delivered"],
             default: "Pending",
           },
-          deliveredAt: Date,
+          deliveredAt: {
+            type: Date,
+            default: Date.now,
+          },
         },
       },
     ],

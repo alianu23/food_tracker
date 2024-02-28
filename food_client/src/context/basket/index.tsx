@@ -45,6 +45,15 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
   const [baskets, setBaskets] = useState<IBasketObject | null>(null);
   const [refresh, setRefresh] = useState(false);
 
+  const createReq = async (foodItem: any) => {
+    const { data } = (await axios.post("/basket/", foodItem, {
+      headers: { Authorization: `Bearer ${token}` },
+    })) as {
+      data: any;
+    };
+    return { basket: data.basket, message: data.message };
+  };
+
   const getBaskets = async () => {
     // console.log("TOKENBASKET", token);
     try {
@@ -65,41 +74,29 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
   console.log("getallbaskets", baskets);
 
   const addBasket = async (foodItem: any) => {
+    console.log("Food", foodItem);
     try {
-      setLoading(true);
-      if (user) {
-        const {
-          data: { basket },
-        } = await axios.post(
-          "/basket",
-          { foodItem },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setBaskets({ ...basket });
-        setLoading(false);
-        setRefresh(!refresh);
-      }
+      const { basket, message } = await createReq(foodItem);
+      console.log("RES", basket);
+      setBaskets({ ...basket });
+      toast.success(message);
+      setLoading(false);
+      setRefresh(!refresh);
     } catch (error: any) {
-      toast.error("Error" + error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
   const updateFoodBasket = async (foodItem: any) => {
+    console.log("Food", foodItem);
     try {
-      const {
-        data: { basket },
-      } = await axios.post(
-        "/basket",
-        { foodItem },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const { basket } = await createReq(foodItem);
+      console.log("RES", basket);
       setBaskets({ ...basket });
+      setLoading(false);
+      setRefresh(!refresh);
     } catch (error: any) {
-      toast.error("Error" + error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
