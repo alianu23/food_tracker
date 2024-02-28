@@ -33,10 +33,26 @@ interface ICardModal {
 }
 
 export default function CardModal({ handleClose, open, food }: ICardModal) {
-  const { addBasket, loading } = React.useContext(BasketContext);
+  const { addBasket, loading, baskets } = React.useContext(BasketContext);
   const [count, setCount] = React.useState(1);
+  const sum = baskets?.foods
+    ?.map((food: any) => food.food.price * food.count)
+    .reduce((a, b) => a + b, 0);
+
+  const handleCount = (operation: string) => {
+    if (operation === "add") {
+      if (count < 10) setCount(count + 1);
+    } else {
+      if (count) setCount(count - 1);
+    }
+  };
+
   const HandleSendFood = () => {
-    addBasket(food, count);
+    addBasket({
+      foodId: food._id,
+      count: count,
+      totalPrice: sum,
+    });
     handleClose();
   };
 
@@ -124,7 +140,7 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                     Тоо
                   </Typography>
                   <Box display={"flex"} alignItems={"center"}>
-                    <MuiButton onClick={() => setCount((num) => num - 1)}>
+                    <MuiButton onClick={() => handleCount("min")}>
                       <Remove
                         sx={{
                           bgcolor: "#18BA51",
@@ -137,7 +153,7 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
                       />
                     </MuiButton>
                     <Typography>{count}</Typography>
-                    <MuiButton onClick={() => setCount((num) => num + 1)}>
+                    <MuiButton onClick={() => handleCount("add")}>
                       <Add
                         sx={{
                           bgcolor: "#18BA51",

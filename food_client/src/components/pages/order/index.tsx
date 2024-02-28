@@ -9,8 +9,8 @@ import { count } from "console";
 
 export const OrderPage = () => {
   const { baskets } = useContext(BasketContext);
-  const sum = baskets
-    .map((food) => food.food.price * food.count)
+  const sum = baskets?.foods
+    ?.map((food: any) => food.food.price * food.count)
     .reduce((a, b) => a + b, 0);
   return (
     <Grid container justifyContent={"center"} gap={40}>

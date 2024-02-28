@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Response, Request, NextFunction } from "express";
 
 interface IMyError extends Error {
   statusCode: number;
@@ -10,10 +10,17 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("err middleware ====>", err.stack?.red.underline);
+  console.log("ERR MESSAGE =====>", err.message.cyan);
+  console.log("ERR STACK =====>", err.stack?.red.underline);
+
+  if (err.message === "jwt expired")
+    err.message = "Token-ний хугацаа дууссан байна дахин нэвтэрнэ үү";
+  else if (err.message === "invalid signature")
+    err.message = "Token буруу байна дахин нэвтэрнэ үү";
+  else err.message = err.message;
 
   res.status(err.statusCode || 500).json({
-    message: err.message || "Internal server error",
+    message: err.message || "Серверт алдаа гарлаа дахин оролдоно уу",
   });
 };
 

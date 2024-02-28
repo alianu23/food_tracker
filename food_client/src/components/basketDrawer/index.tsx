@@ -28,13 +28,19 @@ import { BasketFoods } from "./basketFoods";
 export const BasketDrawer = () => {
   const { baskets, loading, deleteBasket } = useContext(BasketContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [totalPrices, setTotalPrices] = useState(baskets?.totalPrice);
   const router = useRouter();
   const changeOnclick = () => {
     router.push("/order"), setIsDrawerOpen(false);
   };
 
-  const sum = baskets
-    .map((food) => food.food.price * food.count)
+  console.log(
+    "Basket BASKET ====>",
+    baskets?.foods.map((el) => el.count)
+  );
+
+  const sum = baskets?.foods
+    ?.map((food: any) => food?.food?.price * food.count)
     .reduce((a, b) => a + b, 0);
 
   return (
@@ -47,7 +53,7 @@ export const BasketDrawer = () => {
         aria-label="logo"
         onClick={() => setIsDrawerOpen(true)}
       >
-        <Badge badgeContent={baskets?.length} color="primary">
+        <Badge badgeContent={baskets?.foods?.length} color="primary">
           <ShoppingBasketOutlined />
         </Badge>
         <Typography
@@ -95,8 +101,13 @@ export const BasketDrawer = () => {
               </Typography>
             </Grid>
           </Grid>
-
-          <BasketFoods foods={baskets} />
+          {baskets?.foods?.map((food) => (
+            <BasketFoods
+              key={food._id}
+              food={food.food}
+              foodCount={food.count}
+            />
+          ))}
 
           <Grid
             container

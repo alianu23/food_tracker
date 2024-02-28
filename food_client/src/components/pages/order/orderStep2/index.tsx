@@ -28,7 +28,7 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
       </Box>
 
       <Stack my={5} boxShadow={3} gap={10} p={5} borderRadius={2}>
-        {baskets.map((food: any) => (
+        {baskets?.foods?.map((food: any) => (
           <Box
             display={"flex"}
             gap={3}

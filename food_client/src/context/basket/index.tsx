@@ -10,10 +10,12 @@ import React, {
 import { UserContext } from "..";
 
 import axios from "@/utils/axios";
+import { toast } from "react-toastify";
 
 interface IBasket {
   _id: string;
   food: {
+    image: string;
     name: string;
     _id: string;
     description: string;
@@ -23,26 +25,16 @@ interface IBasket {
 }
 interface IBasketObject {
   userId: string;
-  foods: [
-    {
-      _id: string;
-      food: {
-        name: string;
-        _id: string;
-        description: string;
-        price: number;
-      };
-      count: number;
-    }
-  ];
+  foods: IBasket[];
   totalPrice: number;
 }
 
 interface IBasketContext {
   loading: boolean;
-  baskets: IBasket[];
-  addBasket: (food: any, count: number) => Promise<void>;
+  baskets: IBasketObject | null;
+  addBasket: (foodItem: any) => Promise<void>;
   deleteBasket: (food: any) => Promise<void>;
+  updateFoodBasket: (foodItem: any) => Promise<void>;
 }
 
 export const BasketContext = createContext({} as IBasketContext);
@@ -50,7 +42,7 @@ export const BasketContext = createContext({} as IBasketContext);
 const BasketProvider = ({ children }: PropsWithChildren) => {
   const { token, user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [baskets, setBaskets] = useState<IBasket[]>([]);
+  const [baskets, setBaskets] = useState<IBasketObject | null>(null);
   const [refresh, setRefresh] = useState(false);
 
   const getBaskets = async () => {
@@ -62,21 +54,17 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
         } = await axios.get("/basket/", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // console.log("B", basket.foods);
-        setBaskets(basket.foods);
+        console.log("B", basket);
+        setBaskets({ ...basket });
       }
     } catch (error: any) {
       alert("Error" + error.message);
     }
   };
 
-  // console.log("getallbaskets", baskets);
+  console.log("getallbaskets", baskets);
 
-  const sum = baskets
-    .map((food) => food.food.price * food.count)
-    .reduce((a, b) => a + b, 0);
-
-  const addBasket = async (food: any, count: number) => {
+  const addBasket = async (foodItem: any) => {
     try {
       setLoading(true);
       if (user) {
@@ -84,18 +72,34 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
           data: { basket },
         } = await axios.post(
           "/basket",
+          { foodItem },
           {
-            foodId: food._id,
-            count: count,
-            totalPrice: sum,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
+        setBaskets({ ...basket });
         setLoading(false);
         setRefresh(!refresh);
       }
     } catch (error: any) {
-      alert("Error" + error.message);
+      toast.error("Error" + error.response.data.message);
+    }
+  };
+
+  const updateFoodBasket = async (foodItem: any) => {
+    try {
+      const {
+        data: { basket },
+      } = await axios.post(
+        "/basket",
+        { foodItem },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setBaskets({ ...basket });
+    } catch (error: any) {
+      toast.error("Error" + error.response.data.message);
     }
   };
 
@@ -127,7 +131,7 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <BasketContext.Provider
-      value={{ loading, baskets, addBasket, deleteBasket }}
+      value={{ loading, baskets, addBasket, deleteBasket, updateFoodBasket }}
     >
       {children}
     </BasketContext.Provider>
