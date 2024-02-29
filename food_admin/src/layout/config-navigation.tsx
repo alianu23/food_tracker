@@ -30,6 +30,11 @@ const navConfig = [
     path: "/category",
     icon: icon("ic_blog"),
   },
+  {
+    title: "Admin Dashboard",
+    path: "/admin",
+    icon: icon("ic_history"),
+  },
 ];
 
 export default navConfig;
