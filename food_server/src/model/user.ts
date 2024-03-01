@@ -1,6 +1,46 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 
+const orderSchema = new Schema({
+  orderNo: String,
+  payment: {
+    paymentAmount: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      enum: ["Paid", "Unpaid"],
+      default: "Unpaid",
+    },
+    paidDate: {
+      type: Date,
+      default: Date.now,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  address: {
+    khoroo: { type: String },
+    duureg: { type: String },
+    buildingNo: { type: String },
+    info: String,
+  },
+  delivery: {
+    status: {
+      type: String,
+      enum: ["Pending", "Progressing", "Delivered"],
+      default: "Pending",
+    },
+    deliveredAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+});
+
 const userSchema = new Schema(
   {
     name: {
@@ -46,47 +86,7 @@ const userSchema = new Schema(
       default: "",
     },
     phone: String,
-    orders: [
-      {
-        orderNo: String,
-        payment: {
-          paymentAmount: {
-            type: Number,
-            default: 0,
-          },
-          status: {
-            type: String,
-            enum: ["paid", "unpaid"],
-            default: "unpaid",
-          },
-          paidDate: {
-            type: Date,
-            default: Date.now,
-          },
-          createdAt: {
-            type: Date,
-            default: Date.now,
-          },
-        },
-        address: {
-          khoroo: { type: String },
-          duureg: { type: String },
-          buildingNo: { type: String },
-          info: String,
-        },
-        delivery: {
-          status: {
-            type: String,
-            enum: ["Pending", "Progressing", "Delivered"],
-            default: "Pending",
-          },
-          deliveredAt: {
-            type: Date,
-            default: Date.now,
-          },
-        },
-      },
-    ],
+    orders: [orderSchema],
   },
   { timestamps: true }
 );

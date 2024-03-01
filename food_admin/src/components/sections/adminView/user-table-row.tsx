@@ -18,14 +18,10 @@ import { UserContext } from "@/context";
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
+  order,
   selected,
-  name,
-  avatarUrl,
-  email,
-  role,
-  isVerified,
-  status,
   handleClick,
+  user,
 }: any) {
   const [open, setOpen] = useState(null);
 
@@ -37,6 +33,8 @@ export default function UserTableRow({
     setOpen(null);
   };
 
+  // console.log("DF", order);
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -46,22 +44,47 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
+            <Avatar alt={""} src={"/assets/images/products/product_1.jpg"} />
             <Typography variant="subtitle2" noWrap>
-              {name}
+              {order.orderNo}
+              <br />
+              {"Tsuivan"}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{email}</TableCell>
-
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? "Yes" : "No"}</TableCell>
+        <TableCell>
+          {user.phone}
+          <br />
+          {user.name}
+        </TableCell>
 
         <TableCell>
-          <Label color={(status === "Banned" && "error") || "success"}>
-            {status}
+          {order.payment.paymentAmount}
+          <Label color={order.payment.status === "Paid" ? "success" : "error"}>
+            {order.payment.status}
+          </Label>
+          <br />
+          {order.payment.status === "Paid"
+            ? order.payment.paidDate
+            : order.payment.createdAt}
+        </TableCell>
+
+        <TableCell align="center">
+          {order.address.duureg + ", " + order.address.khoroo}
+        </TableCell>
+
+        <TableCell>
+          <Label
+            color={
+              order.delivery.status === "Pending"
+                ? "error"
+                : order.delivery.status === "Progressing"
+                ? "warning"
+                : "success"
+            }
+          >
+            {order.delivery.status}
           </Label>
         </TableCell>
 

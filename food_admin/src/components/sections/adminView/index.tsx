@@ -29,7 +29,7 @@ import { UserContext } from "@/context";
 // ----------------------------------------------------------------------
 
 export default function AdminView() {
-  const { users } = useContext(UserContext);
+  const { orders, users } = useContext(UserContext);
 
   const [page, setPage] = useState(0);
 
@@ -43,15 +43,6 @@ export default function AdminView() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(() => true);
-  };
-  const handleClose = () => {
-    setOpen(() => false);
-  };
-
   const handleSort = (event: any, id: any) => {
     const isAsc = orderBy === id && order === "asc";
     if (id !== "") {
@@ -62,7 +53,7 @@ export default function AdminView() {
 
   const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((user) => user.name);
+      const newSelecteds = orders.map((order: any) => order.orderNo);
       setSelected(newSelecteds);
       return;
     }
@@ -102,12 +93,18 @@ export default function AdminView() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: orders,
     comparator: getComparator(order, orderBy),
     filterName,
   });
 
+  const userInfo = users;
+
+  console.log("UserInfoMap = ", userInfo);
+
   const notFound = !dataFiltered.length && !!filterName;
+
+  console.log("OO", orders);
 
   return (
     <Container>
@@ -117,7 +114,7 @@ export default function AdminView() {
         justifyContent="space-between"
         mb={5}
       >
-        <Typography variant="h4">Admin Dashboard</Typography>
+        <Typography variant="h4">Admin Orders</Typography>
       </Stack>
 
       <Card sx={{}}>
@@ -133,7 +130,7 @@ export default function AdminView() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                rowCount={orders.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -152,20 +149,16 @@ export default function AdminView() {
                   .map((row: any) => (
                     <UserTableRow
                       key={row._id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      email={row.email}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
+                      user={userInfo}
+                      order={row}
+                      selected={selected.indexOf(row.orderNo) !== -1}
                       handleClick={(event: any) => handleClick(event, row.name)}
                     />
                   ))}
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, orders.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -177,7 +170,7 @@ export default function AdminView() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={orders.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

@@ -25,6 +25,7 @@ interface IUserContext {
   loading: boolean;
   createUser: () => Promise<void>;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  orders: any;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -32,7 +33,7 @@ export const UserContext = createContext<IUserContext>({} as IUserContext);
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
 
   const [newUser, setNewUser] = useState({
@@ -75,10 +76,13 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       } = await axios.get("/api/users");
       console.log("All Users", users);
       setUsers(users);
+      setOrders(users.map((el: any) => el.orders).flat());
     } catch (error) {
       toast.warning("Хэрэглэгчдийн мэдээллийг авахад алдаа гарлаа.");
     }
   };
+
+  console.log("ORDER USER ===>", orders);
 
   useEffect(() => {
     getAllUser();
@@ -91,6 +95,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         loading,
         handleChange,
         createUser,
+        orders,
       }}
     >
       {children}
