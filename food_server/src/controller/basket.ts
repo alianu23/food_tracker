@@ -89,7 +89,7 @@ export const getBasket = async (
   }
 };
 
-export const deleteBasket = async (
+export const deleteBasketFood = async (
   req: IReq,
   res: Response,
   next: NextFunction
@@ -119,6 +119,26 @@ export const deleteBasket = async (
     res
       .status(200)
       .json({ message: `Deleted this ${foodId}-id food on basket` });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteBasket = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { basketId } = req.params;
+    const basket = await Basket.findByIdAndDelete(basketId);
+    if (!basket) {
+      throw new MyError(`Cannot found ${basketId}-id basket table `, 400);
+    }
+    await basket?.save();
+    res
+      .status(200)
+      .json({ message: `Deleted this ${basketId}-id basket`, basket });
   } catch (error) {
     next(error);
   }

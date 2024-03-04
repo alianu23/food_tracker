@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export const OrderStep2 = ({ baskets, sum }: any) => {
+export const OrderStep2 = ({ baskets, sum, formik }: any) => {
   const router = useRouter();
 
   return (
@@ -30,6 +30,7 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
       <Stack my={5} boxShadow={3} gap={10} p={5} borderRadius={2}>
         {baskets?.foods?.map((food: any) => (
           <Box
+            key={food._id}
             display={"flex"}
             gap={3}
             borderTop={1}
@@ -86,7 +87,7 @@ export const OrderStep2 = ({ baskets, sum }: any) => {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Button onClick={() => router.push("/")} label={"Захиалах"} />
+            <Button onClick={formik.handleSubmit} label={"Захиалах"} />
           </Grid>
         </Grid>
       </Stack>

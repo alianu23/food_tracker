@@ -68,9 +68,9 @@ export const LoginPage = () => {
             label="И-майл"
             errorText={formik.errors.email}
             value={formik.values.email}
+            onChange={formik.handleChange}
             desc={"И-майл хаягаа оруулна уу"}
             name="email"
-            onChange={formik.handleChange}
           />
           <Input
             label="Нууц үг"

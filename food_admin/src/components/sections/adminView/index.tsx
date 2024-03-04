@@ -98,7 +98,13 @@ export default function AdminView() {
     filterName,
   });
 
-  const userInfo = users;
+  const userInfo = users
+    .filter(
+      (user) =>
+        user.orders.map((order: any) => order._id) ==
+        orders.map((order: any) => order._id)
+    )
+    .map((data) => data);
 
   console.log("UserInfoMap = ", userInfo);
 

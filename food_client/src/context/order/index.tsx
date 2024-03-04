@@ -1,9 +1,54 @@
-import React, { PropsWithChildren, createContext } from "react";
+"use client";
+import axios from "@/utils/axios";
+import React, { PropsWithChildren, createContext, useContext } from "react";
+import { UserContext } from "..";
+import { toast } from "react-toastify";
 
-type IOrderContext = {};
+interface IOrderContext {
+  createOrder: (
+    duureg: string,
+    khoroo: string,
+    buildingNo: string,
+    info: string,
+    paymentAmount: number,
+    method: string
+  ) => Promise<void>;
+}
 
-export const OrderContext = createContext({} as IOrderContext);
+export const OrderContext = createContext<IOrderContext>({} as IOrderContext);
 
 export const OrderProvider = ({ children }: PropsWithChildren) => {
-  return <OrderContext.Provider value={{}}>{children}</OrderContext.Provider>;
+  const { token } = useContext(UserContext);
+  const createOrder = async (
+    duureg: string,
+    khoroo: string,
+    buildingNo: string,
+    info: string,
+    paymentAmount: number,
+    method: string
+  ) => {
+    try {
+      const { data } = await axios.post(
+        "/order/",
+        {
+          duureg,
+          khoroo,
+          buildingNo,
+          info,
+          paymentAmount,
+          method,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success("order uuslee");
+    } catch (error) {
+      toast.error(`${error} - iim aldaa garlaa`);
+    }
+  };
+
+  return (
+    <OrderContext.Provider value={{ createOrder }}>
+      {children}
+    </OrderContext.Provider>
+  );
 };

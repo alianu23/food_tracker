@@ -3,9 +3,14 @@ import { UserContext } from "@/context";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
+  FormLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Stack,
   Typography,
@@ -37,7 +42,7 @@ const buildings = [
   "Зайсан хотхон ",
 ];
 
-const OrderStep1 = () => {
+const OrderStep1 = ({ formik }: any) => {
   const { userForm } = useContext(UserContext);
   return (
     <Box>
@@ -60,64 +65,90 @@ const OrderStep1 = () => {
       </Box>
       <Stack my={10} boxShadow={3} gap={10} p={5} borderRadius={2}>
         <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
-          <Typography>Хаяг аа сонгоно уу</Typography>
-          <Select sx={{ bgcolor: "#ECEDF0" }}>
-            <MenuItem disabled value="">
-              <em>Дүүрэг сонгоно уу</em>
-            </MenuItem>
-            {duurguud.map((duureg) => (
-              <MenuItem key={duureg} value={duureg}>
-                {duureg}
+          <Typography>Хаяг аа оруулна уу</Typography>
+          <Stack>
+            <Select
+              value={formik.values.duureg}
+              onChange={formik.handleChange}
+              name="duureg"
+              sx={{ bgcolor: "#ECEDF0" }}
+            >
+              <MenuItem disabled value="">
+                <em>Дүүрэг сонгоно уу</em>
               </MenuItem>
-            ))}
-          </Select>
-          <Select sx={{ bgcolor: "#ECEDF0" }}>
-            <MenuItem disabled value="">
-              <em>Хороо сонгоно уу</em>
-            </MenuItem>
-            {khoroos.map((khoroo) => (
-              <MenuItem key={khoroo} value={khoroo}>
-                {khoroo}
+              {duurguud.map((duureg) => (
+                <MenuItem key={duureg} value={duureg}>
+                  {duureg}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText error={formik.errors.duureg} />
+          </Stack>
+          <Stack>
+            <Select
+              value={formik.values.khoroo}
+              onChange={formik.handleChange}
+              name="khoroo"
+              sx={{ bgcolor: "#ECEDF0" }}
+            >
+              <MenuItem disabled value="">
+                <em>Хороо сонгоно уу</em>
               </MenuItem>
-            ))}
-          </Select>
-          <Select sx={{ bgcolor: "#ECEDF0" }}>
-            <MenuItem disabled value="">
-              <em>Байр гудамж сонгоно уу</em>
-            </MenuItem>
-            {buildings.map((building) => (
-              <MenuItem key={building} value={building}>
-                {building}
+              {khoroos.map((khoroo) => (
+                <MenuItem key={khoroo} value={khoroo}>
+                  {khoroo}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText error={formik.errors.khoroo} />
+          </Stack>
+          <Stack>
+            <Select
+              value={formik.values.buildingNo}
+              onChange={formik.handleChange}
+              name="buildingNo"
+              sx={{ bgcolor: "#ECEDF0" }}
+            >
+              <MenuItem disabled value="">
+                <em>Байр гудамж сонгоно уу</em>
               </MenuItem>
-            ))}
-          </Select>
+              {buildings.map((building) => (
+                <MenuItem key={building} value={building}>
+                  {building}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText error={formik.errors.buildingNo} />
+          </Stack>
         </div>
 
-        <Input label="Нэмэлт мэдээлэл" desc="Орц давхар орцны код..." />
+        <Input
+          label="Нэмэлт мэдээлэл"
+          name="info"
+          value={formik.values.info}
+          onChange={formik.handleChange}
+          errorText={formik.errors.info}
+          desc="Орц давхар орцны код..."
+        />
         <Input label="Утасны дугаар*" desc={userForm?.phoneNumber as string} />
         <div>
-          <Typography>Төлбөр төлөх</Typography>
-          <FormGroup
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <FormControlLabel
-              sx={{}}
-              control={<Checkbox defaultChecked />}
-              label="Бэлнээр"
-            />
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Картаар"
-            />
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="QPay"
-            />
-          </FormGroup>
+          <FormControl>
+            <FormLabel id="demo-radio-buttons-group-label">
+              Төлбөр төлөх
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="Cash"
+              name="method"
+              sx={{ display: "flex", flexDirection: "row" }}
+              value={formik.values.method}
+              onChange={formik.handleChange}
+            >
+              <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
+              <FormControlLabel value="Card" control={<Radio />} label="Card" />
+              <FormControlLabel value="Qpay" control={<Radio />} label="Qpay" />
+            </RadioGroup>
+          </FormControl>
         </div>
       </Stack>
     </Box>

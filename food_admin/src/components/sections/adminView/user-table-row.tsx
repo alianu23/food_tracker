@@ -54,9 +54,9 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell>
-          {user.phone}
+          {user.phone || "99999999"}
           <br />
-          {user.name}
+          {order.user.name}
         </TableCell>
 
         <TableCell>

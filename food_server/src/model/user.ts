@@ -13,6 +13,11 @@ const orderSchema = new Schema({
       enum: ["Paid", "Unpaid"],
       default: "Unpaid",
     },
+    method: {
+      type: String,
+      enum: ["Cash", "Card", "Qpay"],
+      default: "Cash",
+    },
     paidDate: {
       type: Date,
       default: Date.now,

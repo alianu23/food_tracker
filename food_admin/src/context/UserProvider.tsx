@@ -18,6 +18,7 @@ interface IUsers {
   isVerified: boolean;
   avatarUrl: string;
   status: string;
+  orders: any;
 }
 
 interface IUserContext {
@@ -76,7 +77,14 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       } = await axios.get("/api/users");
       console.log("All Users", users);
       setUsers(users);
-      setOrders(users.map((el: any) => el.orders).flat());
+
+      setOrders(
+        users
+          .map((el: any) =>
+            el.orders.map((o: any) => ({ ...o, user: { name: el.name } }))
+          )
+          .flat()
+      );
     } catch (error) {
       toast.warning("Хэрэглэгчдийн мэдээллийг авахад алдаа гарлаа.");
     }

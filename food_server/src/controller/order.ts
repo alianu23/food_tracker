@@ -12,13 +12,14 @@ export const createOrder = async (
     const newOrder = {
       orderNo: "#" + Math.floor(Math.random() * 1000000),
       payment: {
-        paymentAmount: 90000,
+        paymentAmount: req.body.paymentAmount,
+        method: req.body.method,
       },
       address: {
-        khoroo: "10 khoroo",
-        duureg: "BZD",
-        buildingNo: "1009",
-        info: "near to school",
+        khoroo: req.body.khoroo,
+        duureg: req.body.duureg,
+        buildingNo: req.body.buildingNo,
+        info: req.body.info,
       },
     };
     const findUser = await User.findById(req.user._id);

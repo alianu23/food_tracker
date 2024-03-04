@@ -32,6 +32,7 @@ export const BasketDrawerProp = ({ isDrawerOpen, setIsDrawerOpen }: Props) => {
   const sum = baskets?.foods
     ?.map((food: any) => food?.food?.price * food.count)
     .reduce((a: any, b: any) => a + b, 0);
+
   return (
     <Drawer
       anchor="right"
