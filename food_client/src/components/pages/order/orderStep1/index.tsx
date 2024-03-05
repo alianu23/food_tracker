@@ -82,7 +82,9 @@ const OrderStep1 = ({ formik }: any) => {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText error={formik.errors.duureg} />
+            <FormHelperText sx={{ color: "red" }}>
+              {formik.errors.duureg}
+            </FormHelperText>
           </Stack>
           <Stack>
             <Select
@@ -100,7 +102,9 @@ const OrderStep1 = ({ formik }: any) => {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText error={formik.errors.khoroo} />
+            <FormHelperText sx={{ color: "red" }}>
+              {formik.errors.khoroo}
+            </FormHelperText>
           </Stack>
           <Stack>
             <Select
@@ -118,7 +122,9 @@ const OrderStep1 = ({ formik }: any) => {
                 </MenuItem>
               ))}
             </Select>
-            <FormHelperText error={formik.errors.buildingNo} />
+            <FormHelperText sx={{ color: "red" }}>
+              {formik.errors.buildingNo}
+            </FormHelperText>
           </Stack>
         </div>
 
@@ -130,17 +136,24 @@ const OrderStep1 = ({ formik }: any) => {
           errorText={formik.errors.info}
           desc="Орц давхар орцны код..."
         />
-        <Input label="Утасны дугаар*" desc={userForm?.phoneNumber as string} />
+        <Input
+          value={formik.values.phone}
+          onChange={formik.handleChange}
+          name="phone"
+          errorText={formik.errors.phone}
+          label="Утасны дугаар*"
+          desc={"Дугаараа оруулна уу"}
+        />
         <div>
           <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">
               Төлбөр төлөх
             </FormLabel>
             <RadioGroup
+              sx={{ display: "flex", flexDirection: "row" }}
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="Cash"
               name="method"
-              sx={{ display: "flex", flexDirection: "row" }}
               value={formik.values.method}
               onChange={formik.handleChange}
             >
@@ -149,6 +162,9 @@ const OrderStep1 = ({ formik }: any) => {
               <FormControlLabel value="Qpay" control={<Radio />} label="Qpay" />
             </RadioGroup>
           </FormControl>
+          <FormHelperText sx={{ color: "red" }}>
+            {formik.errors.method}
+          </FormHelperText>
         </div>
       </Stack>
     </Box>

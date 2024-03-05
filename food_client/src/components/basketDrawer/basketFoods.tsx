@@ -16,7 +16,7 @@ export const BasketFoods = ({ food, foodCount }: any) => {
   const { deleteBasket, updateFoodBasket } = useContext(BasketContext);
   const [count, setCount] = React.useState(foodCount);
 
-  console.log("Drawer food =====>", food);
+  // console.log("Drawer food =====>", food);
 
   const handleCount = (operation: string, foodId: string) => {
     console.log("foodId", operation, foodId);

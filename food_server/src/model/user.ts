@@ -3,6 +3,15 @@ import bcrypt from "bcrypt";
 
 const orderSchema = new Schema({
   orderNo: String,
+  foods: [
+    {
+      food: {
+        type: Schema.ObjectId,
+        ref: "Food",
+      },
+      count: Number,
+    },
+  ],
   payment: {
     paymentAmount: {
       type: Number,
@@ -44,6 +53,7 @@ const orderSchema = new Schema({
       default: Date.now,
     },
   },
+  phone: String,
 });
 
 const userSchema = new Schema(
@@ -90,7 +100,7 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
-    phone: String,
+
     orders: [orderSchema],
   },
   { timestamps: true }

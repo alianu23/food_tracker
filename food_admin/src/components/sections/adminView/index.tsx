@@ -98,19 +98,9 @@ export default function AdminView() {
     filterName,
   });
 
-  const userInfo = users
-    .filter(
-      (user) =>
-        user.orders.map((order: any) => order._id) ==
-        orders.map((order: any) => order._id)
-    )
-    .map((data) => data);
-
-  console.log("UserInfoMap = ", userInfo);
-
   const notFound = !dataFiltered.length && !!filterName;
 
-  console.log("OO", orders);
+  // console.log("OO", orders);
 
   return (
     <Container>
@@ -155,7 +145,6 @@ export default function AdminView() {
                   .map((row: any) => (
                     <UserTableRow
                       key={row._id}
-                      user={userInfo}
                       order={row}
                       selected={selected.indexOf(row.orderNo) !== -1}
                       handleClick={(event: any) => handleClick(event, row.name)}

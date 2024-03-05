@@ -22,6 +22,7 @@ interface IInputProps {
   errorText?: string | undefined;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyup?: (e: ChangeEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 }
 
 export const Input = ({
@@ -33,6 +34,7 @@ export const Input = ({
   value,
   errorText,
   onKeyup,
+  readOnly,
 }: IInputProps) => {
   const [isShowPassword, setIsShowPassword] = useState(showPassword);
   return (
@@ -40,12 +42,13 @@ export const Input = ({
       <FormControl sx={{ my: 2 }} variant="outlined" fullWidth>
         <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
         <OutlinedInput
-          sx={{ backgroundColor: "#F7F7F8" }}
+          sx={{ backgroundColor: "#F7F7F8", color: "black" }}
           value={value}
           onChange={onChange}
           onKeyUp={() => onKeyup}
           name={name}
           placeholder={desc}
+          readOnly={readOnly}
           type={isShowPassword ? "password" : "text"}
           endAdornment={
             showPassword && (

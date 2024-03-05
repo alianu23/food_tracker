@@ -28,8 +28,6 @@ export const MenuComp = () => {
                   handleClick(e._id);
                 }}
               />
-              {/* <ButtonMenu label="Бүх хоол" />
-              <ButtonMenu label="Хямдралтай хоол" /> */}
             </Grid>
           ))}
           <Grid item sx={{ display: "flex" }}>

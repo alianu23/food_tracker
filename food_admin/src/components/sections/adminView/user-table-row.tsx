@@ -14,15 +14,12 @@ import IconButton from "@mui/material/IconButton";
 import Label from "@/components/label";
 import Iconify from "@/components/iconify";
 import { UserContext } from "@/context";
+import { Button } from "@mui/material";
+import { OrderModal } from "@/components";
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({
-  order,
-  selected,
-  handleClick,
-  user,
-}: any) {
+export default function UserTableRow({ order, selected, handleClick }: any) {
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event: any) => {
@@ -33,8 +30,14 @@ export default function UserTableRow({
     setOpen(null);
   };
 
-  // console.log("DF", order);
+  const [openModal, setOpenModal] = useState(false);
 
+  const handleOpen = () => {
+    setOpenModal(() => true);
+  };
+  const handleClose = () => {
+    setOpenModal(() => false);
+  };
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -44,7 +47,7 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={""} src={"/assets/images/products/product_1.jpg"} />
+            <Avatar alt={""} src={order.user.avatarUrl} />
             <Typography variant="subtitle2" noWrap>
               {order.orderNo}
               <br />
@@ -54,7 +57,7 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell>
-          {user.phone || "99999999"}
+          {order.phone || "99999999"}
           <br />
           {order.user.name}
         </TableCell>
@@ -71,7 +74,7 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell align="center">
-          {order.address.duureg + ", " + order.address.khoroo}
+          {order?.address?.duureg + ", " + order.address.khoroo}
         </TableCell>
 
         <TableCell>
@@ -105,16 +108,22 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem onClick={handleCloseMenu} sx={{ color: "error.main" }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        <Button onClick={() => handleOpen()}>
+          <MenuItem onClick={handleCloseMenu}>
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            Edit
+          </MenuItem>
+        </Button>
+        <Button>
+          <MenuItem onClick={handleCloseMenu} sx={{ color: "error.main" }}>
+            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+            Delete
+          </MenuItem>
+        </Button>
       </Popover>
+      {openModal && (
+        <OrderModal open={openModal} handleClose={handleClose} order={order} />
+      )}
     </>
   );
 }

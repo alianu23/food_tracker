@@ -1,15 +1,15 @@
 "use client";
 import React, {
   ChangeEvent,
-  Dispatch,
   PropsWithChildren,
-  SetStateAction,
   createContext,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import axios from "@/utils/axios";
 import { toast } from "react-toastify";
+import { AuthContext } from ".";
 
 interface IUsers {
   name: string;
@@ -27,12 +27,18 @@ interface IUserContext {
   createUser: () => Promise<void>;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   orders: any;
+  updateOrder: (
+    orderId: string,
+    dStatus: string,
+    pStatus: string
+  ) => Promise<void>;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
-  const [refresh, setRefresh] = useState(false);
+  const { token } = useContext(AuthContext);
+  const [refresh, setRefresh] = useState(true);
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
@@ -81,20 +87,45 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       setOrders(
         users
           .map((el: any) =>
-            el.orders.map((o: any) => ({ ...o, user: { name: el.name } }))
+            el.orders.map((o: any) => ({
+              ...o,
+              user: { name: el.name, phone: el.phone, avatarUrl: el.avatarUrl },
+            }))
           )
           .flat()
       );
+      setRefresh(refresh);
     } catch (error) {
       toast.warning("Хэрэглэгчдийн мэдээллийг авахад алдаа гарлаа.");
     }
   };
 
-  console.log("ORDER USER ===>", orders);
+  const updateOrder = async (
+    orderId: string,
+    dStatus: string,
+    pStatus: string
+  ) => {
+    try {
+      setLoading(true);
+      const {
+        data: { order },
+      } = await axios.put(
+        `/order/+${orderId}`,
+        { dStatus, pStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setLoading(false);
+      toast.success("Хэрэглэгчдийн мэдээллийг амжилттай заслаа");
+    } catch (error) {
+      toast.warning("Хэрэглэгчдийн мэдээллийг засахад алдаа гарлаа.");
+    }
+  };
+
+  // console.log("ORDER USER ===>", orders);
 
   useEffect(() => {
     getAllUser();
-  }, [refresh]);
+  }, [!refresh]);
 
   return (
     <UserContext.Provider
@@ -104,6 +135,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         handleChange,
         createUser,
         orders,
+        updateOrder,
       }}
     >
       {children}

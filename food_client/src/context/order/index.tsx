@@ -1,7 +1,7 @@
 "use client";
 import axios from "@/utils/axios";
 import React, { PropsWithChildren, createContext, useContext } from "react";
-import { UserContext } from "..";
+import { BasketContext, UserContext } from "..";
 import { toast } from "react-toastify";
 
 interface IOrderContext {
@@ -11,13 +11,15 @@ interface IOrderContext {
     buildingNo: string,
     info: string,
     paymentAmount: number,
-    method: string
+    method: string,
+    phone: string
   ) => Promise<void>;
 }
 
 export const OrderContext = createContext<IOrderContext>({} as IOrderContext);
 
 export const OrderProvider = ({ children }: PropsWithChildren) => {
+  const { baskets } = useContext(BasketContext);
   const { token } = useContext(UserContext);
   const createOrder = async (
     duureg: string,
@@ -25,7 +27,8 @@ export const OrderProvider = ({ children }: PropsWithChildren) => {
     buildingNo: string,
     info: string,
     paymentAmount: number,
-    method: string
+    method: string,
+    phone: string
   ) => {
     try {
       const { data } = await axios.post(
@@ -37,6 +40,8 @@ export const OrderProvider = ({ children }: PropsWithChildren) => {
           info,
           paymentAmount,
           method,
+          phone,
+          foods: baskets,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );

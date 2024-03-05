@@ -19,7 +19,8 @@ const validationSchema = yup.object({
   buildingNo: yup.string().required("Байрны дугаар оруулна уу"),
   info: yup.string(),
   paymentAmount: yup.number(),
-  method: yup.string(),
+  method: yup.string().required("Төлбөрийн хэрэгсэлээ сонгоно уу"),
+  phone: yup.string().required("Дугаараа оруулна уу"),
 });
 
 export const OrderPage = () => {
@@ -30,10 +31,26 @@ export const OrderPage = () => {
     baskets?.foods
       ?.map((food: any) => food.food.price * food.count)
       .reduce((a, b) => a + b, 0) || 0;
-
+  console.log("SUM in order", sum);
   const formik = useFormik({
-    onSubmit: ({ duureg, khoroo, buildingNo, info, paymentAmount, method }) => {
-      createOrder(duureg, khoroo, buildingNo, info, paymentAmount, method);
+    onSubmit: ({
+      duureg,
+      khoroo,
+      buildingNo,
+      info,
+      paymentAmount,
+      method,
+      phone,
+    }) => {
+      createOrder(
+        duureg,
+        khoroo,
+        buildingNo,
+        info,
+        paymentAmount,
+        method,
+        phone
+      );
       router.push("/");
     },
     initialValues: {
@@ -43,6 +60,7 @@ export const OrderPage = () => {
       info: "",
       paymentAmount: sum,
       method: "",
+      phone: "",
     },
     validateOnChange: false,
     validateOnBlur: false,
