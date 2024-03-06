@@ -102,16 +102,16 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   const updateOrder = async (
     orderId: string,
-    dStatus: string,
-    pStatus: string
+    pStatus: string,
+    dStatus: string
   ) => {
     try {
       setLoading(true);
       const {
         data: { order },
       } = await axios.put(
-        `/order/` + { orderId },
-        { dStatus, pStatus },
+        `/order/` + orderId,
+        { pStatus, dStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -121,7 +121,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // console.log("ORDER USER ===>", orders);
+  console.log("ORDER USER ===>", orders);
 
   useEffect(() => {
     getAllUser();

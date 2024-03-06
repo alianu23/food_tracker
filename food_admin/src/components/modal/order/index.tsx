@@ -7,18 +7,14 @@ import {
   Stack,
   styled,
   FormControlLabel,
-  FormGroup,
-  Checkbox,
-  SelectChangeEvent,
   FormControl,
   FormLabel,
   RadioGroup,
   Radio,
-  Grid,
 } from "@mui/material";
 import { Button, Input } from "../../core";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { CategoryContext, FoodContext, UserContext } from "@/context";
+
+import { UserContext } from "@/context";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -35,18 +31,6 @@ const style = {
   p: 4,
 };
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const validationSchema = yup.object({
   pStatus: yup.string(),
   dStatus: yup.string(),
@@ -58,7 +42,14 @@ export function OrderModal({ handleClose, open, order }: any) {
     onSubmit: ({ pStatus, dStatus }) => {
       updateOrder(orderId, pStatus, dStatus);
       handleClose();
-      console.log("HandleSubmit orderid === ", orderId);
+      console.log(
+        "HandleSubmit orderid === ",
+        orderId,
+        "pStatus",
+        pStatus,
+        "dStatus",
+        dStatus
+      );
     },
     initialValues: { pStatus: "", dStatus: "" },
     validateOnChange: false,

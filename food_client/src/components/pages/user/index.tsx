@@ -15,6 +15,7 @@ import {
   MailOutline,
   History,
   Logout,
+  Edit,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -118,7 +119,15 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <Input label="Таны Нэр" desc={user?.name} name="email" />
+            <Input
+              label="Таны Нэр"
+              desc={user?.name}
+              value={user?.name}
+              name="email"
+            />
+            <MuiBtn>
+              <Edit sx={{ width: 30, height: 30 }} />
+            </MuiBtn>
           </Box>
           <Box
             sx={{
@@ -151,8 +160,12 @@ export const UserInfo = () => {
             <Input
               label="Утасны дугаар"
               desc={userForm?.phoneNumber as string}
-              name="email"
+              value={userForm?.phoneNumber as string}
+              name="phone"
             />
+            <MuiBtn>
+              <Edit sx={{ width: 30, height: 30 }} />
+            </MuiBtn>
           </Box>
           <Box
             sx={{
@@ -178,11 +191,19 @@ export const UserInfo = () => {
                 mx: 3,
                 border: 1,
                 borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
             />
-            <Input label="И-майл" desc={user?.email} name="email" />
+            <Input
+              label="И-майл"
+              desc={user?.email}
+              value={user?.email}
+              name="email"
+            />
+            <MuiBtn>
+              <Edit sx={{ width: 30, height: 30 }} />
+            </MuiBtn>
           </Box>
 
           <Button onClick={() => onClick()} label={"Хадгалах"} />

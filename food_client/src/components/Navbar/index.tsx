@@ -62,7 +62,13 @@ const Navbar = () => {
               key={i}
               href={navigation.path}
             >
-              <Button sx={{ color: "black", fontWeight: 600, fontSize: 16 }}>
+              <Button
+                sx={{
+                  color: navigation.path === isActive ? "#18ba51" : "black",
+                  fontWeight: 600,
+                  fontSize: 16,
+                }}
+              >
                 {navigation.name}
               </Button>
             </Link>

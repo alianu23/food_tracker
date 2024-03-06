@@ -99,6 +99,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken(null);
+    router.push("/login");
   };
 
   return (

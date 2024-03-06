@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import { IReq } from "../utils/interface";
 import MyError from "../utils/myError";
 import User from "../model/user";
+import Food from "../model/food";
 
 export const createOrder = async (
   req: IReq,
@@ -45,21 +46,18 @@ export const updateOrder = async (
 ) => {
   try {
     const findUser = await User.findById(req.user._id);
+    // const d = Food.findOne({ price: { $or: [{ $gt: 100 }, { $lte: 500 }] } })
 
+    console.log("pstatus", req.body.pStatus, "dstatus", req.body.dStatus);
     const findIndex = findUser?.orders.findIndex(
       (item) => item._id?.toString() == req.params.orderId
     );
     console.log("orderID req", req.params.orderId);
     console.log("first findindex", findIndex);
     if (findIndex !== -1) {
-      findUser?.orders.push({
-        payment: {
-          status: req.body.pStatus,
-        },
-        delivery: {
-          status: req.body.dStatus,
-        },
-      });
+      const updateOrder = findUser?.orders?.at(findIndex!);
+      updateOrder!.payment!.status = req.body.pStatus;
+      updateOrder!.delivery!.status = req.body.dStatus;
     } else {
       throw new MyError(`index oldsongu.`, 400);
     }
@@ -81,11 +79,10 @@ export const updateOrder = async (
 //     const findUser = await User.findById(req.user._id);
 
 //     const findIndex = findUser?.orders.findIndex(
-//       (item) => item._id === req.body.orderId
+//       (item) => item._id?.toString() === req.params.orderId
 //     );
 //     console.log("first find index", findIndex);
 //     if (findIndex !== -1) {
-//       // Update the payment and delivery status of the specific order
 //       findUser?.orders?[findIndex] = {
 //         ...findUser?.orders[findIndex],
 //         payment: {
