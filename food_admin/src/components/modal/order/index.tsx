@@ -52,7 +52,7 @@ const validationSchema = yup.object({
   dStatus: yup.string(),
 });
 export function OrderModal({ handleClose, open, order }: any) {
-  const { orderId } = order._id;
+  const orderId = order._id;
   const { updateOrder, loading } = React.useContext(UserContext);
   const formik = useFormik({
     onSubmit: ({ pStatus, dStatus }) => {

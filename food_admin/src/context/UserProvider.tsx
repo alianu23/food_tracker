@@ -110,11 +110,11 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       const {
         data: { order },
       } = await axios.put(
-        `/order/+${orderId}`,
+        `/order/` + { orderId },
         { dStatus, pStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setLoading(false);
+
       toast.success("Хэрэглэгчдийн мэдээллийг амжилттай заслаа");
     } catch (error) {
       toast.warning("Хэрэглэгчдийн мэдээллийг засахад алдаа гарлаа.");

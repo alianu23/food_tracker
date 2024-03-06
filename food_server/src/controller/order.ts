@@ -37,6 +37,7 @@ export const createOrder = async (
     next(error);
   }
 };
+
 export const updateOrder = async (
   req: IReq,
   res: Response,
@@ -46,22 +47,18 @@ export const updateOrder = async (
     const findUser = await User.findById(req.user._id);
 
     const findIndex = findUser?.orders.findIndex(
-      (item) => item._id === req.body.orderId
+      (item) => item._id?.toString() == req.params.orderId
     );
-    console.log("first find index", findIndex);
+    console.log("orderID req", req.params.orderId);
+    console.log("first findindex", findIndex);
     if (findIndex !== -1) {
-      findUser?.updateOne({
-        _id: req.user._id,
-        orders: [
-          {
-            payment: {
-              status: req.body.pStatus,
-            },
-            delivery: {
-              status: req.body.dStatus,
-            },
-          },
-        ],
+      findUser?.orders.push({
+        payment: {
+          status: req.body.pStatus,
+        },
+        delivery: {
+          status: req.body.dStatus,
+        },
       });
     } else {
       throw new MyError(`index oldsongu.`, 400);
@@ -74,3 +71,40 @@ export const updateOrder = async (
     next(error);
   }
 };
+
+// export const updateOrder = async (
+//   req: IReq,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const findUser = await User.findById(req.user._id);
+
+//     const findIndex = findUser?.orders.findIndex(
+//       (item) => item._id === req.body.orderId
+//     );
+//     console.log("first find index", findIndex);
+//     if (findIndex !== -1) {
+//       // Update the payment and delivery status of the specific order
+//       findUser?.orders?[findIndex] = {
+//         ...findUser?.orders[findIndex],
+//         payment: {
+//           ...findUser?.orders[findIndex].payment,
+//           status: req.body.pStatus,
+//         },
+//         delivery: {
+//           ...findUser?.orders[findIndex].delivery,
+//           status: req.body.dStatus,
+//         },
+//       };
+
+//       await findUser?.save();
+//     } else {
+//       throw new MyError(`index олдсонгүй.`, 400);
+//     }
+
+//     res.status(200).json({ message: "Захиалга амжилттай засагдлаа." });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
