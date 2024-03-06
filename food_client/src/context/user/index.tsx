@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
 import { Flag } from "@mui/icons-material";
+import { ref } from "yup";
 
 interface IUser {
   name: string;
@@ -40,6 +41,7 @@ export const UserContext = createContext<IUserContext>({} as IUserContext);
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [userForm, setUserForm] = useState<IUser>({
     name: "",
     email: "",
@@ -75,6 +77,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         timer: 1500,
       });
       handleNext();
+      setRefresh(!refresh);
     } catch (error) {
       toast.error("Нэвтэрхэд алдаа гарлаа");
     } finally {
@@ -123,6 +126,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken(null);
+    setRefresh(!refresh);
   };
 
   const signup = async (
@@ -150,6 +154,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
 
       handleGoLogin();
+      setRefresh(!refresh);
     } catch (error) {
       toast.error("Бүртгүүлэхэд алдаа гарлаа");
     } finally {
@@ -167,6 +172,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
         position: "top-center",
       });
+      setRefresh(!refresh);
     } catch (error) {
       toast.error("medeelel solihod aldaa garlaa" + error, {
         position: "top-center",
@@ -174,7 +180,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {}, [user, refresh]);
 
   return (
     <UserContext.Provider

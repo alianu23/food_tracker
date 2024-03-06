@@ -12,7 +12,7 @@ const router = Router();
 router.route("/users").get(getAllUsers);
 router
   .route("/user/")
-  .get(authenticate, getUser)
+  .post(authenticate, getUser)
   .put(authenticate, updateUser)
   .delete(authenticate, deleteUser);
 

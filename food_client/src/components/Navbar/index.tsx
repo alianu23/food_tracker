@@ -96,20 +96,28 @@ const Navbar = () => {
           </Search>
           <BasketDrawer />
           <div style={{ display: "flex", alignItems: "center" }}>
-            <PersonOutlined />
             {user ? (
               <Button
                 onClick={() => router.push("/user")}
                 variant="text"
-                sx={{ color: "black", fontWeight: 800, fontSize: 16 }}
+                sx={{
+                  color: isActive === "/user" ? "#18ba51" : "black",
+                  fontWeight: 800,
+                  fontSize: 16,
+                }}
               >
+                <PersonOutlined />
                 {user.name}
               </Button>
             ) : (
               <Button
                 onClick={() => router.push("/login")}
                 variant="text"
-                sx={{ color: "black", fontWeight: 800, fontSize: 16 }}
+                sx={{
+                  color: isActive === "/login" ? "#18ba51" : "black",
+                  fontWeight: 800,
+                  fontSize: 16,
+                }}
               >
                 нэвтрэх
               </Button>

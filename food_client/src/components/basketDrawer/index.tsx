@@ -33,7 +33,10 @@ export const BasketDrawer = () => {
   return (
     <>
       <IconButton
-        sx={{ display: "flex", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
         size="large"
         edge="start"
         color="inherit"

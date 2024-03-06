@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useRef } from "react";
 import {
   TextField,
   Stack,
@@ -19,6 +19,7 @@ interface IInputProps {
   desc: string;
   name?: string;
   value?: string;
+  inputRef?: any;
   errorText?: string | undefined;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyup?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -33,8 +34,10 @@ export const Input = ({
   value,
   errorText,
   onKeyup,
+  inputRef,
 }: IInputProps) => {
   const [isShowPassword, setIsShowPassword] = useState(showPassword);
+
   return (
     <>
       <FormControl sx={{ my: 2 }} variant="outlined" fullWidth>
@@ -45,6 +48,7 @@ export const Input = ({
           onChange={onChange}
           onKeyUp={() => onKeyup}
           name={name}
+          ref={inputRef}
           placeholder={desc}
           type={isShowPassword ? "password" : "text"}
           endAdornment={

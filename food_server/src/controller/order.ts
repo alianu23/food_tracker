@@ -20,7 +20,7 @@ export const createOrder = async (
       address: {
         khoroo: req.body.khoroo,
         duureg: req.body.duureg,
-        buildingNo: req.body.duureg,
+        buildingNo: req.body.buildingNo,
         info: req.body.info,
       },
       phone: req.body.phone,

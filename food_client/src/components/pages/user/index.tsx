@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { ChangeEvent, useContext, useRef, useState } from "react";
 import {
   Box,
   Container,
@@ -26,11 +26,17 @@ import { useRouter } from "next/navigation";
 
 export const UserInfo = () => {
   const { user, logout, updateUser } = useContext(UserContext);
+
   const [newUserInfo, setNewUserInfo] = useState({
     name: "",
     email: "",
   });
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const focusInput = (ref: React.RefObject<HTMLInputElement | null>) => {
+    ref?.current?.focus();
+  };
 
   const onClick = () => {
     updateUser(newUserInfo.name, newUserInfo.email);
@@ -106,10 +112,9 @@ export const UserInfo = () => {
               width: "100%",
               gap: 5,
               backgroundColor: "#F6F6F6",
-              paddingTop: 2,
-              paddingBottom: 2,
-              paddingLeft: 5,
-              paddingRight: 10,
+              py: 1,
+              pl: 5,
+              pr: 10,
               borderRadius: 3,
             }}
           >
@@ -130,9 +135,10 @@ export const UserInfo = () => {
               label="Таны Нэр"
               desc={user?.name}
               name="name"
+              inputRef={inputRef}
               onChange={handleChange}
             />
-            <MuiBtn>
+            <MuiBtn onClick={() => focusInput(inputRef)}>
               <Edit sx={{ width: 30, height: 30 }} />
             </MuiBtn>
           </Box>
@@ -144,10 +150,9 @@ export const UserInfo = () => {
               width: "100%",
               gap: 5,
               backgroundColor: "#F6F6F6",
-              paddingTop: 2,
-              paddingBottom: 2,
-              paddingLeft: 5,
-              paddingRight: 10,
+              py: 1,
+              pl: 5,
+              pr: 10,
               borderRadius: 3,
             }}
           >
@@ -168,9 +173,10 @@ export const UserInfo = () => {
               label="И-майл"
               desc={user?.email}
               name="email"
+              inputRef={inputRef}
               onChange={handleChange}
             />
-            <MuiBtn>
+            <MuiBtn onClick={() => focusInput(inputRef)}>
               <Edit sx={{ width: 30, height: 30 }} />
             </MuiBtn>
           </Box>
