@@ -82,21 +82,13 @@ export function OrderModal({ handleClose, open, order }: any) {
                 name="orderNo"
                 label="Order №"
                 desc={order.orderNo}
-                value={order.orderNo}
                 readOnly
               />
               <Typography>Buyer info</Typography>
-              <Input
-                name="name"
-                label="Name"
-                desc={order.user.name}
-                value={order.user.name}
-                readOnly
-              />
+              <Input name="name" label="Name" desc={order.user.name} readOnly />
               <Input
                 name="phone"
                 label="Phone number"
-                value={order.phone}
                 desc={order.phone}
                 readOnly
               />
@@ -104,7 +96,6 @@ export function OrderModal({ handleClose, open, order }: any) {
               <Input
                 name="paymentPrice"
                 label="Price"
-                value={order.payment.paymentAmount}
                 desc={order.payment.paymentAmount}
                 readOnly
               />

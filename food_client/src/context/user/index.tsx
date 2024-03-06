@@ -32,6 +32,7 @@ interface IUserContext {
   logout: () => void;
   loading: boolean;
   token: string | null;
+  updateUser: (name: string, email: string) => Promise<void>;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -156,11 +157,37 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const updateUser = async (name: string, email: string) => {
+    try {
+      const data = await MyAxios.put(
+        "/api/user/",
+        { name, email },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error("medeelel solihod aldaa garlaa" + error, {
+        position: "top-center",
+      });
+    }
+  };
+
   useEffect(() => {}, [user]);
 
   return (
     <UserContext.Provider
-      value={{ logout, login, signup, userForm, loading, user, token }}
+      value={{
+        logout,
+        login,
+        signup,
+        userForm,
+        loading,
+        user,
+        token,
+        updateUser,
+      }}
     >
       {children}
     </UserContext.Provider>

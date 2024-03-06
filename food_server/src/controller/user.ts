@@ -1,20 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../model/user";
 import MyError from "../utils/myError";
+import { IReq } from "../utils/interface";
 
-export const getUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUser = async (req: IReq, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.params;
-    console.log("get user id", userId);
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user._id);
     if (!user) {
-      throw new MyError(`Cannot found ${userId}-id category table `, 400);
+      throw new MyError(`Cannot found user table `, 400);
     }
-    res.status(200).json({ message: `Found this ${userId}-id category`, user });
+    res.status(200).json({ message: `Found this user`, user });
   } catch (error) {
     next(error);
   }
@@ -33,20 +28,23 @@ export const getAllUsers = async (
 };
 
 export const updateUser = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { userId } = req.params;
-    const updateUser = req.body;
-    const user = await User.findByIdAndUpdate(userId, updateUser);
+    const user = await User.findByIdAndUpdate({
+      _id: req.user._id,
+      name: req.body.name,
+      email: req.body.email,
+    });
+
+    (user!.name! = req.body.name), (user!.email! = req.body.email);
     if (!user) {
-      throw new MyError(`Cannot found ${userId}-id category table `, 400);
+      throw new MyError(`Cannot found user table `, 400);
     }
-    res
-      .status(200)
-      .json({ message: `Updated this ${userId}-id category`, user });
+    await user.save();
+    res.status(200).json({ message: `Updated this user`, user });
   } catch (error) {
     next(error);
   }

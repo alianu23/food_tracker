@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useContext } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import {
   Box,
   Container,
@@ -25,13 +25,20 @@ import { UserContext } from "@/context";
 import { useRouter } from "next/navigation";
 
 export const UserInfo = () => {
-  const { user, logout, userForm } = useContext(UserContext);
+  const { user, logout, updateUser } = useContext(UserContext);
+  const [newUserInfo, setNewUserInfo] = useState({
+    name: "",
+    email: "",
+  });
   const router = useRouter();
 
   const onClick = () => {
-    toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
-      position: "top-center",
-    });
+    updateUser(newUserInfo.name, newUserInfo.email);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewUserInfo({ ...newUserInfo, [name]: value });
   };
 
   const handleLogout = () => {
@@ -122,46 +129,8 @@ export const UserInfo = () => {
             <Input
               label="Таны Нэр"
               desc={user?.name}
-              value={user?.name}
-              name="email"
-            />
-            <MuiBtn>
-              <Edit sx={{ width: 30, height: 30 }} />
-            </MuiBtn>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              gap: 5,
-              backgroundColor: "#F6F6F6",
-              paddingTop: 2,
-              paddingBottom: 2,
-              paddingLeft: 5,
-              paddingRight: 10,
-              borderRadius: 3,
-            }}
-          >
-            <PhoneOutlined
-              sx={{
-                backgroundColor: "white",
-                width: 40,
-                height: 40,
-                borderRadius: 5,
-                mx: 3,
-                border: 1,
-                borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
-              }}
-            />
-            <Input
-              label="Утасны дугаар"
-              desc={userForm?.phoneNumber as string}
-              value={userForm?.phoneNumber as string}
-              name="phone"
+              name="name"
+              onChange={handleChange}
             />
             <MuiBtn>
               <Edit sx={{ width: 30, height: 30 }} />
@@ -198,8 +167,8 @@ export const UserInfo = () => {
             <Input
               label="И-майл"
               desc={user?.email}
-              value={user?.email}
               name="email"
+              onChange={handleChange}
             />
             <MuiBtn>
               <Edit sx={{ width: 30, height: 30 }} />
