@@ -41,7 +41,7 @@ export const OrderProvider = ({ children }: PropsWithChildren) => {
           paymentAmount,
           method,
           phone,
-          foods: baskets,
+          foods: baskets?.foods,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );

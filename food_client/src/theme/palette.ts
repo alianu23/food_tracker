@@ -1,21 +1,8 @@
-import { createTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import { dark } from "@mui/material/styles/createPalette";
-import { shadows } from "@mui/system";
 
-declare module "@mui/material/styles" {
-  interface Theme {
-    status: {
-      danger: string;
-    };
-  }
-  // allow configuration using `createTheme`
-  interface ThemeOptions {
-    status?: {
-      danger?: string;
-    };
-  }
-}
+// ----------------------------------------------------------------------
+
+// SETUP COLORS
 
 export const grey = {
   0: "#FFFFFF",
@@ -112,7 +99,26 @@ const base = {
   action,
 };
 
-export const theme = createTheme({
-  spacing: 4,
-  palette: { primary: { main: "#18ba51" }, success: { main: "#18ba51" } },
-});
+// ----------------------------------------------------------------------
+
+export function palette() {
+  return {
+    ...base,
+    mode: "light",
+    text: {
+      primary: grey[800],
+      secondary: grey[600],
+      disabled: grey[500],
+    },
+    background: {
+      paper: "#FFFFFF",
+      default: grey[100],
+      neutral: grey[200],
+    },
+    action: {
+      ...base.action,
+      active: grey[600],
+    },
+    primary: { main: "#18ba51" },
+  };
+}

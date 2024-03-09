@@ -7,9 +7,7 @@ import { PersonOutlined } from "@mui/icons-material";
 import { BasketDrawer } from "../basketDrawer";
 import { UserContext } from "@/context";
 import { Search, SearchIconWrapper, StyledInputBase } from "./layers";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import Link from "next/link";
-import { theme } from "@/theme/theme";
 
 const navigations = [
   { name: "Нүүр", path: "/" },

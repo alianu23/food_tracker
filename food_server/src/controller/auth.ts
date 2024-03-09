@@ -44,6 +44,7 @@ export const login = async (
     console.log("Login body", userEmail);
     const user = await User.findOne({ email: userEmail })
       .select("+password")
+      .populate("orders.foods.food")
       .lean();
     if (!user) {
       throw new MyError("Invalid user email address", 400);

@@ -8,3 +8,4 @@ export * from "./terms";
 export * from "./securityTerms";
 export * from "./order";
 export * from "./user";
+export * from "./history";

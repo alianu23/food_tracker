@@ -51,7 +51,6 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
-    // console.log("Files ===> ", e.currentTarget.files);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

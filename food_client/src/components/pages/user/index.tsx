@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
   Button as MuiBtn,
+  styled,
 } from "@mui/material";
 import Image from "next/image";
 import {
@@ -24,27 +25,58 @@ import { Button, Input } from "@/components";
 import { UserContext } from "@/context";
 import { useRouter } from "next/navigation";
 
-export const UserInfo = () => {
-  const { user, logout, updateUser } = useContext(UserContext);
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
+const inputElements = [
+  {
+    icon: "",
+    title: "",
+    placeholder: "",
+    editIcon: "",
+  },
+];
+
+export const UserInfo = () => {
+  const { user, logout, updateUser, loading } = useContext(UserContext);
+  const [file, setFile] = useState<File | null>(null);
   const [newUserInfo, setNewUserInfo] = useState({
     name: "",
     email: "",
   });
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const emailRef = useRef<any>(null);
+  const nameRef = useRef<any>(null);
 
-  const focusInput = (ref: React.RefObject<HTMLInputElement | null>) => {
-    ref?.current?.focus();
+  const focusInput = () => {
+    console.log("F", emailRef);
+    emailRef.current?.focus();
+  };
+
+  const focusNameInput = () => {
+    nameRef.current.focus();
   };
 
   const onClick = () => {
-    updateUser(newUserInfo.name, newUserInfo.email);
+    updateUser(newUserInfo.name, newUserInfo.email, file!);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewUserInfo({ ...newUserInfo, [name]: value });
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.currentTarget.files![0]);
   };
 
   const handleLogout = () => {
@@ -91,8 +123,32 @@ export const UserInfo = () => {
             src={user?.avatarUrl}
             width={120}
             height={120}
-            style={{ borderRadius: 60 }}
+            style={{ borderRadius: 60, position: "relative" }}
           />
+          <MuiBtn
+            component="label"
+            sx={{
+              position: "absolute",
+              mb: 0,
+              mt: 20,
+              ml: 15,
+            }}
+          >
+            <Edit
+              sx={{
+                backgroundColor: "white",
+                width: 40,
+                height: 40,
+                borderRadius: 5,
+                mx: 3,
+                border: 1,
+                borderColor: "#D6D8DB",
+                paddingTop: 2,
+                paddingBottom: 2,
+              }}
+            />
+            <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+          </MuiBtn>
           <Typography variant="h5" fontWeight={600}>
             {user?.name}
           </Typography>
@@ -135,10 +191,10 @@ export const UserInfo = () => {
               label="Таны Нэр"
               desc={user?.name}
               name="name"
-              inputRef={inputRef}
+              ref={nameRef}
               onChange={handleChange}
             />
-            <MuiBtn onClick={() => focusInput(inputRef)}>
+            <MuiBtn onClick={() => focusNameInput()}>
               <Edit sx={{ width: 30, height: 30 }} />
             </MuiBtn>
           </Box>
@@ -173,15 +229,19 @@ export const UserInfo = () => {
               label="И-майл"
               desc={user?.email}
               name="email"
-              inputRef={inputRef}
+              ref={emailRef}
               onChange={handleChange}
             />
-            <MuiBtn onClick={() => focusInput(inputRef)}>
+            <MuiBtn onClick={() => focusInput()}>
               <Edit sx={{ width: 30, height: 30 }} />
             </MuiBtn>
           </Box>
 
-          <Button onClick={() => onClick()} label={"Хадгалах"} />
+          <Button
+            onClick={() => onClick()}
+            label={"Хадгалах"}
+            disabled={loading}
+          />
           <Box
             style={{
               display: "flex",
@@ -209,7 +269,12 @@ export const UserInfo = () => {
                 paddingBottom: 2,
               }}
             />
-            <MuiBtn sx={{ color: "black" }}>Захиалгын түүх</MuiBtn>
+            <MuiBtn
+              onClick={() => router.push("/history")}
+              sx={{ color: "black" }}
+            >
+              Захиалгын түүх
+            </MuiBtn>
           </Box>
           <Box
             style={{

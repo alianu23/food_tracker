@@ -31,17 +31,6 @@ const CATEGORY_TITLES = [
   "vincenzo de cotiis",
 ];
 
-// export const categories = [...Array(CATEGORY_TITLES.length)].map(
-//   (_, index) => ({
-//     id: faker.string.uuid(),
-//     cover: `/assets/images/covers/cover_${index + 1}.jpg`,
-//     title: CATEGORY_TITLES[index + 1],
-//     createdAt: faker.date.past(),
-//   })
-// );
-
-// ----------------------------------------------------------------------
-
 export default function CategoryView() {
   const {
     categories,

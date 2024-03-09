@@ -21,7 +21,6 @@ interface IUser {
 }
 
 interface IUserContext {
-  userForm: IUser | null;
   user: any;
   login: (email: string, password: string) => Promise<void>;
   signup: (
@@ -33,7 +32,7 @@ interface IUserContext {
   logout: () => void;
   loading: boolean;
   token: string | null;
-  updateUser: (name: string, email: string) => Promise<void>;
+  updateUser: (name: string, email: string, file: File) => Promise<void>;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -42,13 +41,6 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [userForm, setUserForm] = useState<IUser>({
-    name: "",
-    email: "",
-    address: "",
-    phoneNumber: "9999999",
-    password: "",
-  });
 
   const handleNext = () => {
     router.replace("/");
@@ -162,25 +154,48 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const updateUser = async (name: string, email: string) => {
+  const updateUser = async (name: string, email: string, file: File) => {
     try {
-      const data = await MyAxios.put(
-        "/api/user/",
-        { name, email },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      setLoading(true);
+      const formData = new FormData();
+      formData.set("name", name);
+      formData.set("avatarurl", file);
+      formData.set("email", email);
+      const {
+        data: { user },
+      } = await MyAxios.put("/api/user/", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
         position: "top-center",
       });
-      setRefresh(!refresh);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
     } catch (error) {
       toast.error("medeelel solihod aldaa garlaa" + error, {
         position: "top-center",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {}, [user, refresh]);
+  const getUser = async () => {
+    try {
+      const {
+        data: { user },
+      } = await MyAxios.post(
+        "/api/user",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUser(user);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getUser;
+  }, [user]);
 
   return (
     <UserContext.Provider
@@ -188,7 +203,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         logout,
         login,
         signup,
-        userForm,
+
         loading,
         user,
         token,
