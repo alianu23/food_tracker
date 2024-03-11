@@ -9,7 +9,7 @@ export const DashImage = (props: Props) => {
     <Grid
       container
       display={"flex"}
-      // alignItems={"center"}
+      alignItems={"center"}
       justifyContent={"center"}
       bgcolor="#18BA51"
       my={5}

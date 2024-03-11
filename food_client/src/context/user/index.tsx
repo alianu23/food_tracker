@@ -189,8 +189,11 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
-    } catch (error) {}
+    } catch (error) {
+      console.log("aldaa garlaa user tathad", error);
+    }
   };
 
   useEffect(() => {

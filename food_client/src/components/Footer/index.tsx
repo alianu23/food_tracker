@@ -22,7 +22,7 @@ const Footer = () => {
         // position: "sticky",
         bottom: 0,
         width: "100%",
-        mt: 50,
+        mt: 10,
         backgroundImage: `url(${"/logo_svg/footer.svg"})`,
       }}
     >

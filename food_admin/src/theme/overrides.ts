@@ -1,49 +1,49 @@
-import { alpha } from '@mui/material/styles';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { alpha } from "@mui/material/styles";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 
 // ----------------------------------------------------------------------
 
-export function overrides(theme) {
+export function overrides(theme: any) {
   return {
     MuiCssBaseline: {
       styleOverrides: {
-        '*': {
-          boxSizing: 'border-box',
+        "*": {
+          boxSizing: "border-box",
         },
         html: {
           margin: 0,
           padding: 0,
-          width: '100%',
-          height: '100%',
-          WebkitOverflowScrolling: 'touch',
+          width: "100%",
+          height: "100%",
+          WebkitOverflowScrolling: "touch",
         },
         body: {
           margin: 0,
           padding: 0,
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
         },
-        '#root': {
-          width: '100%',
-          height: '100%',
+        "#root": {
+          width: "100%",
+          height: "100%",
         },
         input: {
-          '&[type=number]': {
-            MozAppearance: 'textfield',
-            '&::-webkit-outer-spin-button': {
+          "&[type=number]": {
+            MozAppearance: "textfield",
+            "&::-webkit-outer-spin-button": {
               margin: 0,
-              WebkitAppearance: 'none',
+              WebkitAppearance: "none",
             },
-            '&::-webkit-inner-spin-button': {
+            "&::-webkit-inner-spin-button": {
               margin: 0,
-              WebkitAppearance: 'none',
+              WebkitAppearance: "none",
             },
           },
         },
         img: {
-          maxWidth: '100%',
-          display: 'inline-block',
-          verticalAlign: 'bottom',
+          maxWidth: "100%",
+          display: "inline-block",
+          verticalAlign: "bottom",
         },
       },
     },
@@ -53,7 +53,7 @@ export function overrides(theme) {
           backgroundColor: alpha(theme.palette.grey[900], 0.8),
         },
         invisible: {
-          background: 'transparent',
+          background: "transparent",
         },
       },
     },
@@ -62,7 +62,7 @@ export function overrides(theme) {
         containedInherit: {
           color: theme.palette.common.white,
           backgroundColor: theme.palette.grey[800],
-          '&:hover': {
+          "&:hover": {
             color: theme.palette.common.white,
             backgroundColor: theme.palette.grey[800],
           },
@@ -77,15 +77,15 @@ export function overrides(theme) {
         root: {
           boxShadow: theme.customShadows.card,
           borderRadius: Number(theme.shape.borderRadius) * 2,
-          position: 'relative',
+          position: "relative",
           zIndex: 0, // Fix Safari overflow: hidden with border radius
         },
       },
     },
     MuiCardHeader: {
       defaultProps: {
-        titleTypographyProps: { variant: 'h6' },
-        subheaderTypographyProps: { variant: 'body2' },
+        titleTypographyProps: { variant: "h6" },
+        subheaderTypographyProps: { variant: "body2" },
       },
       styleOverrides: {
         root: {

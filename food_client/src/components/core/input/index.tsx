@@ -43,8 +43,8 @@ export const Input = forwardRef(
 
     return (
       <>
-        <FormControl sx={{ my: 2 }} variant="outlined" fullWidth>
-          <FormLabel sx={{ my: "4px", color: "black" }}>{label}</FormLabel>
+        <FormControl sx={{ my: 1 }} variant="outlined" fullWidth>
+          <FormLabel sx={{ my: "2px", color: "black" }}>{label}</FormLabel>
           <OutlinedInput
             sx={{ backgroundColor: "#F7F7F8" }}
             value={value}

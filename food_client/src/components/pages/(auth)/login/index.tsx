@@ -26,7 +26,7 @@ const validationSchema = yup.object({
 });
 
 export const LoginPage = () => {
-  const { login, userForm, loading } = useContext(UserContext);
+  const { login, loading } = useContext(UserContext);
 
   const formik = useFormik({
     onSubmit: ({ email, password }) => {
@@ -43,12 +43,12 @@ export const LoginPage = () => {
   return (
     <Container
       sx={{
-        marginTop: 35,
+        mt: 10,
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
-        marginBottom: 30,
+        marginBottom: 20,
       }}
     >
       <Box
@@ -81,7 +81,7 @@ export const LoginPage = () => {
             desc={"Нууц үгээ оруулна уу"}
             showPassword={true}
           />
-          <MuiBtn onClick={() => router.push("/forgotpassword")} sx={{ mb: 8 }}>
+          <MuiBtn onClick={() => router.push("/forgotpassword")} sx={{ mb: 1 }}>
             Нууц үг сэргээх
           </MuiBtn>
           <Button
@@ -90,7 +90,7 @@ export const LoginPage = () => {
             disabled={loading}
           />
         </Stack>
-        <Typography variant="subtitle2" my={8}>
+        <Typography variant="subtitle2" my={2}>
           Эсвэл
         </Typography>
         <Button

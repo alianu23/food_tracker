@@ -30,10 +30,10 @@ export const createOrder = async (
     if (!findUser) {
       throw new MyError(`Бүртгэлгүй хэрэглэгч байна.`, 400);
     }
-    findUser.orders.push(newOrder);
+    const order = findUser.orders.push(newOrder);
     await findUser.save();
 
-    res.status(200).json({ message: "Захиалга амжилттай үүслээ." });
+    res.status(200).json({ message: "Захиалга амжилттай үүслээ.", order });
   } catch (error) {
     next(error);
   }

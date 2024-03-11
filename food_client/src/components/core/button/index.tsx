@@ -23,8 +23,8 @@ export const Button = ({
         sx={{
           fontSize: "1rem",
 
-          py: 3,
-          my: 2,
+          py: 2,
+          my: 1,
           color:
             btnType === "outlined" || btnType === "text" ? "#18ba51" : "white",
           border: btnType === "outlined" ? 1 : 0,
@@ -56,9 +56,9 @@ export const ButtonMenu = ({
           fontWeight: 600,
           borderRadius: 5,
           boxShadow: "none",
-          py: 3,
-          mx: 5,
-          px: 15,
+          py: 2,
+          mx: 2,
+          px: 6,
           my: 2,
           color:
             btnType === "outlined" || btnType === "text" ? "black" : "white",

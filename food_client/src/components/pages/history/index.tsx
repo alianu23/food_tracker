@@ -58,7 +58,7 @@ export const HistoryPage = ({}: React.PropsWithChildren) => {
                 <TableCell align="center">
                   {console.log("Row foods===", row.foods)}
                   {row.foods.map((food: any) => (
-                    <Typography>
+                    <Typography key={food._id}>
                       {food.food.name}*{food.count} = {"Total"}{" "}
                       {food.food.price * food.count}
                     </Typography>
@@ -67,7 +67,7 @@ export const HistoryPage = ({}: React.PropsWithChildren) => {
                 <TableCell align="center">
                   {row.payment.paymentAmount} {""}
                   <Label
-                    color={row.payment.status === "paid" ? "success" : "error"}
+                    color={row.payment.status === "Paid" ? "success" : "error"}
                   >
                     {row.payment.status}
                   </Label>

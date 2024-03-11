@@ -68,11 +68,11 @@ export const OrderPage = () => {
   });
 
   return (
-    <Grid container justifyContent={"center"} gap={40}>
-      <Grid item xs={3}>
+    <Grid container justifyContent={"center"} gap={20}>
+      <Grid item lg={4} xs={6}>
         <OrderStep1 formik={formik} />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item lg={4} xs={6}>
         <OrderStep2 baskets={baskets} sum={sum} formik={formik} />
       </Grid>
     </Grid>

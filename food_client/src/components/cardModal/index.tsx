@@ -68,8 +68,8 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Grid container display={"flex"} flexDirection={"row"} gap={10}>
-            <Grid item xs={5}>
+          <Grid container display={"flex"} flexDirection={"row"} gap={7}>
+            <Grid item lg={5}>
               <img
                 alt="food image"
                 src={food.image}
@@ -79,21 +79,21 @@ export default function CardModal({ handleClose, open, food }: ICardModal) {
 
             <Grid
               item
-              xs={6}
+              lg={5}
               display={"flex"}
               flexDirection={"column"}
               alignItems={"flex-start"}
-              gap={3}
+              gap={1}
             >
-              <Grid item xs={2} position={"relative"}>
+              <Grid item lg={2} position={"relative"}>
                 <MuiButton
                   onClick={handleClose}
-                  sx={{ ml: 80, position: "absolute" }}
+                  sx={{ ml: 25, position: "absolute" }}
                 >
                   <Close />
                 </MuiButton>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item lg={12}>
                 <Stack>
                   <Typography
                     id="modal-modal-title"

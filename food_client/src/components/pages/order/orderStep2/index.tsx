@@ -71,10 +71,16 @@ export const OrderStep2 = ({ baskets, sum, formik }: any) => {
             </div>
           </Box>
         ))}
-        <Grid container bottom={0} py={10} px={10}>
+        <Grid
+          container
+          bottom={0}
+          py={2}
+          px={5}
+          justifyContent={"space-around"}
+        >
           <Grid
             item
-            xs={6}
+            lg={3}
             display={"flex"}
             flexDirection={"column"}
             alignItems={"flex-start"}
@@ -86,7 +92,7 @@ export const OrderStep2 = ({ baskets, sum, formik }: any) => {
               {sum}₮
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item lg={6}>
             <Button onClick={formik.handleSubmit} label={"Захиалах"} />
           </Grid>
         </Grid>

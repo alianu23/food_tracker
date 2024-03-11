@@ -101,7 +101,7 @@ export const UserInfo = () => {
   return (
     <Container
       sx={{
-        marginTop: 35,
+        marginTop: 10,
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
@@ -130,8 +130,8 @@ export const UserInfo = () => {
             sx={{
               position: "absolute",
               mb: 0,
-              mt: 20,
-              ml: 15,
+              mt: 10,
+              ml: 10,
             }}
           >
             <Edit
@@ -143,15 +143,13 @@ export const UserInfo = () => {
                 mx: 3,
                 border: 1,
                 borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
             />
             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiBtn>
-          <Typography variant="h5" fontWeight={600}>
-            {user?.name}
-          </Typography>
+          <Typography variant="h5">{user?.name}</Typography>
         </Stack>
 
         <Stack
@@ -170,7 +168,7 @@ export const UserInfo = () => {
               backgroundColor: "#F6F6F6",
               py: 1,
               pl: 5,
-              pr: 10,
+              pr: 5,
               borderRadius: 3,
             }}
           >
@@ -180,11 +178,11 @@ export const UserInfo = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 5,
-                mx: 3,
+
                 border: 1,
                 borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
             />
             <Input
@@ -208,7 +206,7 @@ export const UserInfo = () => {
               backgroundColor: "#F6F6F6",
               py: 1,
               pl: 5,
-              pr: 10,
+              pr: 5,
               borderRadius: 3,
             }}
           >
@@ -218,7 +216,7 @@ export const UserInfo = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 5,
-                mx: 3,
+
                 border: 1,
                 borderColor: "#D6D8DB",
                 paddingTop: 1,
@@ -252,8 +250,8 @@ export const UserInfo = () => {
 
               paddingTop: 4,
               paddingBottom: 4,
-              paddingLeft: 10,
-              paddingRight: 10,
+              paddingLeft: 5,
+              paddingRight: 5,
             }}
           >
             <History
@@ -262,11 +260,11 @@ export const UserInfo = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 5,
-                mx: 3,
+
                 border: 1,
                 borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
             />
             <MuiBtn
@@ -283,10 +281,11 @@ export const UserInfo = () => {
               alignItems: "center",
               width: "100%",
               gap: 5,
+
               paddingTop: 4,
               paddingBottom: 4,
-              paddingLeft: 10,
-              paddingRight: 10,
+              paddingLeft: 5,
+              paddingRight: 5,
             }}
           >
             <Logout
@@ -295,11 +294,11 @@ export const UserInfo = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 5,
-                mx: 3,
+
                 border: 1,
                 borderColor: "#D6D8DB",
-                paddingTop: 2,
-                paddingBottom: 2,
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
             />
             <MuiBtn onClick={() => clicklogout()} sx={{ color: "black" }}>

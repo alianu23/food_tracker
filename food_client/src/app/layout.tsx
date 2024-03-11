@@ -1,5 +1,5 @@
 import "./scss/globals.scss";
-import { ThemeProvider } from "@/theme";
+import ThemeProvider from "@/theme";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";

@@ -22,14 +22,16 @@ const Navbar = () => {
 
   const router = useRouter();
 
+  useEffect(() => {}, [user]);
+
   return (
     <nav>
       <Container
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: 10,
-          marginBottom: 10,
+          marginTop: 5,
+          marginBottom: 5,
           alignItems: "center",
         }}
       >
