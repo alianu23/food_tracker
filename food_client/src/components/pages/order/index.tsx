@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 import * as yup from "yup";
 import OrderStep1 from "./orderStep1";
 import { OrderStep2 } from "./orderStep2";
-import { BasketContext } from "@/context";
+import { BasketContext, UserContext } from "@/context";
 import { count } from "console";
 import { OrderContext } from "@/context/order";
 import { useFormik } from "formik";
@@ -26,7 +26,10 @@ const validationSchema = yup.object({
 export const OrderPage = () => {
   const { baskets } = useContext(BasketContext);
   const { createOrder } = useContext(OrderContext);
+  const { user } = useContext(UserContext);
   const router = useRouter();
+  const order = user?.orders?.map((e: any) => e);
+  console.log("MiddleOrder === ", order);
   const sum =
     baskets?.foods
       ?.map((food: any) => food.food.price * food.count)
@@ -54,13 +57,13 @@ export const OrderPage = () => {
       router.push("/");
     },
     initialValues: {
-      duureg: "",
-      khoroo: "",
-      buildingNo: "",
-      info: "",
+      duureg: order?.address?.duureg || "",
+      khoroo: order?.address?.khoroo || "",
+      buildingNo: order?.address?.buildingNo || "",
+      info: order?.address?.info || "",
       paymentAmount: sum,
       method: "",
-      phone: "",
+      phone: order?.phone || "",
     },
     validateOnChange: false,
     validateOnBlur: false,
