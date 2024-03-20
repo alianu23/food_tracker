@@ -36,7 +36,7 @@ app.use("/verify", verify);
 app.use("/order", order);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("<h1>Food Delivery</h1>");
+  res.send("<h1>Food Delivery api</h1>");
 });
 
 app.use(errorHandler);
