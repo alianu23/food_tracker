@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(null);
 
   const handleNext = () => {
-    router.replace("/");
+    // router.replace("/");
   };
 
   const login = async (email: string, password: string) => {
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken(null);
-    router.push("/login");
+    // router.push("/login");
   };
 
   return (

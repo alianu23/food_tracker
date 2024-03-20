@@ -1,3 +1,4 @@
+"use client";
 import ThemeProvider from "@/theme";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";

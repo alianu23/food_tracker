@@ -1,4 +1,5 @@
 "use client";
+
 import { faker } from "@faker-js/faker";
 
 import Container from "@mui/material/Container";
@@ -11,7 +12,6 @@ import AppWebsiteVisits from "./app-website-visits";
 import AppWidgetSummary from "./app-widget-summary";
 
 import { useContext } from "react";
-import { redirect } from "next/navigation";
 import { AuthContext } from "@/context";
 
 // ----------------------------------------------------------------------
