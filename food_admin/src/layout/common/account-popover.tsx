@@ -63,11 +63,10 @@ export default function AccountPopover() {
         sx={{
           width: 40,
           height: 40,
-          background: (theme) => alpha(theme.palette.grey[500], 0.08),
-          ...(open && {
-            background: (theme) =>
-              `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-          }),
+          background: !open
+            ? (theme) => alpha(theme.palette.grey[500], 0.08)
+            : (theme) =>
+                `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
         }}
       >
         <Avatar
