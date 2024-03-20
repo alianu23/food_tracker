@@ -14,8 +14,8 @@ const zones = [
 export const ZoneInfo = () => {
   return (
     <div style={{ marginTop: 25 }}>
-      {zones.map((zone) => (
-        <Grid container pt={3}>
+      {zones.map((zone, i) => (
+        <Grid key={i} container pt={3}>
           <Grid item xs={6}>
             <Typography>{zone}</Typography>
           </Grid>
