@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import color from "colors";
 import "dotenv/config";
 import cors from "cors";
@@ -34,6 +34,10 @@ app.use("/basket", basket);
 app.use("/upload", upload);
 app.use("/verify", verify);
 app.use("/order", order);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Food Delivery</h1>");
+});
 
 app.use(errorHandler);
 

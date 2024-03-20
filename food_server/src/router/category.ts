@@ -6,8 +6,9 @@ import {
   getCategory,
   updateCategory,
 } from "../controller/category";
-import { upload } from "../utils/multer";
+
 import { authenticate, authorize } from "../middleware/auth";
+import { upload } from "../utils/multer";
 
 const router = Router();
 
