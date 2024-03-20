@@ -51,9 +51,7 @@ export default function Header({ onOpenNav }: any) {
         position: "fixed",
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
-        ...bgBlur({
-          color: theme.palette.background.default,
-        }),
+        backgroundColor: theme.palette.background.default,
         transition: theme.transitions.create(["height"], {
           duration: theme.transitions.duration.shorter,
         }),
