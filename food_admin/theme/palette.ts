@@ -119,6 +119,6 @@ export function palette() {
       ...base.action,
       active: grey[600],
     },
-    primary: { main: "#18ba51" },
+    primary: { main: "#18BA51" },
   };
 }

@@ -6,7 +6,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 
 // ----------------------------------------------------------------------
 
-export const paper = ({ theme, bgcolor, dropdown }: any) => ({
+export const paper = ({ theme, bgcolor, dropdown }) => ({
   ...bgBlur({
     blur: 20,
     opacity: 0.9,
@@ -31,7 +31,7 @@ export const paper = ({ theme, bgcolor, dropdown }: any) => ({
 
 // ----------------------------------------------------------------------
 
-export const menuItem = (theme: any) => ({
+export const menuItem = (theme) => ({
   ...theme.typography.body2,
   padding: theme.spacing(0.75, 1),
   borderRadius: theme.shape.borderRadius * 0.75,
@@ -63,7 +63,7 @@ export const menuItem = (theme: any) => ({
 
 // ----------------------------------------------------------------------
 
-export function bgBlur(props: any) {
+export function bgBlur(props) {
   const color = props?.color || '#000000';
   const blur = props?.blur || 6;
   const opacity = props?.opacity || 0.8;
@@ -97,7 +97,7 @@ export function bgBlur(props: any) {
 
 // ----------------------------------------------------------------------
 
-export function bgGradient(props: any) {
+export function bgGradient(props) {
   const direction = props?.direction || 'to bottom';
   const startColor = props?.startColor;
   const endColor = props?.endColor;
@@ -122,7 +122,7 @@ export function bgGradient(props: any) {
 
 // ----------------------------------------------------------------------
 
-export function textGradient(value: any) {
+export function textGradient(value) {
   return {
     background: `-webkit-linear-gradient(${value})`,
     WebkitBackgroundClip: 'text',
