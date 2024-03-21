@@ -52,7 +52,6 @@ export const Signup = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 35,
         marginBottom: 30,
       }}
     >

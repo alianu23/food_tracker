@@ -67,7 +67,7 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
         setBaskets({ ...basket });
       }
     } catch (error: any) {
-      alert("Error" + error.message);
+      // alert("Error" + error.message);
     }
   };
 

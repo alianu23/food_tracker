@@ -43,7 +43,6 @@ export const LoginPage = () => {
   return (
     <Container
       sx={{
-        mt: 10,
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
