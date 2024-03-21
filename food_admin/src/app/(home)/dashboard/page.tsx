@@ -1,5 +1,9 @@
 "use client";
-import AppView from "@/components/sections/appView";
+import dynamic from "next/dynamic";
+
+const AppView = dynamic(() => import("@/components/sections/appView"), {
+  ssr: false,
+});
 
 export default function Dashboard() {
   return <AppView />;
