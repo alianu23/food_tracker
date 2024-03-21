@@ -11,6 +11,7 @@ import MyAxios from "@/utils/axios";
 import Swal from "sweetalert2";
 import { Flag } from "@mui/icons-material";
 import { ref } from "yup";
+import { time } from "console";
 
 interface IUser {
   name: string;
@@ -71,7 +72,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       handleNext();
       setRefresh(!refresh);
     } catch (error) {
-      toast.error("Нэвтэрхэд алдаа гарлаа");
+      toast.error("Нэвтэрхэд алдаа гарлаа", { autoClose: 1500 });
     } finally {
       setLoading(false);
     }
@@ -108,7 +109,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
           console.error("Failed to parse token :", error);
         }
       } else {
-        // console.error("Invalid token data:", storedToken);
+        console.error("Invalid token data:", storedToken);
       }
     }
   }, []);
@@ -118,7 +119,9 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken(null);
-    setRefresh(!refresh);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 1000);
   };
 
   const signup = async (
@@ -168,12 +171,14 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
       toast.success("Мэдээлэл амжилттай хадгалагдлаа", {
         position: "top-center",
+        autoClose: 1500,
       });
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
     } catch (error) {
       toast.error("medeelel solihod aldaa garlaa" + error, {
         position: "top-center",
+        autoClose: 1500,
       });
     } finally {
       setLoading(false);

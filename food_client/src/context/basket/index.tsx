@@ -82,9 +82,7 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
       toast.success(message);
       setLoading(false);
       setRefresh(!refresh);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
+    } catch (error: any) {}
   };
 
   const updateFoodBasket = async (foodItem: any) => {
@@ -95,9 +93,7 @@ const BasketProvider = ({ children }: PropsWithChildren) => {
       setBaskets({ ...basket });
       setLoading(false);
       setRefresh(!refresh);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
+    } catch (error: any) {}
   };
 
   const deleteBasket = async (value: any) => {
